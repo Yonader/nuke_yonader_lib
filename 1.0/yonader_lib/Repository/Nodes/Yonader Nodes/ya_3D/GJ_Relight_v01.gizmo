@@ -1,0 +1,251 @@
+#! C:/Program Files/Nuke6.3v1/Nuke6.3.exe -nx
+version 6.3 v1
+Gizmo {
+ inputs 7
+ addUserKnob {20 GJ_Relight l "GJ Relight"}
+ addUserKnob {6 choice l "Use relight" +STARTLINE}
+ choice true
+ addUserKnob {6 useCustomShd l "Use custom shader" +STARTLINE}
+ addUserKnob {41 operation T Merge1.operation}
+ addUserKnob {26 ""}
+ addUserKnob {26 txt l "" +STARTLINE T "Shader parameters:"}
+ addUserKnob {41 channels T Phong1.channels}
+ addUserKnob {41 color T Phong1.color}
+ addUserKnob {41 emission T Phong1.emission}
+ addUserKnob {41 diffuse T Phong1.diffuse}
+ addUserKnob {41 specular T Phong1.specular}
+ addUserKnob {41 min_shininess l "min shininess" T Phong1.min_shininess}
+ addUserKnob {41 max_shininess l "max shininess" T Phong1.max_shininess}
+ addUserKnob {26 ""}
+ addUserKnob {41 maskChannelMask l mask -STARTLINE T Merge1.maskChannelMask}
+ addUserKnob {41 inject -STARTLINE T Merge1.inject}
+ addUserKnob {41 invert_mask l invert -STARTLINE T Merge1.invert_mask}
+ addUserKnob {41 fringe -STARTLINE T Merge1.fringe}
+ addUserKnob {41 mix T Merge1.mix}
+ addUserKnob {26 ""}
+ addUserKnob {20 CameraTab l Camera}
+ addUserKnob {41 file T Camera_shot.file}
+ addUserKnob {41 reload T Camera_shot.reload}
+ addUserKnob {41 fbx_take_name l "take name" T Camera_shot.fbx_take_name}
+ addUserKnob {41 fbx_node_name l "node name" T Camera_shot.fbx_node_name}
+ addUserKnob {41 frame_rate l "frame rate" T Camera_shot.frame_rate}
+ addUserKnob {41 fbx_load_take_node_names l "load take node names" T Camera_shot.fbx_load_take_node_names}
+ addUserKnob {41 use_frame_rate l "use frame rate" T Camera_shot.use_frame_rate}
+ addUserKnob {26 "" l " "}
+ addUserKnob {41 compute_rotation l "compute rotation" T Camera_shot.compute_rotation}
+ addUserKnob {20 AOGRP l Ambient}
+ addUserKnob {41 ambient l "Add ambient" T ReLight1.ambient}
+ addUserKnob {26 ""}
+ addUserKnob {6 useAO l "Use Ambient Occlusion" +STARTLINE}
+ addUserKnob {6 invAO l Invert +STARTLINE}
+ invAO true
+ addUserKnob {41 maskChannelMask_1 l "Use Channel :" T Grade_AO.maskChannelMask}
+ addUserKnob {41 white l gain T Grade_AO.white}
+ addUserKnob {20 createTab l Create}
+ addUserKnob {26 create l "" +STARTLINE T "Create nodes :"}
+ addUserKnob {26 ""}
+ addUserKnob {26 txtScene l "" +STARTLINE T "Lights ( With scene ) :"}
+ addUserKnob {22 createSpotScene l Spotlight t "list = nuke.selectedNode().dependencies()\n\nm = nuke.nodes.PositionToPoints (inputs=\[list\[0], list\[1]])" T "nuke.root().begin() \n\nsl = nuke.createNode(\"Spotlight\") \n\nspl = nuke.nodes.Scene (inputs=\[sl])" +STARTLINE}
+ addUserKnob {22 createAllDirect l Directlight -STARTLINE T "nuke.root().begin() \n\ndl = nuke.createNode(\"DirectLight\") \n\nsdl = nuke.nodes.Scene (inputs=\[dl])"}
+ addUserKnob {22 createPointLightScene l Pointlight -STARTLINE T "nuke.root().begin() \n\nl = nuke.createNode(\"Light\") \n\nsl = nuke.nodes.Scene (inputs=\[l])"}
+ addUserKnob {26 ""}
+ addUserKnob {26 utils l "" +STARTLINE T "Utilities :"}
+ addUserKnob {22 createPtoP l PositionToPoint T "nuke.root().begin()\n\nlist = nuke.selectedNode().dependencies()\n\nm = nuke.nodes.PositionToPoints (inputs=\[list\[0], list\[1]])" +STARTLINE}
+ addUserKnob {26 tosee l "" -STARTLINE T "to see the Ppass in the 3D view ( Select your GJ_Relight node first )"}
+ addUserKnob {26 ""}
+ addUserKnob {26 Add l "" +STARTLINE T "Add :"}
+ addUserKnob {22 createScene l Scene T "nuke.root().begin() \nnuke.createNode(\"Scene\")" +STARTLINE}
+ addUserKnob {22 creatPoint l Pointlight -STARTLINE T "nuke.root().begin() \nnuke.createNode(\"Light\")"}
+ addUserKnob {22 createDirect l Directlight -STARTLINE T "nuke.root().begin() \nnuke.createNode(\"DirectLight\") "}
+ addUserKnob {22 createSpot l Spotlight -STARTLINE T "nuke.root().begin() \nnuke.createNode(\"Spotlight\") "}
+ addUserKnob {22 createPtoPAlone l PositionToPoint T "nuke.root().begin()\nnuke.createNode(\"PositionToPoints\") " +STARTLINE}
+ addUserKnob {26 ""}
+}
+ Input {
+  inputs 0
+  name Occlusion
+  xpos 670
+  ypos -42
+  number 5
+ }
+ Invert {
+  mix {{parent.invAO}}
+  name Invert1
+  xpos 670
+  ypos 21
+ }
+ Input {
+  inputs 0
+  name mask
+  xpos 522
+  ypos -165
+  number 4
+ }
+ Dot {
+  name Dot1
+  xpos 556
+  ypos -71
+ }
+ Input {
+  inputs 0
+  name Custom_shd
+  xpos -23
+  ypos -431
+  number 6
+ }
+ Phong {
+  inputs 0
+  color 4
+  diffuse 0.66
+  specular 0.56
+  min_shininess 6.5
+  max_shininess 3.4
+  name Phong1
+  xpos -5
+  ypos -243
+ }
+ Switch {
+  inputs 2
+  which {{parent.useCustomShd i}}
+  name Switch_shd
+  xpos 243
+  ypos -298
+ }
+ Camera2 {
+  inputs 0
+  read_from_file true
+  rot_order XYZ
+  translate {38.98424911 41.49423599 112.455307}
+  rotate {-20.39999962 18.79999924 4.1997532e-016}
+  focal 35
+  haperture 35.99992752
+  vaperture 23.99995222
+  near 0.1000000015
+  version 1
+  fbx_node_name {{7} "Producer Perspective" "Producer Top" "Producer Bottom" "Producer Front" "Producer Back" "Producer Right" "Producer Left" camera1}
+  name Camera_shot
+  xpos 245
+  ypos -439
+ }
+ Input {
+  inputs 0
+  name Lights
+  label "\n"
+  xpos 386
+  ypos -636
+  number 3
+ }
+ Input {
+  inputs 0
+  name Img
+  xpos -126
+  ypos -74
+  number 1
+ }
+set N17011a10 [stack 0]
+ Dot {
+  name Dot2
+  label IMG
+  xpos 603
+  ypos -394
+  hide_input true
+ }
+ Input {
+  inputs 0
+  name Ppass
+  xpos 647
+  ypos -392
+ }
+ Input {
+  inputs 0
+  name Npass
+  xpos 742
+  ypos -394
+  number 2
+ }
+add_layer {Ppass Ppass.red Ppass.green Ppass.blue}
+add_layer {Npass Npass.red Npass.green Npass.blue}
+ ShuffleCopy {
+  inputs 2
+  in rgb
+  in2 rgb
+  red red
+  green green
+  blue blue
+  out Ppass
+  out2 Npass
+  name ShuffleCopy1
+  xpos 693
+  ypos -344
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  green green
+  blue blue
+  name ShuffleCopy2
+  xpos 569
+  ypos -298
+ }
+ ReLight {
+  inputs 4
+  use_alpha true
+  normal Npass
+  position Ppass
+  name ReLight1
+  selected true
+  xpos 386
+  ypos -298
+ }
+push $N17011a10
+ Merge2 {
+  inputs 2+1
+  operation plus
+  maskChannelMask none
+  name Merge1
+  xpos 386
+  ypos -74
+ }
+push $N17011a10
+ Switch {
+  inputs 2
+  which {{parent.choice i}}
+  name Switch1
+  xpos 386
+  ypos -29
+ }
+set N75d1b00 [stack 0]
+ Grade {
+  inputs 1+1
+  white 0
+  maskChannelMask rgba.red
+  name Grade_AO
+  xpos 501
+  ypos 27
+ }
+push $N75d1b00
+ Switch {
+  inputs 2
+  which {{parent.useAO}}
+  name Switch_AO
+  xpos 386
+  ypos 82
+ }
+ Premult {
+  name Premult1
+  xpos 386
+  ypos 212
+ }
+ Output {
+  name Output1
+  xpos 386
+  ypos 259
+ }
+ Viewer {
+  inputs 0
+  input_process false
+  name Viewer1
+  xpos 960
+  ypos -192
+ }
+end_group

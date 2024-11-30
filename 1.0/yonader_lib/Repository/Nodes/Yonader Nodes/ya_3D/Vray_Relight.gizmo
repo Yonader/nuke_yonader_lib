@@ -1,0 +1,83 @@
+#! C:/Program Files/Nuke12.0v4/nuke-12.0.4.dll -nx
+version 12.0 v4
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {41 longitude T Constant1.longitude}
+ addUserKnob {41 latitude T Constant1.latitude}
+ addUserKnob {6 postmult l post-multiply +STARTLINE}
+}
+ Constant {
+  inputs 0
+  channels rgb
+  color {{sin(radians(longitude))*cos(radians(latitude))} {sin(radians(latitude))} {cos(radians(longitude))*cos(radians(latitude))} 0}
+  format "256 256 0 0 256 256 1 square_256"
+  name Constant1
+  xpos 93
+  ypos -102
+  addUserKnob {20 User}
+  addUserKnob {7 longitude R -180 180}
+  longitude -124
+  addUserKnob {7 latitude R -90 90}
+  latitude 2
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos -36
+  ypos -249
+ }
+add_layer {VRay_Normals VRay_Normals.X VRay_Normals.Y VRay_Normals.Z}
+ Shuffle {
+  out VRay_Normals
+  name Shuffle_RENAME_PASS
+  xpos -36
+  ypos -200
+ }
+ Expression {
+  channel0 {none none none VRay_Normals.Z}
+  expr0 VRay_Normals.Z-(1-a)
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression1
+  xpos -36
+  ypos -118
+ }
+ Unpremult {
+  channels VRay_Normals
+  name Unpremult1
+  xpos -36
+  ypos -71
+ }
+ MergeExpression {
+  inputs 2
+  expr0 Ar*BVRay_Normals.X
+  expr1 Ag*BVRay_Normals.Y
+  expr2 Ab*BVRay_Normals.Z
+  channel3 none
+  name MergeExpression1
+  xpos 21
+  ypos 2
+ }
+ Expression {
+  channel0 rgb
+  expr0 r+b+g
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression2
+  xpos 21
+  ypos 54
+ }
+ Premult {
+  name Premult1
+  xpos 21
+  ypos 111
+  disable {{1-parent.postmult}}
+ }
+ Output {
+  name Output1
+  xpos 21
+  ypos 172
+ }
+end_group

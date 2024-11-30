@@ -1,0 +1,68 @@
+Text2 {
+ inputs 0
+ font_size_toolbar 100
+ font_width_toolbar 100
+ font_height_toolbar 100
+ message after
+ old_message {{97 102 116 101 114}
+   }
+ box {0 1029 105 1080}
+ transforms {{0 2}
+   }
+ cursor_position 5
+ global_font_scale 0.5
+ center {960 540}
+ cursor_initialised true
+ initial_cursor_position {{0 1080}
+   }
+ group_animations {{0} imported: 0 selected: items: "root transform/"}
+ animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+   }
+ name Text2
+ selected true
+ xpos -226
+ ypos -241
+}
+push $cut_paste_input
+Text2 {
+ font_size_toolbar 100
+ font_width_toolbar 100
+ font_height_toolbar 100
+ message before
+ old_message {{98 101 102 111 114 101}
+   }
+ box {0 1029 146 1080}
+ transforms {{0 2}
+   }
+ cursor_position 6
+ global_font_scale 0.5
+ center {960 540}
+ cursor_initialised true
+ initial_cursor_position {{0 1080}
+   }
+ group_animations {{0} imported: 0 selected: items: "root transform/"}
+ animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+   }
+ name Text1
+ selected true
+ xpos -339
+ ypos -239
+}
+ContactSheet {
+ inputs 2
+ width {{size.w*columns}}
+ height {{size.h*rows}}
+ rows 2
+ columns 1
+ center true
+ roworder TopBottom
+ name ContactSheet2
+ selected true
+ xpos -287
+ ypos -169
+ addUserKnob {20 User}
+ addUserKnob {14 size R 0 100}
+ size {{"\[knob getNode].width"} {"\[knob getNode].height"}}
+ addUserKnob {1 getNode l "getNode " t "thisNode()\ninput#\nNodeName"}
+ getNode input1
+}

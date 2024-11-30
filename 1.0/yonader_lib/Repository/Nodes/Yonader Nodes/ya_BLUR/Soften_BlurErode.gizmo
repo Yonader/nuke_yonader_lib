@@ -1,0 +1,546 @@
+#! C:/Program Files/Nuke11.2v4/nuke-11.2.4.dll -nx
+version 11.2 v4
+Gizmo {
+ inputs 2
+ tile_color 0xff5500ff
+ addUserKnob {20 Blur_Erode}
+ addUserKnob {26 ""}
+ addUserKnob {26 BLURANDERODE l "BLUR AND ERODE"}
+ addUserKnob {20 Multiplicateur_1 l "Blur Size" n 1}
+ addUserKnob {41 size_2 l "blur size" T Bl13.size}
+ addUserKnob {6 Multiplicateur +STARTLINE}
+ addUserKnob {20 Potarsdemix l "Custom Blur Layers" n 1}
+ addUserKnob {41 mix_3 l mix T Bl13.mix}
+ addUserKnob {41 mix T Bl14.mix}
+ addUserKnob {41 mix_1 l mix T Bl15.mix}
+ addUserKnob {41 mix_2 l mix T Bl16.mix}
+ addUserKnob {20 endGroup_5 l endGroup n -1}
+ addUserKnob {20 _______Avec_sans_erode l "Blur avec / sans erode" t "\t" n 1}
+ addUserKnob {20 endGroup_4 l endGroup n -1}
+ addUserKnob {6 Erode l "enable erode" +STARTLINE}
+ addUserKnob {41 size_1 l "erode size" T FilterErode1.size}
+ addUserKnob {41 filter T FilterErode2.filter}
+ addUserKnob {26 ""}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 ERODE l "ERODE ONLY"}
+ addUserKnob {6 ErodeSeul l "Enable Erode Only" +STARTLINE}
+ addUserKnob {20 ___________Erodeseul l "Erode Size" n 1}
+ addUserKnob {41 size T FilterErode1.size}
+ addUserKnob {6 MultiplicateurErode l Multiplicateur +STARTLINE}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {20 CustomErodeLayers l "Custom Erode Layers" n 1}
+ addUserKnob {41 mix_4 l mix T FilterErode1.mix}
+ addUserKnob {41 mix_5 l mix T FilterErode2.mix}
+ addUserKnob {20 endGroup_3 l endGroup n -1}
+ addUserKnob {41 mix_6 l mix T FilterErode3.mix}
+ addUserKnob {26 ""}
+ addUserKnob {26 PreAlphaPostAlpha l "POST/PRE ALPHA"}
+ addUserKnob {20 AlphaBoost_1 l "Alpha Boost" n 1}
+ addUserKnob {6 AlphaBoost_2 l "enable alpha boost" +STARTLINE}
+ addUserKnob {20 endGroup_6 l endGroup n -1}
+ addUserKnob {6 PreAlpha +STARTLINE}
+ PreAlpha true
+ addUserKnob {26 ""}
+ addUserKnob {41 Dissolve l "Mix Global" T Dissolve1.which}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x8e8e3800
+  label erodes
+  note_font_size 42
+  xpos 1191
+  ypos -296
+  bdwidth 524
+  bdheight 622
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0xaaaaaa00
+  label blurs
+  note_font_size 42
+  xpos 492
+  ypos -313
+  bdwidth 397
+  bdheight 803
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote4
+  label "<boost alpha"
+  xpos 691
+  ypos 440
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote2
+  label multiplier
+  xpos 481
+  ypos 366
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote5
+  label "erode only"
+  xpos 1479
+  ypos 580
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote3
+  label "multiplier erode"
+  xpos 1261
+  ypos 55
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote10
+  label "mix -->"
+  xpos 615
+  ypos -150
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote11
+  label "mix -->"
+  xpos 611
+  ypos -116
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote12
+  label "mix -->"
+  xpos 503
+  ypos 124
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote13
+  label "mix -->"
+  xpos 501
+  ypos 209
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote14
+  label "mix -->"
+  xpos 495
+  ypos 250
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote15
+  label "mix -->"
+  xpos 499
+  ypos 285
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote9
+  label "controle blur : blur size  (potar) -->"
+  xpos 401
+  ypos 103
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  label "enable erode"
+  xpos 474
+  ypos -37
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote16
+  label "<-- pre/post alphas"
+  xpos 676
+  ypos -347
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote7
+  label "mix -->"
+  xpos 612
+  ypos -178
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote6
+  label "controle erode : erode size  (potar) -->"
+  xpos 501
+  ypos -197
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote8
+  label "blur\n------------\nbox : multiplier on / off\ncontrole blur : blur size  (potar)\n4 potars de mix : feather controle\n\nbox : enable erode\ncontrole : erode size (potar) \n\nbox : alphas boost\n\nerode\n------------\nbox : erode only\nbox : multiplier on/off\ncontrole : erode size (potar) \n3 potars de mix : feather controle\n\nPreAlpha / PostAlpha\n-----------------\nswitch : switch 5 on /off"
+  note_font "Verdana Bold Bold Bold Bold Bold"
+  note_font_size 21
+  xpos 860
+  ypos -5
+ }
+ Input {
+  inputs 0
+  name MATTE
+  xpos 196
+  ypos -494
+  number 1
+ }
+set Nbd2bf500 [stack 0]
+ Invert {
+  name Invert1
+  xpos 390
+  ypos -500
+ }
+ Input {
+  inputs 0
+  name IMG
+  xpos 585
+  ypos -446
+ }
+set Nbd2bee00 [stack 0]
+ Merge2 {
+  inputs 2
+  operation stencil
+  name In
+  xpos 390
+  ypos -446
+ }
+ Dot {
+  name Dot16
+  xpos 424
+  ypos -342
+ }
+push $Nbd2bee00
+ Switch {
+  inputs 2
+  which {{parent.PreAlpha}}
+  name Switch5
+  xpos 585
+  ypos -346
+ }
+ Dot {
+  name Dot3
+  xpos 619
+  ypos -216
+ }
+set Nbd2be000 [stack 0]
+ Dot {
+  name Dot5
+  xpos 729
+  ypos -216
+ }
+set Nbd2e3c00 [stack 0]
+ Dot {
+  name Dot10
+  xpos 1539
+  ypos -216
+ }
+ FilterErode {
+  channels rgba
+  size {{parent.FilterErode1.size x977 3}}
+  filter gaussian
+  mix {{parent.FilterErode1.mix}}
+  name FilterErode4
+  xpos 1505
+  ypos -133
+ }
+ FilterErode {
+  channels rgba
+  size {{(parent.FilterErode4.size)*2.5 x977 -9}}
+  filter gaussian
+  mix {{parent.FilterErode2.mix}}
+  name FilterErode5
+  xpos 1505
+  ypos -107
+ }
+ FilterErode {
+  channels rgba
+  size {{(parent.FilterErode5.size)*2.5 x977 -40}}
+  filter gaussian
+  mix {{parent.FilterErode3.mix}}
+  name FilterErode9
+  xpos 1505
+  ypos -81
+ }
+ Blur {
+  size {{(parent.FilterErode4.size)*2}}
+  mix 0.91
+  name Blur4
+  xpos 1505
+  ypos -55
+ }
+ Blur {
+  size {{(parent.FilterErode4.size)*4}}
+  mix 0.66
+  name Blur5
+  xpos 1505
+  ypos -17
+ }
+ Dot {
+  name Dot11
+  xpos 1539
+  ypos 56
+ }
+push $Nbd2e3c00
+ FilterErode {
+  channels rgba
+  size 0
+  filter gaussian
+  mix 0.95
+  name FilterErode1
+  selected true
+  xpos 695
+  ypos -186
+ }
+ FilterErode {
+  channels rgba
+  size {{(parent.FilterErode1.size)*2}}
+  filter gaussian
+  mix 0.865
+  name FilterErode2
+  xpos 695
+  ypos -146
+ }
+ FilterErode {
+  channels rgba
+  size {{(parent.FilterErode2.size)*2}}
+  filter gaussian
+  mix 0.35
+  name FilterErode3
+  xpos 695
+  ypos -120
+ }
+ Blur {
+  size {{(parent.FilterErode1.size)*1.8}}
+  name Blur3
+  xpos 695
+  ypos -94
+ }
+set Nbd311500 [stack 0]
+ Dot {
+  name Dot8
+  xpos 1403
+  ypos -84
+ }
+ Switch {
+  inputs 2
+  which {{parent.MultiplicateurErode}}
+  name Switch4
+  xpos 1369
+  ypos 52
+ }
+push $Nbd311500
+ Dot {
+  name Dot7
+  xpos 729
+  ypos -35
+ }
+push $Nbd2be000
+ Switch {
+  inputs 2
+  which {{parent.Erode}}
+  name Switch2
+  xpos 585
+  ypos -39
+  addUserKnob {20 User}
+  addUserKnob {41 which_1 l which T Switch2.which}
+ }
+ Dot {
+  name Dot1
+  xpos 619
+  ypos 13
+ }
+set Nbd310380 [stack 0]
+ Blur {
+  mix 0.925
+  name Bl13
+  xpos 585
+  ypos 103
+ }
+ Blur {
+  size {{(parent.Bl13.size)*3}}
+  mix 0.885
+  name Bl14
+  xpos 585
+  ypos 198
+ }
+ Blur {
+  size {{(parent.Bl14.size)*3}}
+  mix 0.77
+  name Bl15
+  xpos 585
+  ypos 236
+ }
+ Blur {
+  size {{(parent.Bl15.size)*3}}
+  mix 0.53
+  name Bl16
+  xpos 585
+  ypos 274
+ }
+push $Nbd310380
+ Dot {
+  name Dot2
+  xpos 738
+  ypos 13
+ }
+ Blur {
+  size {{parent.Bl13.size}}
+  mix {{parent.Bl13.mix}}
+  name Bl17
+  xpos 704
+  ypos 159
+ }
+ Blur {
+  size {{(parent.Bl17.size)*2}}
+  mix {{parent.Bl14.mix}}
+  name Bl18
+  xpos 704
+  ypos 197
+ }
+ Blur {
+  size {{(parent.Bl18.size)*2.5}}
+  mix {{parent.Bl15.mix}}
+  name Bl19
+  xpos 704
+  ypos 235
+ }
+ Blur {
+  size {{(parent.Bl19.size)*2.5}}
+  mix {{parent.Bl16.mix}}
+  name Bl20
+  xpos 704
+  ypos 273
+ }
+ Dot {
+  name Dot4
+  xpos 738
+  ypos 365
+ }
+ Switch {
+  inputs 2
+  which {{parent.Multiplicateur x1 0}}
+  name Switch1
+  xpos 585
+  ypos 361
+ }
+set Nbd375c00 [stack 0]
+ ColorLookup {
+  channels alpha
+  lut {master {curve C 0 k 1 s0.25}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  name ColorLookup2
+  xpos 585
+  ypos 433
+ }
+push $Nbd375c00
+ Dot {
+  name Dot19
+  xpos 522
+  ypos 409
+ }
+ Dot {
+  name Dot18
+  xpos 522
+  ypos 516
+ }
+ Switch {
+  inputs 2
+  which {{parent.AlphaBoost_2}}
+  name Switch7
+  xpos 585
+  ypos 512
+ }
+ Dot {
+  name Dot9
+  xpos 619
+  ypos 585
+ }
+ Switch {
+  inputs 2
+  which {{parent.ErodeSeul}}
+  name Switch3
+  xpos 1369
+  ypos 581
+ }
+ Dot {
+  name Dot15
+  xpos 1403
+  ypos 648
+ }
+set Nbd374380 [stack 0]
+ Dot {
+  name Dot14
+  xpos 1536
+  ypos 648
+ }
+push $Nbd2bf500
+ Dot {
+  name Dot12
+  xpos 230
+  ypos 694
+ }
+push $Nbd374380
+push $Nbd2bee00
+ Dot {
+  name Dot6
+  xpos 1614
+  ypos -442
+ }
+ Dot {
+  name Dot17
+  xpos 1614
+  ypos 694
+ }
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos 1369
+  ypos 684
+ }
+ Dot {
+  name Dot13
+  xpos 1403
+  ypos 800
+ }
+ Switch {
+  inputs 2
+  which {{parent.Switch5.which}}
+  name Switch6
+  xpos 1502
+  ypos 796
+ }
+push $Nbd2bee00
+ Dot {
+  name Dot22
+  xpos 619
+  ypos -517
+ }
+ Dot {
+  name Dot21
+  xpos 2222
+  ypos -517
+ }
+ Dot {
+  name Dot20
+  xpos 2222
+  ypos 884
+ }
+ Dissolve {
+  inputs 2
+  which 1
+  name Dissolve1
+  xpos 1502
+  ypos 869
+ }
+ Output {
+  name Output1
+  xpos 1502
+  ypos 966
+ }
+end_group

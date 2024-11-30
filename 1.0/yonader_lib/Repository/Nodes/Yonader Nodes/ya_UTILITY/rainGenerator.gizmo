@@ -1,0 +1,180 @@
+set cut_paste_input [stack 0]
+version 8.0 v1
+Group {
+ inputs 0
+ name RainGenerator
+ tile_color 0x445860ff
+ selected true
+ xpos 8650
+ ypos 9204
+ addUserKnob {20 RainGenerator}
+ addUserKnob {41 format l "output format" T Reformat2.format}
+ addUserKnob {41 density T CONTROLEUR.density}
+ addUserKnob {41 intensity T CONTROLEUR.intensity}
+ addUserKnob {41 rainAgnle T CONTROLEUR.rainAgnle}
+ addUserKnob {41 drops_length T CONTROLEUR.drops_length}
+ addUserKnob {41 scale T CONTROLEUR.scale}
+ addUserKnob {41 speedFactor T CONTROLEUR.speedFactor}
+}
+ Reformat {
+  inputs 0
+  format "1920 1080 0 0 1920 1080 1 HD"
+  name Reformat1
+  xpos -263
+  ypos -594
+ }
+set N43b452e0 [stack 0]
+ Noise {
+  size {{(400/parent.CONTROLEUR.drops_length)*CONTROLEUR.scale} {(1/parent.CONTROLEUR.drops_length)*CONTROLEUR.scale}}
+  zoffset 0.74
+  lacunarity 1
+  gain {{parent.CONTROLEUR.intensity}}
+  gamma {{parent.CONTROLEUR.density}}
+  translate {{-x*(parent.CONTROLEUR.speedFactor*0.7)} 0}
+  center {960 540}
+  name Noise3
+  xpos -370
+  ypos -490
+ }
+ DirBlurWrapper {
+  channels rgba
+  BlurType linear
+  BlurLength 20
+  BlurAngle 90
+  mix 0.515
+  name DirBlurWrapper1
+  selected true
+  xpos -370
+  ypos -424
+  disable true
+ }
+ Transform {
+  rotate 3
+  scale 0.6
+  center {960 540}
+  name Transform2
+  xpos -370
+  ypos -274
+ }
+push 0
+push $N43b452e0
+ Noise {
+  size {{(400/parent.CONTROLEUR.drops_length)*CONTROLEUR.scale} {(1/parent.CONTROLEUR.drops_length)*CONTROLEUR.scale}}
+  zoffset 1.54
+  lacunarity 1
+  gain {{parent.CONTROLEUR.intensity}}
+  gamma {{parent.CONTROLEUR.density}}
+  translate {{-x*(parent.CONTROLEUR.speedFactor*0.85)} 0}
+  center {960 540}
+  name Noise2
+  xpos -260
+  ypos -490
+ }
+ DirBlurWrapper {
+  channels rgba
+  BlurType linear
+  BlurLength 20
+  BlurAngle 90
+  mix 0.515
+  name DirBlurWrapper2
+  selected true
+  xpos -260
+  ypos -424
+  disable true
+ }
+ Transform {
+  rotate -3
+  scale 0.44
+  center {960 540}
+  name Transform3
+  xpos -260
+  ypos -274
+ }
+push $N43b452e0
+ Noise {
+  size {{(400/parent.CONTROLEUR.drops_length)*CONTROLEUR.scale} {(1/parent.CONTROLEUR.drops_length)*CONTROLEUR.scale}}
+  lacunarity 1
+  gain {{parent.CONTROLEUR.intensity}}
+  gamma {{parent.CONTROLEUR.density}}
+  translate {{-x*parent.CONTROLEUR.speedFactor} 0}
+  center {960 540}
+  name Noise1
+  xpos -150
+  ypos -490
+ }
+ DirBlurWrapper {
+  channels rgba
+  BlurType linear
+  BlurLength 20
+  BlurAngle 90
+  mix 0.515
+  name DirBlurWrapper3
+  selected true
+  xpos -150
+  ypos -424
+  disable true
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  name Merge1
+  xpos -150
+  ypos -226
+ }
+ Transform {
+  rotate {{parent.CONTROLEUR.rainAgnle}}
+  scale 2.6
+  center {960 540}
+  black_outside false
+  name Transform1
+  xpos -150
+  ypos -178
+ }
+ Shuffle {
+  in rgb
+  green red
+  blue red
+  alpha red
+  name Shuffle1
+  xpos -150
+  ypos -152
+ }
+ Reformat {
+  name Reformat2
+  xpos -150
+  ypos -126
+ }
+set N43b48670 [stack 0]
+ Output {
+  name Output1
+  xpos -150
+  ypos -34
+ }
+ NoOp {
+  inputs 0
+  name CONTROLEUR
+  xpos -260
+  ypos -658
+  addUserKnob {20 User}
+  addUserKnob {7 density R 0 0.25}
+  density 0.038
+  addUserKnob {7 intensity R 0 0.3}
+  intensity 0.123
+  addUserKnob {7 rainAgnle R 0 360}
+  rainAgnle 92
+  addUserKnob {7 drops_length R 1 30}
+  drops_length 4.1
+  addUserKnob {7 scale R 0.01 10}
+  scale 0.9
+  addUserKnob {7 speedFactor R 1 200}
+  speedFactor 147
+ }
+push $N43b48670
+ Viewer {
+  viewerProcess rec709
+  input_process false
+  name Viewer1
+  xpos -567
+  ypos -130
+ }
+end_group

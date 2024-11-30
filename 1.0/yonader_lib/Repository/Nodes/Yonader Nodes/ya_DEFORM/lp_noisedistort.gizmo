@@ -1,0 +1,339 @@
+Group {
+ name NoiseDistort
+ tile_color 0x8a499aff
+ gl_color 0xc53ce8ff
+ note_font_color 0x101010ff
+ addUserKnob {20 User l Distortion}
+ addUserKnob {26 dist l "Distortion Amount"}
+ addUserKnob {41 uv_scale l gain t "Sets the gain for the distortion." T IDistort1.uv_scale}
+ addUserKnob {6 offcorr l "offset correction |" t "Automatically corrects for the offset introduced by big distortion.\nUseful for distorting premultiplied inputs and alphas.\n\nDoesn't work too great when noise gets rotated, adjust offset manually if needed." +STARTLINE}
+ offcorr true
+ addUserKnob {14 offman l "manual adjustment  " t "Manually adjust the automatic offset if necessary." -STARTLINE R 0 100}
+ offman {0 0}
+ addUserKnob {26 w l " " T "  "}
+ addUserKnob {26 nsize l "Noise Size"}
+ addUserKnob {41 size_1 l "small noise" t "Sets size of small noise (e.g. size of individual elements in a background plate)." T Noise2.size}
+ addUserKnob {41 size l "big noise" t "Sets size of big noise (for a overall motion in bigger areas of the background plate, e.g. a branch)" T Noise1.size}
+ addUserKnob {41 rotate l "rotate noise" t "Rotates the Noise.\nMakes only sense if the sizes are not 1:1, obviously :)" T Transform1.rotate}
+ addUserKnob {6 vnoise l "preview noise |" t "Preview of the Noise in R and G channel (for setup and matching size)\n\nUse the mix overlay to see it even better! :)" +STARTLINE}
+ addUserKnob {7 prevmix l "mix overlay" t "Mix the previewed Noise over the plate for easy setup." -STARTLINE}
+ prevmix 1
+ addUserKnob {26 a l "  " T "  "}
+ addUserKnob {26 nmotion l "Noise Motion"}
+ addUserKnob {14 fac l "motion factor" t "Motion factor regulates the Noise animation over time.\n\nHit the 2 for individual control for small and big noise.\n\nIf manual animation is needed, simply erase the expression and animate \"small motion\" and \"big motion\" as needed." R 0 100}
+ fac 2
+ addUserKnob {26 r l "  " T "  "}
+ addUserKnob {41 zoffset_1 l "small motion" t "Motion factor regulates the Noise animation over time.\n\nIf manual animation is needed, simply erase the expression and animate as needed." T Noise2.zoffset}
+ addUserKnob {41 zoffset l "big motion" t "Motion factor regulates the Noise animation over time.\n\nIf manual animation is needed, simply erase the expression and animate as needed." T Noise1.zoffset}
+ addUserKnob {26 t l "  " T "  "}
+ addUserKnob {6 invmat l "invert mask" t "Invert the connected mask" +STARTLINE}
+ addUserKnob {20 noisetab l Noise t "Detail adjustments for noise appereance"}
+ addUserKnob {41 type_1 l "small noise type" t "Sets the type of small noise. Currently supported are fBm (Fractional Brownian Motion) and turbulence, which is similar to fBm, but based on absolute noise values." T Noise2.type}
+ addUserKnob {41 type l "big noise type" t "Sets the type of big noise. Currently supported are fBm (Fractional Brownian Motion) and turbulence, which is similar to fBm, but based on absolute noise values." T Noise1.type}
+ addUserKnob {14 octaves_knob l octaves t "Number of perlin noise functions to add.\n\nHit the 2 for infividual controls for small and big noise." R 0 100}
+ octaves_knob 10
+ addUserKnob {6 nyquist_knob l "clip at Nyquist limit (small noise)" t "Limit the number of octaves so the highest frequency is larger than one pixel. You may need to turn this off if animating the size of the noise as the changes can be visible." +STARTLINE}
+ nyquist_knob true
+ addUserKnob {6 nyquistbig_knob l "clip at Nyquist limit (big noise)" t "Limit the number of octaves so the highest frequency is larger than one pixel. You may need to turn this off if animating the size of the noise as the changes can be visible." +STARTLINE}
+ nyquistbig_knob true
+ addUserKnob {14 lacunarity_knob l lacunarity t "Each octave multiplies frequency by this amount.\n\nHit the 2 for individual controls for small and big noise." R 0 100}
+ lacunarity_knob 2
+ addUserKnob {14 gain_knob l gain t "Each octave multiplies amplitude by this amount.\n\nHit the 2 for infividual controls for small and big noise." R 0 100}
+ gain_knob 0.5
+ addUserKnob {14 gamma_knob l gamma t "You know what gamma is for, pal :)\n\nHit the 2 for infividual controls for small and big noise." R 0 100}
+ gamma_knob 0.5
+ addUserKnob {26 desc l "" t "This is a text, you don't need a tooltip for that :)" +STARTLINE T "\nThese values are valid for small and big noise\nHit the 2 to get individual controls for both;\nsmall noise is altered by 'w', big noise by 'h'"}
+ addUserKnob {26 credit l INVISIBLE t "NoiseDistort v1.0\n(c)2016 lucas pfaff\ninspired by a tutorial from VFXLUNCHBOX" -STARTLINE +INVISIBLE T "NoiseDistort v1.0\n(c)2016 lucas pfaff\ninspired by a tutorial from VFXLUNCHBOX"}
+}
+ Shuffle {
+  inputs 0
+  red white
+  green white
+  blue white
+  alpha white
+  name Shuffle2
+  label "\[value red]/\[value green]/\[value blue]/\[value alpha]"
+  xpos -800
+  ypos -646
+ }
+ Input {
+  inputs 0
+  name mask
+  xpos -673
+  ypos -1101
+  number 1
+ }
+ Invert {
+  name Invert1
+  label "invert mask"
+  xpos -673
+  ypos -746
+  disable {{invmat-1}}
+ }
+ Switch {
+  inputs 2
+  which {{"\[exists parent.input1]?0:1"}}
+  name Switch3
+  selected true
+  xpos -673
+  ypos -642
+ }
+ Dot {
+  name Dot3
+  xpos -639
+  ypos -434
+ }
+set Nc54c45f0 [stack 0]
+ Dot {
+  name Dot4
+  xpos -639
+  ypos -130
+ }
+set Nacea7640 [stack 0]
+ Dot {
+  name Dot6
+  xpos -639
+  ypos 344
+ }
+push $Nacea7640
+ Input {
+  inputs 0
+  name img
+  xpos -286
+  ypos -1105
+ }
+ Transform {
+  center {1024 778}
+  black_outside false
+  name Transform1
+  label Rotation
+  xpos -286
+  ypos -904
+ }
+set Nace55610 [stack 0]
+push 0
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos -102
+  ypos -900
+ }
+set Nace9d490 [stack 0]
+ Noise {
+  cliptype union
+  size 60
+  zoffset {{frame*(fac.h/100)}}
+  octaves {{octaves_knob.h}}
+  nyquist {{nyquistbig_knob}}
+  lacunarity {{lacunarity_knob.h}}
+  gain {{gain_knob.h}}
+  gamma {{gamma_knob.h}}
+  center {448 296}
+  name Noise1
+  label big
+  xpos -50
+  ypos -821
+ }
+push $Nace9d490
+ Noise {
+  cliptype union
+  size 8
+  zoffset {{frame*(fac.w/100)}}
+  octaves {{octaves_knob.w}}
+  nyquist {{nyquist_knob}}
+  lacunarity {{lacunarity_knob.w}}
+  gain {{gain_knob.w}}
+  gamma {{gamma_knob.w}}
+  center {448 296}
+  name Noise2
+  label small
+  xpos -159
+  ypos -820
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  blue black
+  name ShuffleCopy1
+  xpos -100
+  ypos -747
+ }
+ Dot {
+  name Dot2
+  xpos -66
+  ypos -678
+ }
+push $Nace55610
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 forward.u
+  from1 rgba.green
+  to1 forward.v
+  name Copy1
+  xpos -286
+  ypos -690
+ }
+ Dot {
+  name Dot1
+  xpos -252
+  ypos -616
+ }
+set Nace5aaf0 [stack 0]
+ Dot {
+  name Dot7
+  xpos 13
+  ypos -616
+ }
+ Transform {
+  rotate {{parent.Transform1.rotate*-1}}
+  center {1024 778}
+  black_outside false
+  name Transform2
+  label "Rotation reverse"
+  xpos -21
+  ypos -278
+ }
+ set Cace23190 [stack 0]
+ Shuffle {
+  in motion
+  in2 rgba
+  red green
+  green red
+  blue black
+  alpha alpha2
+  name Shuffle1
+  label "\[value red]/\[value green]/\[value blue]/\[value alpha]\nmotion->RG"
+  xpos -21
+  ypos -239
+ }
+set Nace28c00 [stack 0]
+ ChannelMerge {
+  inputs 2
+  operation multiply
+  name ChannelMerge1
+  xpos -177
+  ypos -142
+ }
+set Nace2fb20 [stack 0]
+push $Nace28c00
+ Shuffle {
+  alpha white
+  name Shuffle3
+  label "\[value red]/\[value green]/\[value blue]/\[value alpha]"
+  xpos -21
+  ypos -135
+ }
+ Switch {
+  inputs 2
+  which {{"\[exists parent.input1]?1:0"}}
+  name Switch2
+  xpos -21
+  ypos -45
+ }
+ Premult {
+  name Premult1
+  xpos -22
+  ypos 16
+ }
+push $Nc54c45f0
+push $Nace5aaf0
+ IDistort {
+  inputs 1+1
+  uv motion
+  uv_scale 10
+  name IDistort1
+  xpos -287
+  ypos -441
+ }
+clone $Cace23190 {
+  xpos -287
+  ypos -277
+  selected false
+ }
+ Merge2 {
+  inputs 2
+  mix {{parent.prevmix}}
+  name Merge1
+  xpos -287
+  ypos 16
+  disable {{1-vnoise}}
+ }
+ Transform {
+  translate {{(parent.IDistort1.uv_scale.w/3)+offman.w} {(parent.IDistort1.uv_scale.h/3)+offman.h}}
+  center {960 540}
+  black_outside false
+  name Transform3
+  label "correction offset"
+  xpos -287
+  ypos 52
+  disable {{offcorr-1 x21 1 x24 1}}
+ }
+ Reformat {
+  type "to box"
+  format {{{inp_sz}}}
+  box_width {{inp_sz.w}}
+  box_height {{inp_sz.h}}
+  box_fixed true
+  resize none
+  name Reformat1
+  label "reformat to bbox/format"
+  xpos -287
+  ypos 115
+  disable true
+  addUserKnob {20 User}
+  addUserKnob {14 inp_sz l "input size" R 0 100}
+  inp_sz {{img.bbox.width<root.format.width?root.format.width:img.bbox.width} {img.bbox.height<root.format.height?root.format.height:img.bbox.height}}
+ }
+ Reformat {
+  type scale
+  name Reformat2
+  xpos -287
+  ypos 177
+ }
+ Dot {
+  name Dot5
+  xpos -253
+  ypos 347
+ }
+set Nacedf070 [stack 0]
+push $Nace55610
+ Dot {
+  name Dot8
+  xpos -432
+  ypos -897
+ }
+ Merge2 {
+  inputs 2+1
+  operation copy
+  name Merge2
+  xpos -466
+  ypos 341
+ }
+ Dot {
+  name Dot9
+  xpos -432
+  ypos 493
+ }
+push $Nacedf070
+ Switch {
+  inputs 2
+  which {{"\[exists parent.input1]?1:0"}}
+  name Switch1
+  xpos -287
+  ypos 490
+ }
+ Output {
+  name Output1
+  xpos -287
+  ypos 706
+ }
+push $Nace2fb20
+ Viewer {
+  frame_range 1-100
+  fps 25
+  name Viewer1
+  xpos 81
+  ypos -179
+ }
+end_group

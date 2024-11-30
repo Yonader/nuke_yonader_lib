@@ -1,0 +1,115 @@
+set cut_paste_input [stack 0]
+version 10.5 v6
+push $cut_paste_input
+Group {
+ name HeightToNormal
+ tile_color 0x9fffff
+ selected true
+ xpos -920
+ ypos 590
+ addUserKnob {20 User l "Height to Normals"}
+ addUserKnob {41 size l PreBlur T Blur10.size}
+ addUserKnob {41 white l gain T Grade21.white}
+}
+ Input {
+  inputs 0
+  name image
+  selected true
+  xpos -894
+  ypos 404
+ }
+ Shuffle {
+  green red
+  blue red
+  name Shuffle2
+  label "\[value out]"
+  xpos -894
+  ypos 444
+ }
+set Ndd9f3000 [stack 0]
+ Dot {
+  name Dot3
+  xpos -646
+  ypos 454
+ }
+ Dot {
+  name Dot2
+  xpos -646
+  ypos 634
+ }
+push $Ndd9f3000
+ Blur {
+  channels rgba
+  quality 16
+  name Blur10
+  xpos -894
+  ypos 496
+ }
+set Nb1534000 [stack 0]
+ Matrix {
+  channels rgb
+  matrix {
+      {2 0 -2}
+      {1 0 -1}
+      {2 0 -2}
+    }
+  name Matrix1
+  xpos -894
+  ypos 550
+ }
+push $Nb1534000
+ Matrix {
+  channels rgb
+  matrix {
+      {-2 -1 -2}
+      {0 0 0}
+      {2 1 2}
+    }
+  name Matrix2
+  xpos -760
+  ypos 550
+ }
+ Dot {
+  name Dot1
+  xpos -726
+  ypos 614
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  blue black
+  alpha black
+  name ShuffleCopy3
+  xpos -894
+  ypos 610
+ }
+ ShuffleCopy {
+  inputs 2
+  blue red
+  name ShuffleCopy1
+  xpos -894
+  ypos 630
+ }
+ Grade {
+  channels {-rgba.red -rgba.green rgba.blue rgba.alpha}
+  white 0.5
+  add 0.5
+  black_clamp false
+  name Grade22
+  xpos -894
+  ypos 680
+ }
+ Grade {
+  channels {rgba.red rgba.green -rgba.blue rgba.alpha}
+  white 10
+  black_clamp false
+  name Grade21
+  xpos -894
+  ypos 714
+ }
+ Output {
+  name Output1
+  xpos -894
+  ypos 810
+ }
+end_group

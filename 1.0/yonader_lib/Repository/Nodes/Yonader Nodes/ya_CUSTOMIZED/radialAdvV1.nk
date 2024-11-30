@@ -1,0 +1,23 @@
+Radial {
+ opacity {1}
+ area {{(newFormat.x-offset.w)+(((((newFormat.x-offset.w)-((newFormat.r+offset.w)+transformFormat.x))/2)*scale.w))+transformFormat.x} {(newFormat.y-offset.h)+(((((newFormat.y-offset.h)-((newFormat.t+offset.h)+transformFormat.y))/2)*scale.h))+transformFormat.y} {(newFormat.r+offset.w)-(((((newFormat.x+offset.w)-((newFormat.r+offset.w)+transformFormat.x))/2)*scale.w))+transformFormat.x} {(newFormat.t+offset.h)-(((((newFormat.y-offset.h)-((newFormat.t+offset.h)+transformFormat.y))/2)*scale.h))+transformFormat.y}}
+ softness {1}
+ color {1}
+ name RadialAdv1
+ addUserKnob {20 settingsTab l Settings}
+ addUserKnob {15 newFormat l "new Format"}
+ newFormat {0 0 1556 1556}
+ addUserKnob {14 offset l "Offset .px" R 0 100}
+ offset {0}
+ addUserKnob {26 sp l " " T " "}
+ addUserKnob {22 buttonFormat l ResetFormat -STARTLINE T "\nnode = nuke.thisNode()\nnodeFormatX = int( 0 ) \nnodeFormatY = int( 0 ) \nnodeFormatR = int( nuke.tcl(\"value width\") )\nnodeFormatT = int( nuke.tcl(\"value height\") )\nnodeNewCenter = \[nodeFormatX,nodeFormatY,nodeFormatR,nodeFormatT]\nnode\[\"newFormat\"].setValue(nodeNewCenter)\n\n          "}
+ addUserKnob {22 square l 1x1 -STARTLINE T "\nnode = nuke.thisNode()\nnodeFormatX = int( 0 ) \nnodeFormatY = int( 0 ) \nnodeFormatR = int( nuke.tcl(\"value width\") )\nnodeFormatT = int( nuke.tcl(\"value height\") )\nif nodeFormatR>nodeFormatT : \n\tnodeNewCenter = \[nodeFormatX,nodeFormatY,nodeFormatT,nodeFormatT]\nelse :\n\tnodeNewCenter = \[nodeFormatX,nodeFormatY,nodeFormatR,nodeFormatR]\nnode\[\"newFormat\"].setValue(nodeNewCenter)\n"}
+ addUserKnob {22 center -STARTLINE T "node = nuke.thisNode()\nnodeX = int( node\[\"newFormat\"].getValue(0) ) \nnodeY = int( node\[\"newFormat\"].getValue(1) ) \nnodeR = int( node\[\"newFormat\"].getValue(2) )\nnodeT = int( node\[\"newFormat\"].getValue(3) )\n\nnodeFormatW = int(nuke.tcl(\"value width\"))\nnodeFormatH = int(nuke.tcl(\"value height\"))\n\ncenterShapeX =  (nodeX+((nodeR-nodeX)/2))\ncenterShapeY =  (nodeY+((nodeT-nodeY)/2))\n\noffsetCenterX = (centerShapeX-(nodeFormatW/2))\noffsetCenterY = (centerShapeY-(nodeFormatH/2))\n\nNnodeX = nodeX - offsetCenterX\nNnodeY = nodeY - offsetCenterY\nNnodeR = nodeR - offsetCenterX\nNnodeT = nodeT - offsetCenterY\n\n\n\nnodeNewCenter = \[NnodeX,NnodeY,NnodeR,NnodeT]\nnode\[\"newFormat\"].setValue(nodeNewCenter)\n"}
+ addUserKnob {22 bakeOffset l "Bake Offset" -STARTLINE T "node = nuke.thisNode()\nnodeX = int( node\[\"newFormat\"].getValue(0) ) \nnodeY = int( node\[\"newFormat\"].getValue(1) ) \nnodeR = int( node\[\"newFormat\"].getValue(2) )\nnodeT = int( node\[\"newFormat\"].getValue(3) )\n\noffsetX =  int( node\[\"offset\"].getValue(0) ) \noffsetY =  int( node\[\"offset\"].getValue(1) ) \n\nNnodeX = nodeX - offsetX\nNnodeY = nodeY - offsetY\nNnodeR = nodeR + offsetX\nNnodeT = nodeT + offsetY\n\n\n\nnodeNewCenter = \[NnodeX,NnodeY,NnodeR,NnodeT]\nnode\[\"newFormat\"].setValue(nodeNewCenter)\n"}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 sp_1 l " " T " "}
+ addUserKnob {12 transformFormat l Transform}
+ transformFormat {0 0}
+ addUserKnob {14 scale l Scale R 0 100}
+ scale {0}
+}

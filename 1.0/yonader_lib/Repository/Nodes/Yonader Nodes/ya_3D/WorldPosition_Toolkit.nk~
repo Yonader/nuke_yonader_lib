@@ -1,0 +1,1065 @@
+set cut_paste_input [stack 0]
+version 13.0 v1
+BackdropNode {
+ inputs 0
+ name BackdropNode18
+ tile_color 0x8e8e3800
+ label "WorldPosition Toolkit"
+ note_font_size 42
+ selected true
+ xpos 2601
+ ypos -637
+ bdwidth 1043
+ bdheight 458
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode25
+ tile_color 0x7171c600
+ label Mask
+ note_font_size 42
+ selected true
+ xpos 2624
+ ypos -555
+ bdwidth 219
+ bdheight 143
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode26
+ tile_color 0x8e388e00
+ label Texture
+ note_font_size 42
+ selected true
+ xpos 2881
+ ypos -558
+ bdwidth 169
+ bdheight 131
+ z_order 1
+}
+push $cut_paste_input
+Group {
+ name TransformWorld_ik_group1
+ help "This gizmo modifies World Position coordinate. Also may be useful in work with Object Position, World Normals and similar data passes. Feed it as input.\nUses with Mask3D_ik and Mask3DSpherical_ik or any another WorldPosition based nodes and gizmos. Strongly recomend to pick pivot point before starting your tweaking!\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ selected true
+ xpos 2957
+ ypos -341
+ addUserKnob {20 User}
+ addUserKnob {41 Pivot T Control.Pivot}
+ addUserKnob {26 ""}
+ addUserKnob {41 rot_order l "Rotation order" T Axis4.rot_order}
+ addUserKnob {41 Translate T Control.Translate}
+ addUserKnob {41 Rotate T Control.Rotate}
+ addUserKnob {41 Scale T Control.Scale}
+ addUserKnob {41 UniformScale T Control.UniformScale}
+ addUserKnob {41 Scew T Control.Scew}
+ addUserKnob {26 ""}
+ addUserKnob {26 Credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos 137
+  ypos -545
+ }
+ Dot {
+  name Dot461
+  xpos 171
+  ypos -505
+ }
+set Nddabe000 [stack 0]
+ NoOp {
+  name Control
+  xpos 233
+  ypos -508
+  addUserKnob {20 User}
+  addUserKnob {18 Pivot}
+  Pivot {0 0 0}
+  addUserKnob {6 Pivot_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {26 ""}
+  addUserKnob {13 Translate}
+  addUserKnob {13 Rotate}
+  addUserKnob {13 Scale}
+  Scale {1 1 1}
+  addUserKnob {7 UniformScale R 0 10}
+  UniformScale 1
+  addUserKnob {13 Scew}
+ }
+push $Nddabe000
+ Add {
+  value {{-parent.Control.Pivot i} {-parent.Control.Pivot i} {-parent.Control.Pivot i} 0}
+  name Add1
+  label "move center of transformation (pivot) to center of coordinate"
+  xpos 137
+  ypos -453
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis4.world_matrix.0 i} {parent.Axis4.world_matrix.1 i} {parent.Axis4.world_matrix.2 i}}
+      {{parent.Axis4.world_matrix.4 i} {parent.Axis4.world_matrix.5 i} {parent.Axis4.world_matrix.6 i}}
+      {{parent.Axis4.world_matrix.8 i} {parent.Axis4.world_matrix.9 i} {parent.Axis4.world_matrix.10 i}}
+    }
+  name ColorMatrix1
+  label "apply rotation, scale and  scew"
+  xpos 137
+  ypos -390
+ }
+ Add {
+  value {{parent.Control.Pivot i} {parent.Control.Pivot i} {parent.Control.Pivot i} 0}
+  name Add2
+  label "move center of transformation (pivot) back"
+  xpos 137
+  ypos -334
+ }
+ Add {
+  value {{parent.Control.Translate i} {parent.Control.Translate i} {parent.Control.Translate i} {curve i}}
+  name Add3
+  label "aplly translate"
+  xpos 137
+  ypos -274
+ }
+ Output {
+  name Output1
+  xpos 137
+  ypos -172
+ }
+ Axis2 {
+  inputs 0
+  rotate {{parent.Control.Rotate.x i} {parent.Control.Rotate.y i} {parent.Control.Rotate.z i}}
+  scaling {{parent.Control.Scale.x i} {parent.Control.Scale.y i} {parent.Control.Scale.z i}}
+  uniform_scale {{parent.Control.UniformScale i}}
+  skew {{parent.Control.Scew.x i} {parent.Control.Scew.y i} {parent.Control.Scew.z i}}
+  name Axis4
+  xpos 257
+  ypos -409
+ }
+end_group
+push $cut_paste_input
+Group {
+ name Mask3DSpherical_ik5
+ help "Mask3DSpherical creates a spherical 3D matte based on a World position pass. Also may be useful in work with Object Position and similar data passes which contains position cordinate. Feed it as input.\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ note_font Verdana
+ selected true
+ xpos 2648
+ ypos -435
+ addUserKnob {20 User}
+ addUserKnob {41 Position T Mask3DSpherical_ik.Position}
+ addUserKnob {41 Softness T Mask3DSpherical_ik.Softness}
+ addUserKnob {41 rotate T Axis1.rotate}
+ addUserKnob {41 rot_order l "Rotation order" -STARTLINE T Axis1.rot_order}
+ addUserKnob {41 ReplaceRGB l "Replace RGB / Keep original (generate matte in alpha only)" T Mask3DSpherical_ik.ReplaceRGB}
+ addUserKnob {41 IgnoreByAlpha l "Ignore outside by alpha" T Mask3DSpherical_ik.IgnoreByAlpha}
+ addUserKnob {26 ""}
+ addUserKnob {26 credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Axis2 {
+  inputs 0
+  name Axis1
+  xpos -232
+  ypos -433
+ }
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos -352
+  ypos -535
+ }
+ Dot {
+  name Dot1
+  xpos -318
+  ypos -487
+ }
+set Na4bc6c00 [stack 0]
+ Dot {
+  name Dot2
+  xpos -480
+  ypos -487
+ }
+ Dot {
+  name Dot3
+  xpos -480
+  ypos -176
+ }
+set Na4bc6400 [stack 0]
+ Dot {
+  name Dot4
+  xpos -480
+  ypos -102
+ }
+push $Na4bc6400
+push $Na4bc6c00
+ Add {
+  channels rgb
+  value {{-parent.Mask3DSpherical_ik.Position i} {-parent.Mask3DSpherical_ik.Position i} {-parent.Mask3DSpherical_ik.Position i} 0}
+  name Add1
+  xpos -352
+  ypos -439
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis1.world_matrix.0 i} {parent.Axis1.world_matrix.1 i} {parent.Axis1.world_matrix.2 i}}
+      {{parent.Axis1.world_matrix.4 i} {parent.Axis1.world_matrix.5 i} {parent.Axis1.world_matrix.6 i}}
+      {{parent.Axis1.world_matrix.8 i} {parent.Axis1.world_matrix.9 i} {parent.Axis1.world_matrix.10 i}}
+    }
+  name ColorMatrix1
+  label "apply rotation, scale and  scew"
+  xpos -352
+  ypos -415
+ }
+ Add {
+  channels rgb
+  value {{parent.Mask3DSpherical_ik.Position i} {parent.Mask3DSpherical_ik.Position i} {parent.Mask3DSpherical_ik.Position i} {curve i}}
+  name Add2
+  xpos -352
+  ypos -379
+ }
+ Expression {
+  temp_name0 R
+  temp_expr0 "(r - Position.r)/Softness.r + Position.r"
+  temp_name1 G
+  temp_expr1 "(g - Position.g)/Softness.g + Position.g"
+  temp_name2 B
+  temp_expr2 "(b - Position.b)/Softness.b + Position.b"
+  temp_name3 Mask3D
+  temp_expr3 "1-sqrt(pow2(R - Position.r) + pow2(G - Position.g)+ pow2(B - Position.b))"
+  expr0 "ReplaceRGB ? (clamp(Mask3D)) : r"
+  expr1 "ReplaceRGB ? (clamp(Mask3D)) : g"
+  expr2 "ReplaceRGB ? (clamp(Mask3D)) : b"
+  expr3 clamp(Mask3D)
+  name Mask3DSpherical_ik
+  xpos -352
+  ypos -333
+  addUserKnob {20 User}
+  addUserKnob {18 Position R 0 10}
+  Position {0.788806 -0.142887 0.5268554688}
+  addUserKnob {6 Position_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 Softness R 0 10}
+  Softness {1 1 1}
+  addUserKnob {6 Softness_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 ReplaceRGB l "Replace RGB / Keep original (generate matte in alpha only)" +STARTLINE}
+  addUserKnob {6 IgnoreByAlpha l "Ignore outside by alpha" +STARTLINE}
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  from1 rgba.green
+  to1 rgba.green
+  from2 rgba.blue
+  to2 rgba.blue
+  name Copy1
+  selected true
+  xpos -352
+  ypos -197
+  disable {{parent.Mask3DSpherical_ik.ReplaceRGB}}
+ }
+ Multiply {
+  inputs 1+1
+  channels rgba
+  value 0
+  invert_mask true
+  name Multiply1
+  xpos -352
+  ypos -105
+  disable {{!parent.Mask3DSpherical_ik.IgnoreByAlpha i}}
+ }
+ Output {
+  name Output1
+  xpos -352
+  ypos -26
+ }
+end_group
+push $cut_paste_input
+Group {
+ name Mask3DCubical_ik_gruop1
+ help "Mask3DCubical creates a cubical 3D matte based on a World position pass. Also may be useful in work with Object Position and similar data passes which contains position cordinate. Feed it as input.\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ selected true
+ xpos 2693
+ ypos -475
+ addUserKnob {20 User}
+ addUserKnob {41 Position T Mask3DCubical_ik.Position}
+ addUserKnob {41 Softness T Mask3DCubical_ik.Softness}
+ addUserKnob {41 rotate l Rotation T Axis1.rotate}
+ addUserKnob {41 rot_order l "Rotation order" -STARTLINE T Axis1.rot_order}
+ addUserKnob {41 ReplaceRGB l "Replace RGB by additional mattes / Keep original (generate matte in alpha only)" T Mask3DCubical_ik.ReplaceRGB}
+ addUserKnob {41 IgnoreByAlpha l "Ignore outside by alpha" T Mask3DCubical_ik.IgnoreByAlpha}
+ addUserKnob {26 ""}
+ addUserKnob {26 credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Axis2 {
+  inputs 0
+  name Axis1
+  xpos -376
+  ypos -361
+ }
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos -496
+  ypos -448
+ }
+ Dot {
+  name Dot2
+  xpos -462
+  ypos -408
+ }
+set Na462f000 [stack 0]
+ Dot {
+  name Dot3
+  xpos -578
+  ypos -408
+ }
+ Dot {
+  name Dot1
+  xpos -578
+  ypos -184
+ }
+set Na462e800 [stack 0]
+push $Na462e800
+push $Na462f000
+ Add {
+  channels rgb
+  value {{-parent.Mask3DCubical_ik.Position i} {-parent.Mask3DCubical_ik.Position i} {-parent.Mask3DCubical_ik.Position i} 0}
+  name Add1
+  xpos -496
+  ypos -367
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis1.world_matrix.0 i} {parent.Axis1.world_matrix.1 i} {parent.Axis1.world_matrix.2 i}}
+      {{parent.Axis1.world_matrix.4 i} {parent.Axis1.world_matrix.5 i} {parent.Axis1.world_matrix.6 i}}
+      {{parent.Axis1.world_matrix.8 i} {parent.Axis1.world_matrix.9 i} {parent.Axis1.world_matrix.10 i}}
+    }
+  name ColorMatrix1
+  label "apply rotation, scale and  scew"
+  xpos -496
+  ypos -343
+ }
+ Add {
+  channels rgb
+  value {{parent.Mask3DCubical_ik.Position i} {parent.Mask3DCubical_ik.Position i} {parent.Mask3DCubical_ik.Position i} 0}
+  name Add2
+  xpos -496
+  ypos -307
+ }
+ Expression {
+  temp_name0 matteR
+  temp_expr0 "r > Position.r ? (1- ((r - Position.r) / Softness.r)) : (1-((-r + Position.r) / Softness.r))"
+  temp_name1 matteG
+  temp_expr1 "g > Position.g ? (1- ((g - Position.g) / Softness.g)) : (1-((-g + Position.g) / Softness.g))"
+  temp_name2 matteB
+  temp_expr2 "b > Position.b ? (1- ((b - Position.b) / Softness.b)) : (1-((-b + Position.b) / Softness.b))"
+  temp_name3 Mask3D
+  temp_expr3 "clamp(matteR) * clamp(matteB) * clamp(matteG)"
+  expr0 "ReplaceRGB ? matteR : r "
+  expr1 "ReplaceRGB ? matteG : g"
+  expr2 "ReplaceRGB ? matteB : b"
+  expr3 Mask3D
+  name Mask3DCubical_ik
+  selected true
+  xpos -496
+  ypos -244
+  addUserKnob {20 User}
+  addUserKnob {18 Position R 0 10}
+  Position {0 0 0}
+  addUserKnob {6 Position_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 Softness R 0 10}
+  Softness {100 100 100}
+  addUserKnob {6 Softness_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 ReplaceRGB l "Replace RGB by additional mattes / Keep original (generate matte in alpha only)" +STARTLINE}
+  addUserKnob {6 IgnoreByAlpha l "Ignore outside by alpha" +STARTLINE}
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  from1 rgba.green
+  to1 rgba.green
+  from2 rgba.blue
+  to2 rgba.blue
+  name Copy1
+  xpos -497
+  ypos -205
+  disable {{parent.Mask3DCubical_ik.ReplaceRGB i}}
+ }
+ Multiply {
+  inputs 1+1
+  value 0
+  invert_mask true
+  name Multiply1
+  xpos -497
+  ypos -100
+  disable {{!parent.Mask3DCubical_ik.IgnoreByAlpha i}}
+ }
+ Output {
+  name Output1
+  xpos -497
+  ypos 74
+ }
+end_group
+push $cut_paste_input
+Group {
+ name Mask3DGradient_ik_gruop1
+ help "Mask3DGradient creates a gradient mate betveen two point in 3D space based on a World position pass. Also may be useful in work with Object Position and similar data passes which contains position cordinate. Feed it as input.\nAvoid using same values for 'From' and 'To'!\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ selected true
+ xpos 2753
+ ypos -442
+ addUserKnob {20 User}
+ addUserKnob {41 From T Mask3DGradient_ik.From}
+ addUserKnob {41 To T Mask3DGradient_ik.To}
+ addUserKnob {41 ReplaceRGB l "Replace RGB / Keep original (generate matte in alpha only)" T Mask3DGradient_ik.ReplaceRGB}
+ addUserKnob {41 IgnoreByAlpha l "Ignore outside by alpha" T Mask3DGradient_ik.IgnoreByAlpha}
+ addUserKnob {26 ""}
+ addUserKnob {26 credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos -77
+  ypos -353
+ }
+ Expression {
+  temp_name0 DistF
+  temp_expr0 "sqrt(pow2(From.r - r) + pow2(From.g - g) + pow2(From.b - b))"
+  temp_name1 DistT
+  temp_expr1 "sqrt(pow2(To.r - r) + pow2(To.g - g) + pow2(To.b - b))"
+  temp_name2 DistFT
+  temp_expr2 "sqrt(pow2(From.r - To.r) + pow2(From.g - To.g) + pow2(From.b - To.b))"
+  temp_name3 F
+  temp_expr3 "acos(clamp((pow2(DistF) + pow2(DistFT) - pow2(DistT))/(2 * DistF * DistFT), -1, 1))"
+  expr0 "ReplaceRGB ? (IgnoreByAlpha ? (clamp( (DistF * cos(F)) / DistFT)*a) : clamp( (DistF * cos(F)) / DistFT) ) : r"
+  expr1 "ReplaceRGB ? (IgnoreByAlpha ? (clamp( (DistF * cos(F)) / DistFT)*a) : clamp( (DistF * cos(F)) / DistFT) ) : g"
+  expr2 "ReplaceRGB ? (IgnoreByAlpha ? (clamp( (DistF * cos(F)) / DistFT)*a) : clamp( (DistF * cos(F)) / DistFT) ) : b"
+  expr3 "IgnoreByAlpha ? (clamp( (DistF * cos(F)) / DistFT)*a) : clamp( (DistF * cos(F)) / DistFT)"
+  name Mask3DGradient_ik
+  selected true
+  xpos -77
+  ypos -313
+  addUserKnob {20 User}
+  addUserKnob {18 From}
+  From {0 0 0}
+  addUserKnob {6 From_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 To}
+  To {100 100 100}
+  addUserKnob {6 To_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 ReplaceRGB l "Replace RGB / Keep original (generate matte in alpha only)" +STARTLINE}
+  addUserKnob {6 IgnoreByAlpha l "Ignore outside by alpha" +STARTLINE}
+ }
+ Output {
+  name Output1
+  xpos -77
+  ypos -213
+ }
+end_group
+push $cut_paste_input
+Group {
+ name WorldPos_Texture_Projection_ik_group1
+ help "WorldPos_Texture_Projection create parallel projection of texture over world position point. Place center of your projection, press “Bake Position”, adjust transformation and tilling options, enjoy!\n------\nv001\nIvan Kokov. Yellow Mountain Studio Tianjin. 2013\nbutafor@inbox.ru"
+ selected true
+ xpos 2878
+ ypos -448
+ addUserKnob {20 User}
+ addUserKnob {41 Center T Pick1.Center}
+ addUserKnob {41 CenterPosition l INVISIBLE +INVISIBLE T Pick1.CenterPosition}
+ addUserKnob {41 BakePosition l "Bake Position" T Pick1.BakePosition}
+ addUserKnob {41 BakedCenterPosition T Pick1.BakedCenterPosition}
+ addUserKnob {26 ""}
+ addUserKnob {41 rotate T AxisTransformation.rotate}
+ addUserKnob {41 scaling l scale T AxisTransformation.scaling}
+ addUserKnob {41 uniform_scale l "uniform scale" T AxisTransformation.uniform_scale}
+ addUserKnob {41 skew T AxisTransformation.skew}
+ addUserKnob {26 ""}
+ addUserKnob {41 TileX T Tiling2.TileX}
+ addUserKnob {41 MirrorX -STARTLINE T Tiling2.MirrorX}
+ addUserKnob {41 TileY T Tiling2.TileY}
+ addUserKnob {41 MirrorY -STARTLINE T Tiling2.MirrorY}
+ addUserKnob {26 ""}
+ addUserKnob {26 credits l "" +STARTLINE T "v002 © Ivan Kokov. Yelow Mountain Studio. Tianjin. 2013"}
+}
+ Input {
+  inputs 0
+  name InputScr
+  xpos 462
+  ypos -60
+ }
+ Dot {
+  name Dot8
+  xpos 496
+  ypos -20
+ }
+ NoOp {
+  name scr1
+  xpos 462
+  ypos 19
+ }
+ Dot {
+  name Dot9
+  selected true
+  xpos 496
+  ypos 106
+ }
+set Ndaf2ac00 [stack 0]
+ NoOp {
+  name Get_format1
+  xpos 378
+  ypos 103
+  addUserKnob {20 User}
+  addUserKnob {14 format R 0 100}
+  format {{format.h} {format.w}}
+ }
+ Input {
+  inputs 0
+  name InputPointPos
+  xpos 48
+  ypos -15
+  number 1
+ }
+ NoOp {
+  name PointPos1
+  xpos 48
+  ypos 25
+ }
+ Dot {
+  name Dot6
+  xpos 82
+  ypos 107
+ }
+set Ndaf29c00 [stack 0]
+ NoOp {
+  name Pick1
+  xpos 174
+  ypos 104
+  addUserKnob {20 User}
+  addUserKnob {12 Center}
+  Center {1024.5 778.5}
+  addUserKnob {13 CenterPosition}
+  CenterPosition {{"\[sample this Red Center.x Center.y]"} {"\[sample this Green Center.x Center.y]"} {"\[sample this Blue Center.x Center.y]"}}
+  addUserKnob {22 BakePosition l "Bake Position" T "m = nuke.thisNode()\nxyz = m\['CenterPosition'].getValue()\nm\['BakedCenterPosition'].setValue(xyz)" +STARTLINE}
+  addUserKnob {13 BakedCenterPosition}
+ }
+push $Ndaf29c00
+ Expression {
+  expr0 "r - parent.Pick1.BakedCenterPosition.x"
+  expr1 "g - parent.Pick1.BakedCenterPosition.y"
+  expr2 "b - parent.Pick1.BakedCenterPosition.z"
+  name MoveToCenter1
+  xpos 48
+  ypos 146
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis2.world_matrix.0} {parent.Axis2.world_matrix.1} {parent.Axis2.world_matrix.2}}
+      {{parent.Axis2.world_matrix.4} {parent.Axis2.world_matrix.5} {parent.Axis2.world_matrix.6}}
+      {{parent.Axis2.world_matrix.8} {parent.Axis2.world_matrix.9} {parent.Axis2.world_matrix.10}}
+    }
+  name ColorMatrix2
+  xpos 48
+  ypos 215
+ }
+ Expression {
+  expr0 "(r + (parent.Get_format1.format.w/2) ) / parent.Get_format1.format.w"
+  expr1 "(g + (parent.Get_format1.format.h/2) ) / parent.Get_format1.format.h"
+  name Transform_to_STMap1
+  xpos 48
+  ypos 268
+ }
+ Expression {
+  expr0 "TileX ? ( MirrorX ? (     (abs(fmod(r, 2)) > 1) ? (1 - abs(fmod(r,1))) : abs(fmod(r,1))     ) :  abs(fmod(r, 1)) ) : r"
+  expr1 "TileY ? ( MirrorY ? (     (abs(fmod(g, 2)) > 1) ? (1 - abs(fmod(g,1))) : abs(fmod(g,1))     ) :  abs(fmod(g, 1)) ) : g"
+  name Tiling2
+  xpos 48
+  ypos 324
+  addUserKnob {20 User}
+  addUserKnob {6 TileX +STARTLINE}
+  addUserKnob {6 MirrorX -STARTLINE}
+  addUserKnob {6 TileY +STARTLINE}
+  addUserKnob {6 MirrorY -STARTLINE}
+ }
+ BlackOutside {
+  name BlackOutside1
+  xpos 48
+  ypos 348
+ }
+push $Ndaf2ac00
+ Dot {
+  name Dot10
+  xpos 496
+  ypos 428
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap2
+  xpos 48
+  ypos 419
+ }
+set Ndde0f800 [stack 0]
+ Output {
+  name Output1
+  xpos 48
+  ypos 519
+ }
+push $Ndde0f800
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos -196
+  ypos 346
+ }
+ Axis2 {
+  inputs 0
+  name AxisTransformation
+  xpos -171
+  ypos 177
+ }
+ Axis2 {
+  inputs 0
+  rotate {{-parent.AxisTransformation.rotate} {-parent.AxisTransformation.rotate} {-parent.AxisTransformation.rotate}}
+  scaling {{1/parent.AxisTransformation.scaling} {1/parent.AxisTransformation.scaling} {1/parent.AxisTransformation.scaling}}
+  uniform_scale {{1000/parent.AxisTransformation.uniform_scale}}
+  skew {{-parent.AxisTransformation.skew} {-parent.AxisTransformation.skew} {-parent.AxisTransformation.skew}}
+  name Axis2
+  xpos -65
+  ypos 193
+ }
+end_group
+push $cut_paste_input
+Group {
+ name WorldPos_Texture_Generator_ik1
+ help "WorldPos_Texture_Generator create procedural texture over world position points. Choose type of texture, adjust properties, enjoy! To adjust scale and position use together with TransformWorld_ik gizmo,\n------\nv002\nIvan Kokov. Pixomondo. Beijing. 2015\nbutafor@inbox.ru\n\n"
+ selected true
+ xpos 2960
+ ypos -478
+ addUserKnob {20 Texture}
+ addUserKnob {68 textureType l "Texture Type" M {Checker Random fBm Turbulate RadialWaves "" ""}}
+ textureType Turbulate
+ addUserKnob {3 switcher l INVISIBLE +INVISIBLE}
+ switcher {{"\[python -execlocal n\\ =\\ nuke.thisNode()\\nret\\ =\\ n\\\['textureType'\\].getValue()\\nif\\ (ret\\ ==\\ 0)\\ :\\n\\ \\ \\ \\ n.knob('checker').setEnabled(True)\\n\\ \\ \\ \\ n.knob('CheckerSize').setEnabled(True)\\n\\ \\ \\ \\ n.knob('tip').setEnabled(True)\\n\\ \\ \\ \\ n.knob('noise').setEnabled(False)\\n\\ \\ \\ \\ n.knob('octaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('lacunarity').setEnabled(False)\\n\\ \\ \\ \\ n.knob('gain').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Radius').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Center').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Phase').setEnabled(False)\\n\\ \\ \\ \\ ret\\ =\\ 0\\n\\nif\\ (ret\\ ==\\ 1):\\n\\ \\ \\ \\ n.knob('noise').setEnabled(True)\\n\\ \\ \\ \\ n.knob('checker').setEnabled(False)\\n\\ \\ \\ \\ n.knob('CheckerSize').setEnabled(False)\\n\\ \\ \\ \\ n.knob('tip').setEnabled(False)\\n\\ \\ \\ \\ n.knob('octaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('lacunarity').setEnabled(False)\\n\\ \\ \\ \\ n.knob('gain').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Radius').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Center').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Phase').setEnabled(False)\\n\\ \\ \\ \\ ret\\ =\\ 1\\n\\nif\\ (\\ (ret\\ ==\\ 2)\\ or\\ (ret\\ ==\\ 3)\\ )\\ \\ :\\n\\ \\ \\ \\ n.knob('noise').setEnabled(True)\\n\\ \\ \\ \\ n.knob('octaves').setEnabled(True)\\n\\ \\ \\ \\ n.knob('lacunarity').setEnabled(True)\\n\\ \\ \\ \\ n.knob('gain').setEnabled(True)\\n\\ \\ \\ \\ n.knob('checker').setEnabled(False)\\n\\ \\ \\ \\ n.knob('CheckerSize').setEnabled(False)\\n\\ \\ \\ \\ n.knob('tip').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Radius').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Center').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Phase').setEnabled(False)\\n\\ \\ \\ \\ ret\\ =\\ 1\\n\\nif\\ (\\ (ret\\ ==\\ 4)\\ )\\ \\ :\\n\\ \\ \\ \\ n.knob('noise').setEnabled(False)\\n\\ \\ \\ \\ n.knob('octaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('lacunarity').setEnabled(False)\\n\\ \\ \\ \\ n.knob('gain').setEnabled(False)\\n\\ \\ \\ \\ n.knob('checker').setEnabled(False)\\n\\ \\ \\ \\ n.knob('CheckerSize').setEnabled(False)\\n\\ \\ \\ \\ n.knob('tip').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves').setEnabled(True)\\n\\ \\ \\ \\ n.knob('RadialWaves_Radius').setEnabled(True)\\n\\ \\ \\ \\ n.knob('RadialWaves_Center').setEnabled(True)\\n\\ \\ \\ \\ n.knob('RadialWaves_Phase').setEnabled(True)\\n\\ \\ \\ \\ ret\\ =\\ 2\\n]"}}
+ addUserKnob {20 checker l Checker +DISABLED n 1}
+ addUserKnob {41 CheckerSize T CheckerTexture.CheckerSize}
+ addUserKnob {26 tip l "" -STARTLINE +DISABLED T "<i> most interesting is in alpha</i>"}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 noise l Noise n 1}
+ addUserKnob {41 octaves T NoiseTexture_ik.octaves}
+ addUserKnob {41 lacunarity T NoiseTexture_ik.lacunarity}
+ addUserKnob {41 gain T NoiseTexture_ik.gain}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {20 RadialWaves l "Radial Waves" +DISABLED n 1}
+ addUserKnob {18 RadialWaves_Radius l Radius +DISABLED}
+ RadialWaves_Radius 1
+ addUserKnob {6 RadialWaves_Radius_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 RadialWaves_Center l Center +DISABLED}
+ RadialWaves_Center {0 0.2624262869 0.08337425441}
+ addUserKnob {6 RadialWaves_Center_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 RadialWaves_Phase l Phase +DISABLED R 0 100}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {26 credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo. Beijing. 2015"}
+}
+ Input {
+  inputs 0
+  name InputPointPos
+  xpos 2
+  ypos 3
+ }
+set Ndde0e000 [stack 0]
+ Expression {
+  temp_name0 dist
+  temp_expr0 "sqrt(pow2( (r - Center.r) /Radius.r*2) + pow2( (g- Center.g) / Radius.g*2) + pow2( (b - Center.b) / Radius.b*2) )"
+  temp_name1 tex
+  temp_expr1 "sin(dist+Phase)/2 + 0.5"
+  expr0 tex
+  expr1 tex
+  expr2 tex
+  name RadialWaves
+  selected true
+  xpos 293
+  ypos 160
+  addUserKnob {20 User}
+  addUserKnob {18 Radius}
+  Radius {{parent.RadialWaves_Radius.r} {parent.RadialWaves_Radius.g} {parent.RadialWaves_Radius.b}}
+  addUserKnob {6 Radius_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 Center}
+  Center {{parent.RadialWaves_Center.r} {parent.RadialWaves_Center.g} {parent.RadialWaves_Center.b}}
+  addUserKnob {6 Center_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {7 Phase R 0 100}
+  Phase {{parent.RadialWaves_Phase}}
+ }
+set Ndde0dc00 [stack 0]
+push $Ndde0e000
+ Expression {
+  temp_name0 RND
+  temp_expr0 "random(r, g, b) "
+  temp_name1 FBM
+  temp_expr1 "(fBm(r, g, b, octaves, lacunarity, gain))/2 + 0.5"
+  temp_name2 TRB
+  temp_expr2 "turbulence(r, g, b, octaves, lacunarity, gain)"
+  temp_name3 OUTPUT
+  temp_expr3 "(textureType == 1) ? RND : ((textureType == 2) ? FBM : TRB)"
+  expr0 OUTPUT
+  expr1 OUTPUT
+  expr2 OUTPUT
+  name NoiseTexture_ik
+  xpos -103
+  ypos 155
+  addUserKnob {20 User}
+  addUserKnob {7 octaves R 0 10}
+  octaves 10
+  addUserKnob {7 lacunarity}
+  lacunarity 2
+  addUserKnob {7 gain}
+  gain 0.5
+ }
+push $Ndde0e000
+ Expression {
+  temp_name0 LinesR
+  temp_expr0 "fabs(fmod(r, CheckerSize.x)/CheckerSize.x) > 0.5 ? (r>0) : (r<0)"
+  temp_name1 LinesG
+  temp_expr1 "fabs(fmod(g, CheckerSize.y)/CheckerSize.y) > 0.5 ? (g>0) : (g<0)"
+  temp_name2 LinesB
+  temp_expr2 "fabs(fmod(b, CheckerSize.z)/CheckerSize.z) > 0.5 ? (b>0) : (b<0)"
+  temp_name3 Checker
+  temp_expr3 "LinesR ^^ LinesG ^^ LinesB"
+  expr0 LinesR
+  expr1 LinesG
+  expr2 LinesB
+  expr3 Checker
+  name CheckerTexture
+  xpos 130
+  ypos 155
+  addUserKnob {20 User}
+  addUserKnob {13 CheckerSize +DISABLED}
+  CheckerSize {500 500 500}
+ }
+ Switch {
+  inputs 3
+  which {{switcher}}
+  name Switch1
+  xpos 8
+  ypos 254
+ }
+ Output {
+  name Output1
+  xpos 8
+  ypos 300
+ }
+push $Ndde0dc00
+ Viewer {
+  frame 981
+  input_process false
+  name Viewer1
+  xpos 156
+  ypos -29
+ }
+end_group
+push $cut_paste_input
+Dot {
+ name Dot2
+ selected true
+ xpos 3264
+ ypos -547
+}
+set Ndde0c400 [stack 0]
+add_layer {Shading_normal Shading_normal.red Shading_normal.green Shading_normal.blue Shading_normal.alpha}
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Shading_normal
+ fromInput2 {{0} B}
+ mappings "4 Shading_normal.red 0 0 rgba.red 0 0 Shading_normal.green 0 1 rgba.green 0 1 Shading_normal.blue 0 2 rgba.blue 0 2 Shading_normal.alpha 0 3 rgba.alpha 0 3"
+ name Shuffle4
+ selected true
+ xpos 3146
+ ypos -513
+}
+push $Ndde0c400
+add_layer {Smooth_normal Smooth_normal.red Smooth_normal.green Smooth_normal.blue Smooth_normal.alpha}
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Smooth_normal
+ fromInput2 {{0} B}
+ mappings "4 Smooth_normal.green 0 1 rgba.green 0 1 Smooth_normal.blue 0 2 rgba.blue 0 2 Smooth_normal.alpha 0 3 rgba.alpha 0 3 Smooth_normal.red 0 0 rgba.red 0 0"
+ name Shuffle5
+ selected true
+ xpos 3325
+ ypos -516
+}
+Merge2 {
+ inputs 2
+ operation from
+ name Merge2
+ selected true
+ xpos 3229
+ ypos -479
+}
+Grade {
+ white 6
+ name Grade1
+ selected true
+ xpos 3229
+ ypos -438
+}
+Group {
+ name Vray_Relight1
+ selected true
+ xpos 3229
+ ypos -379
+ addUserKnob {20 User}
+ addUserKnob {41 longitude T Constant1.longitude}
+ addUserKnob {41 latitude T Constant1.latitude}
+ addUserKnob {6 postmult l post-multiply +STARTLINE}
+}
+ Constant {
+  inputs 0
+  channels rgb
+  color {{sin(radians(longitude))*cos(radians(latitude))} {sin(radians(latitude))} {cos(radians(longitude))*cos(radians(latitude))} 0}
+  format "256 256 0 0 256 256 1 square_256"
+  name Constant1
+  xpos 93
+  ypos -102
+  addUserKnob {20 User}
+  addUserKnob {7 longitude R -180 180}
+  longitude 96
+  addUserKnob {7 latitude R -90 90}
+ }
+ Input {
+  inputs 0
+  name Input1
+  selected true
+  xpos -36
+  ypos -249
+ }
+add_layer {VRay_Normals VRay_Normals.X VRay_Normals.Y VRay_Normals.Z}
+ Shuffle2 {
+  fromInput1 {{0} B}
+  out1 VRay_Normals
+  fromInput2 {{0} B}
+  mappings "3 rgba.red 0 0 VRay_Normals.X 0 0 rgba.green 0 1 VRay_Normals.Y 0 1 rgba.blue 0 2 VRay_Normals.Z 0 2"
+  name Shuffle1
+  xpos -36
+  ypos -176
+ }
+ Expression {
+  channel0 {none none none VRay_Normals.Z}
+  expr0 VRay_Normals.Z-(1-a)
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression1
+  xpos -36
+  ypos -118
+ }
+ Unpremult {
+  channels VRay_Normals
+  name Unpremult1
+  xpos -36
+  ypos -71
+ }
+ MergeExpression {
+  inputs 2
+  expr0 Ar*BVRay_Normals.X
+  expr1 Ag*BVRay_Normals.Y
+  expr2 Ab*BVRay_Normals.Z
+  channel3 none
+  name MergeExpression1
+  xpos 21
+  ypos 2
+ }
+ Expression {
+  channel0 rgb
+  expr0 r+b+g
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression2
+  xpos 21
+  ypos 54
+ }
+ Premult {
+  name Premult1
+  xpos 21
+  ypos 111
+  disable {{1-parent.postmult}}
+ }
+ Output {
+  name Output1
+  xpos 21
+  ypos 172
+ }
+end_group
+push $cut_paste_input
+Group {
+ name Vray_Relight2
+ selected true
+ xpos 2709
+ ypos -346
+ addUserKnob {20 User}
+ addUserKnob {41 longitude T Constant1.longitude}
+ addUserKnob {41 latitude T Constant1.latitude}
+ addUserKnob {6 postmult l post-multiply +STARTLINE}
+}
+ Constant {
+  inputs 0
+  channels rgb
+  color {{sin(radians(longitude))*cos(radians(latitude))} {sin(radians(latitude))} {cos(radians(longitude))*cos(radians(latitude))} 0}
+  format "256 256 0 0 256 256 1 square_256"
+  name Constant1
+  xpos 93
+  ypos -102
+  addUserKnob {20 User}
+  addUserKnob {7 longitude R -180 180}
+  longitude 96
+  addUserKnob {7 latitude R -90 90}
+ }
+ Input {
+  inputs 0
+  name Input1
+  selected true
+  xpos -36
+  ypos -249
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  out1 VRay_Normals
+  fromInput2 {{0} B}
+  mappings "3 rgba.red 0 0 VRay_Normals.X 0 0 rgba.green 0 1 VRay_Normals.Y 0 1 rgba.blue 0 2 VRay_Normals.Z 0 2"
+  name Shuffle1
+  xpos -36
+  ypos -176
+ }
+ Expression {
+  channel0 {none none none VRay_Normals.Z}
+  expr0 VRay_Normals.Z-(1-a)
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression1
+  xpos -36
+  ypos -118
+ }
+ Unpremult {
+  channels VRay_Normals
+  name Unpremult1
+  xpos -36
+  ypos -71
+ }
+ MergeExpression {
+  inputs 2
+  expr0 Ar*BVRay_Normals.X
+  expr1 Ag*BVRay_Normals.Y
+  expr2 Ab*BVRay_Normals.Z
+  channel3 none
+  name MergeExpression1
+  xpos 21
+  ypos 2
+ }
+ Expression {
+  channel0 rgb
+  expr0 r+b+g
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression2
+  xpos 21
+  ypos 54
+ }
+ Premult {
+  name Premult1
+  xpos 21
+  ypos 111
+  disable {{1-parent.postmult}}
+ }
+ Output {
+  name Output1
+  xpos 21
+  ypos 172
+ }
+end_group

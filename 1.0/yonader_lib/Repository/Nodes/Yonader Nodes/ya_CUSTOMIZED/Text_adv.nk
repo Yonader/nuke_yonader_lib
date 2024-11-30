@@ -1,0 +1,22 @@
+set cut_paste_input [stack 0]
+version 11.1 v3
+push $cut_paste_input
+Text2 {
+ font_size_toolbar 100
+ font_width_toolbar 100
+ font_height_toolbar 100
+ box {0 0 1080 1080}
+ transforms {{0 2}
+   }
+ center {960 540}
+ autofit_bbox false
+ group_animations {{0} imported: 0 selected: items: "root transform/"}
+ animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+   }
+ name Text2
+ selected true
+ xpos 3008
+ ypos -1095
+ addUserKnob {20 User}
+ addUserKnob {22 FillInputButton l "Fill Input" T "n = nuke.thisNode()\nnHeight = n.height()\nnWidth = n.width()\nnNewBox = \[0,0,nHeight,nWidth]\nn\['box'].setValue(nNewBox)" +STARTLINE}
+}

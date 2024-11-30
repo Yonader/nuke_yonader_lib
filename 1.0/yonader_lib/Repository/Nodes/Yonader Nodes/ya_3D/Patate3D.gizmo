@@ -1,0 +1,159 @@
+set cut_paste_input [stack 0]
+version 10.5 v6
+push $cut_paste_input
+Group {
+ name Patate_3D
+ tile_color 0x308fffff
+ selected true
+ xpos -40
+ ypos -106
+ icon Ripper.png
+ addUserKnob {20 User l "Patate 3D"}
+ addUserKnob {22 activate_axis_input l "Use 3D Axis input" -STARTLINE T "node = nuke.thisNode()\nif node.knob(\"activate_axis_input\").label() == \"Use 3D Axis input\":\n    node.knob(\"activate_axis_input\").setLabel(\"Use picker input\")\n    node.knobs()\[\"rgb_picker\"].setVisible(False)\n    node.knobs()\[\"Show_picker\"].setVisible(False)\n    node.knob(\"Show_picker\").setValue(0)\n    node.knob(\"rgb_picker\").setValue(\[0,0,0])\n    axis_input_node  = nuke.createNode(\"Input\", inpanel = False)\n    axis_input_node.setName(\"Axis_3D\")\n    nuke.toNode(\"Axis1\").setInput(0, axis_input_node)\nelse:\n    node.knob(\"activate_axis_input\").setLabel(\"Use 3D Axis input\")\n    nuke.delete(nuke.toNode(\"Axis_3D\"))\n    node.knobs()\[\"rgb_picker\"].setVisible(True)\n    node.knobs()\[\"Show_picker\"].setVisible(True)\n    node.knob(\"Show_picker\").setValue(1)\n   "}
+ addUserKnob {41 Show_picker l Show T controls.Show_picker}
+ addUserKnob {41 rgb_picker l "RGB/XYZ Picker" -STARTLINE T controls.rgb_picker}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 forme l Shape T cubeORsphere.forme}
+ addUserKnob {41 scale l " Scale" T controls.scale}
+ addUserKnob {41 smoothness l Smooth T smooth.smoothness}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {20 group l "Additionnal transformations" n 1}
+ group 0
+ addUserKnob {41 translate T Axis1.translate}
+ addUserKnob {41 rotate T Axis1.rotate}
+ addUserKnob {41 scaling l Scale T Axis1.scaling}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 Help}
+ addUserKnob {26 HelpInfo l "" +STARTLINE T "Ce node fonctionne a partir de la passe de point position (ex: VrayPointWorld). \nIl permet de realiser un masque spherique (Omni) ou cubique dans votre image.\n\nUtilisation sans Axis: \nA l'aide de la pipette selectionnez un point dans votre image, ce point sera le centre de votre patate. \nBasculez la vue sur \"Result\", Il vous suffit ensuite d'adapter le scale et la douceur de votre patate. \n\nUtilisation avec Axis 3D:\nBranchez un point (Helper, Locator etc...) anime ou non en provenance de votre logiciel 3d, \net votre patate se placera automatiquement a la place de cet objet dans votre scene 3D. "}
+}
+ Input {
+  inputs 0
+  name pointWorld
+  xpos 510
+  ypos 134
+ }
+ Dot {
+  name Dot3
+  xpos 544
+  ypos 210
+ }
+set N4acaf400 [stack 0]
+ Dot {
+  name Dot1
+  xpos 324
+  ypos 210
+ }
+ Dot {
+  name Dot2
+  xpos 324
+  ypos 618
+ }
+push $N4acaf400
+ Expression {
+  expr0 r-parent.controls.rgb_picker.r
+  expr1 g-parent.controls.rgb_picker.g
+  expr2 b-parent.controls.rgb_picker.b
+  name offset
+  xpos 510
+  ypos 254
+ }
+ Expression {
+  expr0 r*(1/controls.scale)
+  expr1 g*(1/controls.scale)
+  expr2 b*(1/controls.scale)
+  name Scale
+  xpos 510
+  ypos 302
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis1.world_matrix.0} {parent.Axis1.world_matrix.1} {parent.Axis1.world_matrix.2}}
+      {{parent.Axis1.world_matrix.4} {parent.Axis1.world_matrix.5} {parent.Axis1.world_matrix.6}}
+      {{parent.Axis1.world_matrix.8} {parent.Axis1.world_matrix.9} {parent.Axis1.world_matrix.10}}
+    }
+  name Rotate
+  xpos 510
+  ypos 350
+ }
+ Expression {
+  expr0 r+parent.Axis1.world_matrix.3
+  expr1 g+parent.Axis1.world_matrix.7
+  expr2 b+parent.Axis1.world_matrix.11
+  name transform
+  xpos 510
+  ypos 398
+ }
+set Naf8ec000 [stack 0]
+ Expression {
+  channel0 rgba
+  expr0 "clamp(1-abs(r)) * clamp(1-abs(g)) * clamp(1-abs(b))"
+  channel1 none
+  channel2 none
+  channel3 none
+  name cube
+  xpos 400
+  ypos 446
+ }
+push $Naf8ec000
+ Expression {
+  channel0 rgba
+  expr0 1-sqrt(r*r+g*g+b*b)
+  channel1 none
+  channel2 none
+  name sphere
+  xpos 620
+  ypos 446
+ }
+ Switch {
+  inputs 2
+  which {{forme}}
+  name cubeORsphere
+  xpos 510
+  ypos 494
+  addUserKnob {20 User}
+  addUserKnob {4 forme M {Sphere Cube}}
+ }
+ Expression {
+  channel0 rgba
+  expr0 "smoothstep(0,smoothness, clamp((r+g+b)/3))"
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  name smooth
+  xpos 510
+  ypos 542
+  addUserKnob {20 User}
+  addUserKnob {7 smoothness}
+  smoothness 0.5
+ }
+ Switch {
+  inputs 2
+  which {{parent.controls.Show_picker}}
+  name activPick
+  xpos 510
+  ypos 614
+ }
+ Output {
+  name Output1
+  xpos 510
+  ypos 710
+ }
+ Axis2 {
+  inputs 0
+  name Axis1
+  xpos 740
+  ypos 330
+ }
+ NoOp {
+  inputs 0
+  name controls
+  xpos 730
+  ypos 254
+  addUserKnob {20 User}
+  addUserKnob {4 Show_picker l Show M {Result "Position pass (picker)"}}
+  addUserKnob {18 rgb_picker l XYZ +HIDDEN}
+  rgb_picker {0 0 0}
+  addUserKnob {6 rgb_picker_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {7 scale l "Global Scale" R 0 100}
+  scale 20
+ }
+end_group

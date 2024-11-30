@@ -1,0 +1,337 @@
+set cut_paste_input [stack 0]
+version 10.5 v6
+push $cut_paste_input
+Group {
+ name Halftone
+ tile_color 0xff2c99ff
+ note_font_color 0xff
+ selected true
+ xpos -186
+ ypos -53
+ addUserKnob {20 User l HalfTone}
+ addUserKnob {7 size l "Dot size" R 0 20}
+ size 1
+ addUserKnob {7 contrast l "Dot contrast"}
+ contrast 0.7
+ addUserKnob {7 blur l "Blur size" R 0 100}
+ blur 1
+ addUserKnob {20 rotations l Rotations n 1}
+ rotations 0
+ addUserKnob {7 crotation l "Cyan rotation" R 0 180}
+ crotation 15
+ addUserKnob {7 mrotation l "Magenta rotation" R 0 180}
+ mrotation 75
+ addUserKnob {7 yrotation l "Yellow rotation" R 0 180}
+ addUserKnob {7 brotation l "Black rotation" R 0 180}
+ brotation 45
+ addUserKnob {20 endGroup n -1}
+}
+ Expression {
+  inputs 0
+  channel0 rgb
+  expr0 "(cos((x*cos(angle)-y*sin(angle))/size) + cos((x*sin(angle)+y*cos(angle))/size))/4+0.5"
+  name Expression7
+  xpos 361
+  ypos -160
+  addUserKnob {20 User}
+  addUserKnob {7 size}
+  size {{Halftone.size}}
+  addUserKnob {7 angle}
+  angle {{Halftone.brotation/180*pi}}
+ }
+ Input {
+  inputs 0
+  name rgb
+  xpos -206
+  ypos -681
+ }
+ ColorCorrect {
+  contrast 1.02
+  gamma 1.26
+  name ColorCorrect1
+  xpos -206
+  ypos -612
+ }
+ Expression {
+  temp_name0 K
+  temp_expr0 1-max(r,g,b)
+  expr0 K==1?0:(1-r-K)/(1-K)
+  expr1 K==1?0:(1-g-K)/(1-K)
+  expr2 K==1?0:(1-b-K)/(1-K)
+  channel3 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr3 K
+  name RGBA_to_CMYK
+  xpos -206
+  ypos -559
+ }
+ Dot {
+  name Dot5
+  xpos -172
+  ypos -493
+ }
+set N386d800 [stack 0]
+ Dot {
+  name Dot6
+  xpos 33
+  ypos -493
+ }
+set N386d400 [stack 0]
+ Dot {
+  name Dot8
+  xpos 266
+  ypos -493
+ }
+set N386d000 [stack 0]
+ Dot {
+  name Dot7
+  xpos 519
+  ypos -493
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name BLACK
+  label "\[value out]"
+  xpos 485
+  ypos -456
+ }
+ Blur {
+  channels rgba
+  size {{Halftone.blur}}
+  name Blur1
+  xpos 485
+  ypos -394
+ }
+ set C386c400 [stack 0]
+ Invert {
+  name Invert1
+  xpos 485
+  ypos -352
+ }
+ Grade {
+  channels rgba
+  name Grade10
+  xpos 485
+  ypos -195
+ }
+ Merge2 {
+  inputs 2
+  operation overlay
+  name Multiply4
+  xpos 485
+  ypos -89
+ }
+ ColorLookup {
+  lut {master {curve C 0 s0.2800000012 x0.5004010797 0.5003648996 s7.5 u0.5251635313 v0.5251635313 x1 1 s0.3000000119}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  mix {{Halftone.contrast}}
+  name ColorLookup1
+  xpos 485
+  ypos -17
+ }
+ set C33931800 [stack 0]
+ Dot {
+  name Dot2
+  xpos 519
+  ypos 263
+ }
+ Expression {
+  inputs 0
+  channel0 rgb
+  expr0 "(cos((x*cos(angle)-y*sin(angle))/size) + cos((x*sin(angle)+y*cos(angle))/size))/4+0.5"
+  name Expression6
+  xpos 134
+  ypos -164
+  addUserKnob {20 User}
+  addUserKnob {7 size}
+  size {{Halftone.size}}
+  addUserKnob {7 angle}
+  angle {{Halftone.yrotation/180*pi}}
+ }
+push $N386d000
+ Shuffle {
+  red blue
+  green blue
+  alpha blue
+  name YELLOW
+  label "\[value out]"
+  xpos 232
+  ypos -456
+ }
+clone $C386c400 {
+  xpos 232
+  ypos -394
+  selected false
+ }
+ Invert {
+  name Invert4
+  xpos 232
+  ypos -352
+ }
+ Merge2 {
+  inputs 2
+  operation overlay
+  name Multiply2
+  xpos 232
+  ypos -97
+ }
+clone $C33931800 {
+  xpos 232
+  ypos -14
+  selected false
+ }
+ Grade {
+  channels rgba
+  black {1 1 0 0}
+  black_panelDropped true
+  name Grade5
+  xpos 232
+  ypos 56
+ }
+ Dot {
+  name Dot3
+  xpos 266
+  ypos 194
+ }
+ Expression {
+  inputs 0
+  channel0 rgb
+  expr0 "(cos((x*cos(angle)-y*sin(angle))/size) + cos((x*sin(angle)+y*cos(angle))/size))/4+0.5"
+  name Expression2
+  xpos -119
+  ypos -166
+  addUserKnob {20 User}
+  addUserKnob {7 size}
+  size {{Halftone.size}}
+  addUserKnob {7 angle}
+  angle {{Halftone.mrotation/180*pi}}
+ }
+push $N386d400
+ Shuffle {
+  red green
+  blue green
+  alpha green
+  name MAGENTA
+  label "\[value out]"
+  xpos -1
+  ypos -456
+ }
+clone $C386c400 {
+  xpos -1
+  ypos -394
+  selected false
+ }
+ Invert {
+  name Invert3
+  xpos -1
+  ypos -352
+ }
+ Merge2 {
+  inputs 2
+  operation overlay
+  name Multiply3
+  xpos -1
+  ypos -100
+ }
+clone $C33931800 {
+  xpos -1
+  ypos -10
+  selected false
+ }
+ Grade {
+  channels rgba
+  black {1 0 1 0}
+  black_panelDropped true
+  name Grade4
+  xpos -1
+  ypos 53
+ }
+ Dot {
+  name Dot1
+  xpos 33
+  ypos 123
+ }
+ Expression {
+  inputs 0
+  channel0 rgb
+  expr0 "(cos((x*cos(angle)-y*sin(angle))/size) + cos((x*sin(angle)+y*cos(angle))/size))/4+0.5"
+  name Expression3
+  xpos -319
+  ypos -172
+  addUserKnob {20 User}
+  addUserKnob {7 size}
+  size {{Halftone.size}}
+  addUserKnob {7 angle}
+  angle {{Halftone.crotation/180*pi}}
+ }
+push $N386d800
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name CYAN
+  label "\[value out]"
+  xpos -206
+  ypos -456
+ }
+clone $C386c400 {
+  xpos -206
+  ypos -394
+  selected false
+ }
+ Invert {
+  name Invert2
+  xpos -206
+  ypos -352
+ }
+ Merge2 {
+  inputs 2
+  operation overlay
+  name Multiply6
+  xpos -206
+  ypos -92
+ }
+clone $C33931800 {
+  xpos -206
+  ypos -10
+  selected false
+ }
+ Grade {
+  channels rgba
+  black {0 1 1 0}
+  black_panelDropped true
+  name Grade3
+  xpos -206
+  ypos 57
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge1
+  xpos -206
+  ypos 119
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge2
+  xpos -206
+  ypos 190
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge3
+  xpos -206
+  ypos 259
+ }
+ Output {
+  name Output1
+  xpos -206
+  ypos 370
+ }
+end_group

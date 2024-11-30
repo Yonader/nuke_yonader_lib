@@ -1,0 +1,148 @@
+#! C:/Program Files/Nuke13.0v2/nuke-13.0.2.dll -nx
+version 13.0 v2
+Gizmo {
+ help "Mask3DSpherical creates a spherical 3D matte based on a World position pass. Also may be useful in work with Object Position and similar data passes which contains position cordinate. Feed it as input.\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ note_font Verdana
+ addUserKnob {20 User}
+ addUserKnob {41 Position T Mask3DSpherical_ik.Position}
+ addUserKnob {41 Softness T Mask3DSpherical_ik.Softness}
+ addUserKnob {41 rotate T Axis1.rotate}
+ addUserKnob {41 rot_order l "Rotation order" -STARTLINE T Axis1.rot_order}
+ addUserKnob {41 ReplaceRGB l "Replace RGB / Keep original (generate matte in alpha only)" T Mask3DSpherical_ik.ReplaceRGB}
+ addUserKnob {41 IgnoreByAlpha l "Ignore outside by alpha" T Mask3DSpherical_ik.IgnoreByAlpha}
+ addUserKnob {26 ""}
+ addUserKnob {26 credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Axis2 {
+  inputs 0
+  name Axis1
+  xpos -232
+  ypos -433
+ }
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos -352
+  ypos -535
+ }
+ Dot {
+  name Dot1
+  xpos -318
+  ypos -487
+ }
+set N32c9e400 [stack 0]
+ Dot {
+  name Dot2
+  xpos -480
+  ypos -487
+ }
+ Dot {
+  name Dot3
+  xpos -480
+  ypos -176
+ }
+set N32c9dc00 [stack 0]
+ Dot {
+  name Dot4
+  xpos -480
+  ypos -102
+ }
+push $N32c9dc00
+push $N32c9e400
+ Add {
+  channels rgb
+  value {{-parent.Mask3DSpherical_ik.Position} {-parent.Mask3DSpherical_ik.Position} {-parent.Mask3DSpherical_ik.Position} 0}
+  name Add1
+  xpos -352
+  ypos -439
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis1.world_matrix.0} {parent.Axis1.world_matrix.1} {parent.Axis1.world_matrix.2}}
+      {{parent.Axis1.world_matrix.4} {parent.Axis1.world_matrix.5} {parent.Axis1.world_matrix.6}}
+      {{parent.Axis1.world_matrix.8} {parent.Axis1.world_matrix.9} {parent.Axis1.world_matrix.10}}
+    }
+  name ColorMatrix1
+  label "apply rotation, scale and  scew"
+  xpos -352
+  ypos -415
+ }
+ Add {
+  channels rgb
+  value {{parent.Mask3DSpherical_ik.Position} {parent.Mask3DSpherical_ik.Position} {parent.Mask3DSpherical_ik.Position} {curve}}
+  name Add2
+  xpos -352
+  ypos -379
+ }
+ Expression {
+  temp_name0 R
+  temp_expr0 "(r - Position.r)/Softness.r + Position.r"
+  temp_name1 G
+  temp_expr1 "(g - Position.g)/Softness.g + Position.g"
+  temp_name2 B
+  temp_expr2 "(b - Position.b)/Softness.b + Position.b"
+  temp_name3 Mask3D
+  temp_expr3 "1-sqrt(pow2(R - Position.r) + pow2(G - Position.g)+ pow2(B - Position.b))"
+  expr0 "ReplaceRGB ? (clamp(Mask3D)) : r"
+  expr1 "ReplaceRGB ? (clamp(Mask3D)) : g"
+  expr2 "ReplaceRGB ? (clamp(Mask3D)) : b"
+  expr3 clamp(Mask3D)
+  name Mask3DSpherical_ik
+  xpos -352
+  ypos -333
+  addUserKnob {20 User}
+  addUserKnob {18 Position R 0 10}
+  Position {0.788806 -0.142887 0.5268554688}
+  addUserKnob {6 Position_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 Softness R 0 10}
+  Softness {1 1 1}
+  addUserKnob {6 Softness_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 ReplaceRGB l "Replace RGB / Keep original (generate matte in alpha only)" +STARTLINE}
+  addUserKnob {6 IgnoreByAlpha l "Ignore outside by alpha" +STARTLINE}
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  from1 rgba.green
+  to1 rgba.green
+  from2 rgba.blue
+  to2 rgba.blue
+  name Copy1
+  xpos -352
+  ypos -197
+  disable {{parent.Mask3DSpherical_ik.ReplaceRGB}}
+ }
+ Multiply {
+  inputs 1+1
+  channels rgba
+  value 0
+  invert_mask true
+  name Multiply1
+  xpos -352
+  ypos -105
+  disable {{!parent.Mask3DSpherical_ik.IgnoreByAlpha}}
+ }
+ Output {
+  name Output1
+  selected true
+  xpos -352
+  ypos -26
+ }
+end_group

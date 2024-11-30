@@ -1,0 +1,50 @@
+set cut_paste_input [stack 0]
+version 8.0 v7
+push $cut_paste_input
+Group {
+ name Faceting
+ tile_color 0x308fffff
+ selected true
+ xpos 492
+ ypos 170
+ addUserKnob {20 Ctrl l "Faceting Ctrl"}
+ addUserKnob {7 Scale R 0 200}
+ Scale 30
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 685
+  ypos 8
+ }
+ Transform {
+  scale {{1/parent.Transform2.scale}}
+  center {960 540}
+  filter Impulse
+  black_outside false
+  name Transform1
+  xpos 685
+  ypos 48
+ }
+ Crop {
+  box {0 0 1920 1080}
+  crop false
+  name Crop1
+  xpos 685
+  ypos 69
+ }
+ Transform {
+  scale {{parent.Scale}}
+  center {960 540}
+  filter Impulse
+  black_outside false
+  name Transform2
+  xpos 685
+  ypos 93
+ }
+ Output {
+  name Output1
+  xpos 685
+  ypos 193
+ }
+end_group

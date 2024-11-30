@@ -1,0 +1,42 @@
+set cut_paste_input [stack 0]
+version 11.1 v3
+push $cut_paste_input
+Noise {
+ size 100
+ zoffset {{(parent.NoOp1.seed+20)*speed}}
+ gain 0.86
+ gamma 0.26
+ scale {10 0.25}
+ center {684 1214}
+ name Noise7
+ selected true
+ xpos 3889
+ ypos -354
+ addUserKnob {20 User}
+ addUserKnob {7 speed}
+ speed {{parent.NoOp1.med}}
+}
+NoOp {
+ inputs 0
+ name NoOp1
+ selected true
+ xpos 4005
+ ypos -342
+ addUserKnob {20 User}
+ addUserKnob {7 speed}
+ speed 1.5
+ addUserKnob {7 seed}
+ seed {{frame*speed}}
+ addUserKnob {7 high}
+ high 0.3
+ addUserKnob {7 med}
+ med 0.15
+ addUserKnob {7 low}
+ low 0.05
+ addUserKnob {7 high_val}
+ high_val 5
+ addUserKnob {7 med_val}
+ med_val 5
+ addUserKnob {7 low_val}
+ low_val 5
+}

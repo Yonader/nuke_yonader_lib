@@ -1,0 +1,199 @@
+set cut_paste_input [stack 0]
+version 10.5 v6
+push 0
+push $cut_paste_input
+Group {
+ inputs 2
+ name maskDistort
+ tile_color 0x308fffff
+ selected true
+ xpos -200
+ ypos -170
+ addUserKnob {20 maskDistort}
+ addUserKnob {41 format T Constant1.format}
+ addUserKnob {41 channels T STMap1.channels}
+ addUserKnob {41 distort T ctrl_node.distort}
+ addUserKnob {20 TargetMode n 1}
+ TargetMode 0
+ addUserKnob {41 UseTarget T ctrl_node.UseTarget}
+ addUserKnob {41 center l "" -STARTLINE T ctrl_node.center}
+ addUserKnob {20 endGroup n -1}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos -920
+  ypos -598
+  number 1
+ }
+ Expression {
+  channel0 rgba
+  expr0 r+g+b+a
+  channel1 {-rgba.red -rgba.green -rgba.blue}
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  channel3 {none none none -rgba.alpha}
+  name Expression2
+  xpos -920
+  ypos -570
+ }
+set Ncd9ba000 [stack 0]
+ Constant {
+  inputs 0
+  channels rgb
+  format "1920 1080 0 0 1920 1080 1 HD_1080"
+  name Constant1
+  xpos -600
+  ypos -710
+  postage_stamp false
+ }
+ Expression {
+  expr0 x/width
+  expr1 y/height
+  name Expression1
+  xpos -600
+  ypos -670
+ }
+ Grade {
+  channels {rgba.red rgba.green -rgba.blue none}
+  add {{-parent.ctrl_node.center.x/width} {-parent.ctrl_node.center.y/height} {curve} {curve}}
+  black_clamp false
+  name Grade4
+  xpos -600
+  ypos -610
+ }
+ Grade {
+  inputs 1+1
+  channels {rgba.red rgba.green -rgba.blue none}
+  multiply {{parent.ctrl_node.distort+1}}
+  black_clamp false
+  name Grade3
+  xpos -600
+  ypos -570
+ }
+ Grade {
+  channels {rgba.red rgba.green -rgba.blue none}
+  add {{parent.ctrl_node.center.x/width} {parent.ctrl_node.center.y/height} {curve} {curve}}
+  black_clamp false
+  name Grade2
+  xpos -600
+  ypos -530
+ }
+ Input {
+  inputs 0
+  name image
+  xpos -760
+  ypos -490
+ }
+set N87e4cc00 [stack 0]
+ STMap {
+  inputs 2
+  channels rgba
+  uv rgb
+  blur_scale 0
+  filter Impulse
+  name STMap1
+  xpos -600
+  ypos -490
+ }
+push $Ncd9ba000
+ Shuffle {
+  green red
+  blue red
+  name Shuffle2
+  label "\[value out]"
+  xpos -920
+  ypos -436
+ }
+set Nd8b52000 [stack 0]
+ Matrix {
+  channels rgb
+  matrix {
+      {2 0 -2}
+      {1 0 -1}
+      {2 0 -2}
+    }
+  name Matrix1
+  xpos -920
+  ypos -330
+ }
+push $Nd8b52000
+ Matrix {
+  channels rgb
+  matrix {
+      {-2 -1 -2}
+      {0 0 0}
+      {2 1 2}
+    }
+  name Matrix2
+  xpos -1080
+  ypos -330
+ }
+ Dot {
+  name Dot1
+  xpos -1046
+  ypos -266
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  blue black
+  alpha black
+  name ShuffleCopy3
+  xpos -920
+  ypos -270
+ }
+ Grade {
+  channels {rgba.red rgba.green -rgba.blue rgba.alpha}
+  white 25
+  add 0.5
+  black_clamp false
+  name Grade21
+  xpos -920
+  ypos -196
+ }
+push $N87e4cc00
+ ShuffleCopy {
+  inputs 2
+  red red
+  green green
+  blue red
+  alpha green
+  out motion
+  name ShuffleCopy1
+  xpos -760
+  ypos -190
+ }
+ IDistort {
+  channels {{{STMap1.channels}}}
+  uv motion
+  uv_offset 0.5
+  uv_scale {{ctrl_node.distort*50}}
+  name IDistort1
+  xpos -760
+  ypos -150
+ }
+ Switch {
+  inputs 2
+  which {{ctrl_node.UseTarget}}
+  name Switch1
+  xpos -600
+  ypos -50
+ }
+ Output {
+  name Output1
+  xpos -600
+  ypos 50
+ }
+ NoOp {
+  inputs 0
+  name ctrl_node
+  xpos -280
+  ypos -510
+  addUserKnob {20 User}
+  addUserKnob {6 UseTarget +STARTLINE}
+  addUserKnob {7 distort R -5 5}
+  distort -0.01
+  addUserKnob {12 center}
+  center {464 699}
+ }
+end_group

@@ -1,0 +1,33 @@
+set cut_paste_input [stack 0]
+version 11.1 v1
+Input {
+ inputs 0
+ name Input1
+ selected true
+ xpos 2044
+ ypos 6422
+}
+Reformat {
+ type "to box"
+ box_width {{input.width}}
+ box_height {{floor(box_width/ratio)}}
+ box_fixed true
+ resize fill
+ black_outside true
+ name Reformat12
+ label "\[value ratio]"
+ selected true
+ xpos 2044
+ ypos 6482
+ addUserKnob {20 User}
+ addUserKnob {7 ratio R 0.1 3}
+ ratio 2.35
+}
+Reformat {
+ format "1920 1080 0 0 1920 1080 1 HD_1080"
+ black_outside true
+ name Reformat13
+ selected true
+ xpos 2044
+ ypos 6549
+}

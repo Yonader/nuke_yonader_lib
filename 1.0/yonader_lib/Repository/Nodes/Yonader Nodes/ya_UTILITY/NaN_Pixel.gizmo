@@ -1,0 +1,34 @@
+#! C:/Program Files/Nuke12.0v4/nuke-12.0.4.dll -nx
+version 12.0 v4
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {26 R}
+ addUserKnob {41 expr0 l = T NaN_Pixels1.expr0}
+ addUserKnob {26 G}
+ addUserKnob {41 expr1 l = T NaN_Pixels1.expr1}
+ addUserKnob {26 B}
+ addUserKnob {41 expr2 l = T NaN_Pixels1.expr2}
+ addUserKnob {26 A}
+ addUserKnob {41 expr3 l = T NaN_Pixels1.expr3}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 501
+  ypos -415
+ }
+ Expression {
+  expr0 isnan(r)?r(x+1,y):r
+  expr1 isnan(g)?g(x+1,y):g
+  expr2 isnan(b)?b(x+1,y):b
+  expr3 isnan(a)?a(x+1,y):a
+  name NaN_Pixels1
+  xpos 501
+  ypos -375
+ }
+ Output {
+  name Output1
+  xpos 501
+  ypos -275
+ }
+end_group

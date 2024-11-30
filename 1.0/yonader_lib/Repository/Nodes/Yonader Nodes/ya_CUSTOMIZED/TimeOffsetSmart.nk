@@ -1,0 +1,18 @@
+set cut_paste_input [stack 0]
+version 11.1 v3
+push $cut_paste_input
+TimeOffset {
+ time_offset {{"1-(\[value frameRangeFirstInt] + offsetInt)"}}
+ time ""
+ name TimeOffset1
+ label "\[value time_offset]\n"
+ selected true
+ xpos 3917
+ ypos -1631
+ addUserKnob {20 User}
+ addUserKnob {1 frameRangeNameText l "Frame Range Name" -STARTLINE}
+ frameRangeNameText FrameRange1
+ addUserKnob {3 frameRangeFirstInt l "First Frame" -STARTLINE}
+ frameRangeFirstInt {{"\[value \[value frameRangeNameText].first_frame]"}}
+ addUserKnob {3 offsetInt l Offset}
+}

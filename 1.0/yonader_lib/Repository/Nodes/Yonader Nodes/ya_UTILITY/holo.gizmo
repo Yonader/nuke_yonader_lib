@@ -1,0 +1,1670 @@
+#! C:/Program Files/Nuke13.1v1/nuke-13.1.1.dll -nx
+version 13.1 v1
+Gizmo {
+ addUserKnob {20 GeneralSettings l General}
+ addUserKnob {26 PositionSettings l <b><u>Position/Rotation</u></b>}
+ addUserKnob {41 translate T MasterCard.translate}
+ addUserKnob {41 uniform_scale l "uniform scale" T MasterCard.uniform_scale}
+ addUserKnob {41 CardRotation T CardControler.CardRotation}
+ addUserKnob {26 ""}
+ addUserKnob {26 OutlineSettings l "<b><u>Outline Settings</u></b>"}
+ addUserKnob {20 EditEdges n 1}
+ addUserKnob {41 InnerErodeSize l "inner erode" T Outliner8.InnerErodeSize}
+ addUserKnob {41 InnerBlurSize l "inner blur" T Outliner8.InnerBlurSize}
+ addUserKnob {41 OuterErodeSize l "outer erode" T Outliner8.OuterErodeSize}
+ addUserKnob {41 OuterBlurSize l "outer blur" T Outliner8.OuterBlurSize}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {41 InnerCutOut l "inner cut out" T InnerMultiply.value}
+ addUserKnob {26 ""}
+ addUserKnob {26 GhostCardSeetings l "<b><u>Ghosting Settings</u></b>"}
+ addUserKnob {41 GhostHoloDistanz T CardControler.GhostHoloDistanz}
+ addUserKnob {41 GhostHoloIntens T CardControler.GhostHoloIntens}
+ addUserKnob {41 GhostHoloSize T CardControler.GhostHoloSize}
+ addUserKnob {41 GhostHoloTranslate T CardControler.GhostHoloTranslate}
+ addUserKnob {41 gain T GhostingCC.gain}
+ addUserKnob {26 ""}
+ addUserKnob {26 GodRaysSettings l "<b><u>Depth Godrays</u></b>"}
+ addUserKnob {41 GodAngle l Angle T GodRayControler1.GodAngle}
+ addUserKnob {41 GodDistanz l Distanz T GodRayControler1.GodDistanz}
+ addUserKnob {41 center_1 l center T GodRays2.center}
+ addUserKnob {41 DRayIntensity l Intensity T GodRays2.mix}
+ addUserKnob {20 DRayDefaults l "DRay Defaults" n 1}
+ addUserKnob {41 rotate T GodRays2.rotate}
+ addUserKnob {41 scale T GodRays2.scale}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {26 GeneralFlickerSettings l "<b><u>General Flickering</u></b>"}
+ addUserKnob {41 PreGrade T expoglow4.white}
+ addUserKnob {41 PostGrade T expoglow4.white_1}
+ addUserKnob {41 FlickerTyp T GlowControler.FlickerTyp}
+ addUserKnob {41 Amplitude T GlowControler.Amplitude}
+ addUserKnob {41 Speed T GlowControler.Speed}
+ addUserKnob {41 Offset T GlowControler.Offset}
+ addUserKnob {20 Advanced}
+ addUserKnob {26 OverallGlow l "<b><u>Overall Glow</b></u>"}
+ addUserKnob {41 ExtraGlowColor l Color T ExtraGlow.tint}
+ addUserKnob {41 ExtraGlowBrightness l Brightness T ExtraGlow.brightness}
+ addUserKnob {41 ExtraGlowSize l Size T ExtraGlow.size}
+ addUserKnob {41 ExtraGlowIntensity l Intensity T GlowMerge.mix}
+ addUserKnob {41 ExpGlowSize l "Expo Glow Size" T expoglow4.size}
+ addUserKnob {26 ""}
+ addUserKnob {26 ArtifactSettings l "<b><u>Artifacts/Grid Setting</u></b>"}
+ addUserKnob {26 GridText l "" +STARTLINE T "<br><u>Grid Overlay:</u><br>"}
+ addUserKnob {41 number l "Grid Density" T Grid4.number}
+ addUserKnob {41 size l "Grid Size" T Grid4.size}
+ addUserKnob {41 mix_2 l "Grid Intensity" T GridMerge.mix}
+ addUserKnob {26 BlockText l "" +STARTLINE T "<br><u>Block Artifacts:</u><br>"}
+ addUserKnob {41 size_1 l "Noise Size" T Noise4.size}
+ addUserKnob {41 NoiseSpeed T Noise4.NoiseSpeed}
+ addUserKnob {41 size_2 l "Block Size" T Blocky2.size}
+ addUserKnob {41 mix_3 l "BlockNoise Intensity" T BlockMerge.mix}
+ addUserKnob {26 BBText l "" +STARTLINE T "<br><u>BBox Settings:</u><br>"}
+ addUserKnob {41 numpixels l "Increase BBox" T AdjBBox2.numpixels}
+ addUserKnob {26 ""}
+ addUserKnob {26 ProjectionRays l "<b><u>Projection Rays</u></b>"}
+ addUserKnob {41 disable_1 l disable T PRaysMerge.disable}
+ addUserKnob {41 GodAngle_1 l GodAngle T GodRayControler.GodAngle}
+ addUserKnob {41 GodDistanz_1 l GodDistanz T GodRayControler.GodDistanz}
+ addUserKnob {41 PRaIntensity l Intensity T PRaysMerge.mix}
+ addUserKnob {41 center T GodRays1.center}
+ addUserKnob {20 PRayDefaults l "PRay Defaults" n 1}
+ addUserKnob {41 rotate_1 l rotate T GodRays1.rotate}
+ addUserKnob {41 scale_1 l scale T GodRays1.scale}
+ addUserKnob {41 from_color l "from color" T GodRays1.from_color}
+ addUserKnob {41 to_color l "to color" T GodRays1.to_color}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {26 Credits l "" +STARTLINE T "\nGizmo by David Teichert\n\nHologrammer - Version 1.5"}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x388e8e00
+  label "Projection Rays"
+  note_font_size 42
+  xpos 502
+  ypos 1133
+  bdwidth 473
+  bdheight 499
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0xaaaaaa00
+  label Ghosting
+  note_font_size 42
+  xpos 740
+  ypos 348
+  bdwidth 166
+  bdheight 467
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x7171c600
+  label Artifacts/Grid
+  note_font_size 42
+  xpos -416
+  ypos 526
+  bdwidth 288
+  bdheight 1031
+ }
+ NoOp {
+  inputs 0
+  name GodRayControler1
+  xpos 367
+  ypos 804
+  addUserKnob {20 Settings}
+  addUserKnob {7 GodAngle R 0 360}
+  GodAngle 103
+  addUserKnob {7 GodDistanz R 0 300}
+  GodDistanz 127
+ }
+ Input {
+  inputs 0
+  name Graphic_Input
+  xpos 462
+  ypos -313
+ }
+ Dot {
+  name Dot48
+  xpos 496
+  ypos -181
+ }
+set Nb9332c00 [stack 0]
+ Group {
+  name Outliner8
+  xpos 462
+  ypos -100
+  addUserKnob {20 Settings}
+  addUserKnob {26 Inner l "" +STARTLINE T Inner}
+  addUserKnob {41 InnerErodeSize l erode T InnerErode.size}
+  addUserKnob {41 InnerBlurSize l blur T InnerBlur.size}
+  addUserKnob {26 ""}
+  addUserKnob {26 Outer l "" +STARTLINE T Outer}
+  addUserKnob {41 OuterErodeSize l erode T OuterErode.size}
+  addUserKnob {41 OuterBlurSize l blur T OuterBlur.size}
+ }
+  Input {
+   inputs 0
+   name Image
+   xpos 462
+   ypos -256
+  }
+  Dot {
+   name Dot7
+   xpos 484
+   ypos -194
+  }
+set Nb9332400 [stack 0]
+  Dot {
+   name Dot6
+   xpos 299
+   ypos -194
+  }
+set Nb9332000 [stack 0]
+  FilterErode {
+   size -7
+   name OuterErode
+   xpos 277
+   ypos -152
+  }
+  Blur {
+   size 3.6
+   name OuterBlur
+   xpos 277
+   ypos -116
+  }
+  Dot {
+   name Dot1
+   xpos 299
+   ypos -66
+  }
+push $Nb9332000
+  Invert {
+   name Invert3
+   xpos 109
+   ypos -191
+  }
+  FilterErode {
+   size -8.5
+   name InnerErode
+   xpos 109
+   ypos -143
+  }
+  Blur {
+   size 5.4
+   name InnerBlur
+   xpos 109
+   ypos -107
+  }
+  Merge2 {
+   inputs 2
+   operation in
+   name In
+   xpos 109
+   ypos -57
+  }
+add_layer {Outline Outline.red Outline.green Outline.blue Outline.alpha}
+  Shuffle {
+   in alpha
+   out Outline
+   name Shuffle8
+   xpos 109
+   ypos -33
+  }
+  Dot {
+   name Dot8
+   xpos 131
+   ypos -5
+  }
+push $Nb9332400
+  Copy {
+   inputs 2
+   from0 -rgba.alpha
+   to0 -rgba.alpha
+   channels Outline
+   name Copy1
+   xpos 462
+   ypos -8
+  }
+set N58df7400 [stack 0]
+  Output {
+   name Output1
+   xpos 462
+   ypos 58
+  }
+push $N58df7400
+push 0
+  Viewer {
+   inputs 2
+   input_number 1
+   channels Outline
+   input_process false
+   name Viewer1
+   xpos 329
+   ypos 56
+  }
+ end_group
+set N58950f00 [stack 0]
+ Shuffle {
+  in Outline
+  name Shuffle17
+  xpos 352
+  ypos -100
+ }
+ Invert {
+  name Invert9
+  xpos 352
+  ypos -64
+ }
+push $N58950f00
+ Multiply {
+  inputs 1+1
+  value 0.07
+  name InnerMultiply
+  xpos 462
+  ypos -64
+ }
+set N58df6400 [stack 0]
+ AdjBBox {
+  numpixels 1024
+  name AdjBBox2
+  xpos 352
+  ypos 51
+ }
+set N58df6000 [stack 0]
+ Dot {
+  name Dot58
+  xpos 311
+  ypos 55
+ }
+push $Nb9332c00
+ Dot {
+  name Dot52
+  xpos 128
+  ypos -181
+ }
+set N58df5800 [stack 0]
+ Dot {
+  name Dot49
+  xpos 128
+  ypos 50
+ }
+set N58df5400 [stack 0]
+ Noise {
+  replace true
+  size 2.05
+  zoffset {{x*NoiseSpeed}}
+  center {1024 540}
+  name Noise4
+  xpos 94
+  ypos 283
+  addUserKnob {20 User}
+  addUserKnob {7 NoiseSpeed R 0 0.5}
+  NoiseSpeed 0.2
+ }
+ Grade {
+  channels rgba
+  white 3.2
+  gamma 0.1
+  white_clamp true
+  name Grade7
+  xpos 94
+  ypos 313
+ }
+ Blocky {
+  size {36 45}
+  name Blocky2
+  xpos 94
+  ypos 346
+ }
+ Multiply {
+  value 0.25
+  name Multiply13
+  xpos 191
+  ypos 340
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox2
+  xpos 277
+  ypos 346
+ }
+push $N58df6000
+push $N58df5800
+ Noise {
+  replace true
+  size 5
+  zoffset {{x/20}}
+  center {1024 540}
+  name Noise5
+  xpos -59
+  ypos -185
+ }
+ Blocky {
+  name Blocky3
+  xpos -59
+  ypos -161
+ }
+ Invert {
+  name Invert16
+  xpos -59
+  ypos -117
+ }
+ Dot {
+  name Dot51
+  xpos -25
+  ypos 178
+ }
+push $N58df5400
+ Grid {
+  replace true
+  number 0.39
+  size 13.2
+  name Grid4
+  xpos 196
+  ypos 46
+ }
+ Blur {
+  size 2
+  name Blur9
+  xpos 196
+  ypos 79
+ }
+ Invert {
+  name Invert15
+  xpos 196
+  ypos 117
+ }
+ Merge2 {
+  inputs 2
+  name Merge41
+  xpos 196
+  ypos 174
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos 352
+  ypos 174
+ }
+push $N58df6400
+add_layer {GridMult GridMult.Alpha GridMult.Beta}
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 GridMult.Alpha
+  name Copy8
+  xpos 462
+  ypos 168
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 GridMult.Beta
+  name Copy9
+  xpos 462
+  ypos 340
+ }
+ Transform {
+  center {1024 540}
+  name Transform11
+  xpos 462
+  ypos 437
+ }
+set Nd0880c00 [stack 0]
+ Card3D {
+  rotate {{parent.CardControler.CardRotation} {parent.CardControler.CardRotation} {parent.CardControler.CardRotation}}
+  uniform_scale 0.32
+  name MasterCard
+  xpos 462
+  ypos 538
+ }
+ Blur {
+  size 2
+  name MasterPreBlur
+  xpos 462
+  ypos 609
+ }
+set Nd0880400 [stack 0]
+ Dot {
+  name Dot46
+  xpos 292
+  ypos 619
+ }
+set Nad867c00 [stack 0]
+ Dot {
+  name Dot53
+  xpos 198
+  ypos 619
+ }
+set Nad867800 [stack 0]
+ Dot {
+  name Dot3
+  xpos 95
+  ypos 619
+ }
+set Nad867400 [stack 0]
+ Noise {
+  replace true
+  size 116
+  zoffset {{x/40}}
+  gain 0.515
+  center {1024 540}
+  name Noise3
+  xpos 61
+  ypos 667
+ }
+ Grade {
+  blackpoint 0.06
+  whitepoint {1.32 0.96 1.16 0.67}
+  whitepoint_panelDropped true
+  white_clamp true
+  name Grade4
+  xpos 61
+  ypos 716
+ }
+push $Nad867800
+ Shuffle {
+  in Outline
+  name Shuffle18
+  xpos 164
+  ypos 655
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  name Merge33
+  xpos 164
+  ypos 716
+ }
+push $Nad867c00
+ Copy {
+  inputs 2
+  from0 -rgba.alpha
+  to0 -rgba.alpha
+  channels Outline
+  bbox B
+  name Copy7
+  xpos 258
+  ypos 704
+ }
+ Blur {
+  size 2
+  name Blur5
+  xpos 258
+  ypos 754
+ }
+ GodRays {
+  channels rgba
+  translate {{cos(((2*pi)/360)*parent.GodRayControler1.GodAngle)*parent.GodRayControler1.GodDistanz} {sin(((2*pi)/360)*parent.GodRayControler1.GodAngle)*parent.GodRayControler1.GodDistanz}}
+  rotate 4
+  scale 1.1
+  center {1048 567}
+  from_color 0.2
+  to_color 0.04
+  steps 10
+  max true
+  mix 0.195
+  name GodRays2
+  xpos 258
+  ypos 801
+ }
+ AdjBBox {
+  numpixels 220
+  name AdjBBox1
+  xpos 258
+  ypos 866
+ }
+ Gizmo {
+  name Gizmo3
+  xpos 258
+  ypos 907
+ }
+  BackdropNode {
+   inputs 0
+   name BackdropNode1
+   tile_color 0x272727ff
+   label PreGrade
+   note_font "Verdana Italic"
+   note_font_size 100
+   xpos -1145
+   ypos 612
+   bdwidth 1353
+   bdheight 176
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode10
+   tile_color 0x272727ff
+   label Shift
+   note_font "Verdana Italic"
+   note_font_size 100
+   xpos -1143
+   ypos 1792
+   bdwidth 1354
+   bdheight 249
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode11
+   tile_color 0x272727ff
+   label Crop
+   note_font "Verdana Italic"
+   note_font_size 100
+   xpos -1142
+   ypos 2081
+   bdwidth 1353
+   bdheight 176
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode2
+   tile_color 0x272727ff
+   label Blur
+   note_font "Verdana Italic"
+   note_font_size 100
+   xpos -1141
+   ypos 837
+   bdwidth 1351
+   bdheight 699
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode3
+   tile_color 0x272727ff
+   label PostGrade
+   note_font "Verdana Italic"
+   note_font_size 100
+   xpos -1142
+   ypos 1579
+   bdwidth 1353
+   bdheight 176
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode4
+   tile_color 0x272727ff
+   label BlendMode
+   note_font "Verdana Italic"
+   note_font_size 100
+   xpos -1144
+   ypos 2309
+   bdwidth 1353
+   bdheight 176
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode5
+   tile_color 0x272727ff
+   label Preview
+   note_font "Verdana Italic"
+   note_font_size 100
+   xpos -1145
+   ypos 2529
+   bdwidth 1353
+   bdheight 176
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode6
+   tile_color 0x272727ff
+   label IgnoreA
+   note_font "Verdana Italic"
+   note_font_size 100
+   xpos -1144
+   ypos 2751
+   bdwidth 1353
+   bdheight 176
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode7
+   tile_color 0x272727ff
+   label Input
+   note_font "Verdana Italic"
+   note_font_size 100
+   xpos -1145
+   ypos 179
+   bdwidth 1353
+   bdheight 176
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode8
+   tile_color 0x272727ff
+   label Output
+   note_font "Verdana Italic"
+   note_font_size 100
+   xpos -1144
+   ypos 2970
+   bdwidth 1353
+   bdheight 176
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode9
+   tile_color 0x272727ff
+   label Mask
+   note_font "Verdana Italic"
+   note_font_size 100
+   xpos -1145
+   ypos 390
+   bdwidth 1353
+   bdheight 176
+  }
+  Input {
+   inputs 0
+   name Input
+   xpos -384
+   ypos 230
+  }
+  AddChannels {
+   channels rgba
+   name AddChannels2
+   xpos -384
+   ypos 273
+  }
+set N8ac99c00 [stack 0]
+  Dot {
+   name Dot16
+   xpos -616
+   ypos 276
+  }
+  Dot {
+   name Dot18
+   xpos -616
+   ypos 2170
+  }
+set N8ac99400 [stack 0]
+  Dot {
+   name Dot7
+   xpos -616
+   ypos 2401
+  }
+set N8ac99000 [stack 0]
+  Dot {
+   name Dot13
+   xpos -616
+   ypos 2847
+  }
+  AddChannels {
+   channels {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+   name AddChannels1
+   xpos -376
+   ypos 2838
+  }
+  Input {
+   inputs 0
+   name mask
+   xpos -160
+   ypos 494
+   number 1
+  }
+push $N8ac99c00
+  Dot {
+   name Dot8
+   xpos -350
+   ypos 432
+  }
+set Nafe5fc00 [stack 0]
+push $Nafe5fc00
+  Dot {
+   name Dot10
+   xpos -435
+   ypos 432
+  }
+  Shuffle {
+   red black
+   green black
+   blue black
+   alpha black
+   name Shuffle1
+   xpos -469
+   ypos 460
+  }
+  Dot {
+   name Dot11
+   xpos -435
+   ypos 497
+  }
+  Dissolve {
+   inputs 2+1
+   which 1
+   maskChannelMask -rgba.alpha
+   maskChannelInput -rgba.alpha
+   name Dissolve1
+   xpos -384
+   ypos 488
+  }
+  Grade {
+   channels rgba
+   name PreGradeNode
+   xpos -384
+   ypos 675
+  }
+  Dot {
+   name Dot20
+   xpos -350
+   ypos 711
+  }
+set Nafe5e400 [stack 0]
+  Dot {
+   name Dot17
+   xpos -480
+   ypos 711
+  }
+  Dot {
+   name Dot12
+   xpos -480
+   ypos 2637
+  }
+push $Nafe5e400
+  Dot {
+   name Dot146
+   xpos -350
+   ypos 927
+  }
+set Nafe5d800 [stack 0]
+  Dot {
+   name Dot150
+   xpos -350
+   ypos 963
+  }
+set Nafe5d400 [stack 0]
+  Dot {
+   name Dot149
+   xpos -350
+   ypos 999
+  }
+set Nafe5d000 [stack 0]
+  Dot {
+   name Dot148
+   xpos -350
+   ypos 1035
+  }
+set Nafe5cc00 [stack 0]
+  Dot {
+   name Dot152
+   xpos -350
+   ypos 1071
+  }
+set Nafe5c800 [stack 0]
+  Dot {
+   name Dot151
+   xpos -350
+   ypos 1107
+  }
+set Nafe5c400 [stack 0]
+  Dot {
+   name Dot153
+   xpos -350
+   ypos 1143
+  }
+set Nd0553c00 [stack 0]
+  Dot {
+   name Dot147
+   xpos -350
+   ypos 1179
+  }
+set Nd0553800 [stack 0]
+  Dot {
+   name Dot1
+   xpos -350
+   ypos 1215
+  }
+set Nd0553400 [stack 0]
+  Dot {
+   name Dot2
+   xpos -350
+   ypos 1251
+  }
+set Nd0553000 [stack 0]
+  Dot {
+   name Dot3
+   xpos -350
+   ypos 1286
+  }
+set Nd0552c00 [stack 0]
+  Dot {
+   name Dot4
+   xpos -350
+   ypos 1323
+  }
+set Nd0552800 [stack 0]
+  Dot {
+   name Dot5
+   xpos -350
+   ypos 1361
+  }
+set Nd0552400 [stack 0]
+  Dot {
+   name Dot6
+   xpos -350
+   ypos 1399
+  }
+set Nd0552000 [stack 0]
+  Dot {
+   name Dot154
+   xpos -350
+   ypos 1476
+  }
+push $Nd0552000
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*8192:8192"} {"stretch < 0 ? (1-stretch)*8192:8192"}}
+   crop false
+   name blur_8192
+   xpos -298
+   ypos 1396
+  }
+push $Nd0552400
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*4096:4096" i} {"stretch < 0 ? (1-stretch)*4096:4096" i}}
+   crop false
+   name blur_4096
+   xpos -298
+   ypos 1358
+  }
+push $Nd0552800
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*2048:2048" i} {"stretch < 0 ? (1-stretch)*2048:2048" i}}
+   crop false
+   name blur_2048
+   xpos -298
+   ypos 1320
+  }
+push $Nd0552c00
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*1024:1024" i} {"stretch < 0 ? (1-stretch)*1024:1024" i}}
+   crop false
+   name blur_1024
+   xpos -298
+   ypos 1283
+  }
+push $Nd0553000
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*512:512" i} {"stretch < 0 ? (1-stretch)*512:512" i}}
+   crop false
+   name blur_512
+   xpos -298
+   ypos 1248
+  }
+push $Nd0553400
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*256:256" i} {"stretch < 0 ? (1-stretch)*256:256" i}}
+   crop false
+   name blur_256
+   xpos -298
+   ypos 1212
+  }
+push $Nd0553800
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*128:128" i} {"stretch < 0 ? (1-stretch)*128:128" i 128}}
+   crop false
+   name blur_128
+   xpos -298
+   ypos 1176
+  }
+push $Nd0553c00
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*64:64" i} {"stretch < 0 ? (1-stretch)*64:64" i}}
+   crop false
+   name blur_64
+   xpos -298
+   ypos 1140
+  }
+push $Nafe5c400
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*32:32"} {"stretch < 0 ? (1-stretch)*32:32"}}
+   crop false
+   name blur_32
+   xpos -298
+   ypos 1104
+  }
+push $Nafe5c800
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*16:16" i} {"stretch < 0 ? (1-stretch)*16:16" i}}
+   crop false
+   name blur_16
+   xpos -298
+   ypos 1068
+  }
+push $Nafe5cc00
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*8:8"} {"stretch < 0 ? (1-stretch)*8:8"}}
+   crop false
+   name blur_8
+   xpos -298
+   ypos 1032
+  }
+push $Nafe5d000
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*4 : 4"} {"stretch < 0 ? (1-stretch)*4:4"}}
+   crop false
+   name blur_4
+   xpos -298
+   ypos 996
+  }
+push $Nafe5d400
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*2 : 2"} {"stretch < 0 ? (1-stretch)*2:2"}}
+   crop false
+   name blur_2
+   xpos -298
+   ypos 960
+  }
+push $Nafe5d800
+  Blur {
+   channels rgba
+   size {{"parent.stretch > 0 ? (1+parent.stretch)*1 : 1"} {"stretch < 0 ? (1-stretch)*1 : 1"}}
+   crop false
+   mix {{parent.size}}
+   name blur_1
+   xpos -298
+   ypos 924
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24"}}
+   mix {{parent.size}}
+   name Plus2
+   xpos -185
+   ypos 960
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24"}}
+   mix {{parent.size-1}}
+   name Plus3
+   xpos -185
+   ypos 996
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24"}}
+   mix {{parent.size-2}}
+   name Merge19
+   xpos -185
+   ypos 1032
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24" i}}
+   mix {{parent.size-3 i}}
+   name Merge20
+   xpos -185
+   ypos 1068
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24" i}}
+   mix {{parent.size-4 i}}
+   name Merge21
+   xpos -185
+   ypos 1104
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24" i}}
+   mix {{parent.size-5 i}}
+   name Merge22
+   xpos -185
+   ypos 1140
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24" i}}
+   mix {{parent.size-6 i}}
+   name Merge23
+   xpos -185
+   ypos 1176
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24"}}
+   mix {{parent.size-7}}
+   name Merge1
+   xpos -185
+   ypos 1212
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24" i}}
+   mix {{parent.size-8 i}}
+   name Merge2
+   xpos -185
+   ypos 1248
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24" i}}
+   mix {{parent.size-9 i}}
+   name Merge3
+   xpos -185
+   ypos 1283
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24" i}}
+   mix {{parent.size-10 i}}
+   name Merge4
+   xpos -185
+   ypos 1320
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24" i}}
+   mix {{parent.size-11 i}}
+   name Merge5
+   xpos -185
+   ypos 1358
+  }
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24"}}
+   mix {{parent.size-12}}
+   name Merge6
+   xpos -185
+   ypos 1396
+  }
+  Merge2 {
+   inputs 2
+   operation from
+   mix {{parent.subtract_input i}}
+   name Merge24
+   xpos -185
+   ypos 1473
+  }
+  Grade {
+   channels rgba
+   name PostGradeNode
+   xpos -185
+   ypos 1656
+  }
+  Saturation {
+   name PostSaturation
+   xpos -185
+   ypos 1680
+  }
+  Dot {
+   name Dot23
+   xpos -151
+   ypos 1834
+  }
+set Naf291800 [stack 0]
+  Dot {
+   name Dot25
+   xpos -12
+   ypos 1834
+  }
+  Shuffle {
+   red blue
+   green blue
+   alpha black
+   name Shuffle4
+   xpos -46
+   ypos 1888
+  }
+  Grade {
+   white {0 0 1 0}
+   name TintBlue123
+   xpos -46
+   ypos 1912
+  }
+  Transform {
+   center {960 540}
+   name ShiftBlue123
+   xpos -46
+   ypos 1936
+  }
+  Dot {
+   name Dot27
+   xpos -12
+   ypos 1986
+  }
+push 0
+push $Naf291800
+  Dot {
+   name Dot24
+   xpos -299
+   ypos 1834
+  }
+  Shuffle {
+   green red
+   blue red
+   alpha black
+   name Shuffle2
+   xpos -333
+   ypos 1885
+  }
+  Grade {
+   white {1 0 0 0}
+   name TintRed123
+   xpos -333
+   ypos 1909
+  }
+  Transform {
+   center {960 540}
+   name ShiftRed123
+   xpos -333
+   ypos 1933
+  }
+  Dot {
+   name Dot26
+   xpos -299
+   ypos 1986
+  }
+push $Naf291800
+  Shuffle {
+   red green
+   blue green
+   name Shuffle3
+   xpos -185
+   ypos 1887
+  }
+  Grade {
+   white {0 1 0 0}
+   name TintGreen123
+   xpos -185
+   ypos 1911
+  }
+  Transform {
+   center {960 540}
+   name ShiftGreen123
+   xpos -185
+   ypos 1935
+  }
+  Merge2 {
+   inputs 3+1
+   operation plus
+   name Merge8
+   xpos -185
+   ypos 1983
+  }
+  Dot {
+   name Dot28
+   xpos -151
+   ypos 2146
+  }
+set Nbbb11800 [stack 0]
+  Dot {
+   name Dot9
+   xpos -53
+   ypos 2146
+  }
+set Nbbb11400 [stack 0]
+  Dot {
+   name Dot19
+   xpos 46
+   ypos 2146
+  }
+  Dot {
+   name Dot21
+   xpos 46
+   ypos 2186
+  }
+push $Nbbb11400
+  Reformat {
+   resize none
+   filter impulse
+   black_outside true
+   name Reformat1
+   xpos -87
+   ypos 2169
+  }
+push $N8ac99400
+push $Nbbb11800
+  CopyBBox {
+   inputs 2
+   name CopyBBox1
+   xpos -185
+   ypos 2167
+  }
+  Switch {
+   inputs 3
+   which {{parent.cropbehavior}}
+   name Switch1
+   xpos -185
+   ypos 2209
+  }
+  Dot {
+   name Dot22
+   xpos -151
+   ypos 2362
+  }
+set Nbc00f400 [stack 0]
+  Dot {
+   name Dot15
+   xpos 101
+   ypos 2362
+  }
+  Dot {
+   name Dot14
+   xpos 101
+   ypos 2613
+  }
+push $Nbc00f400
+push $N8ac99000
+  Merge2 {
+   inputs 2
+   operation {{"group.screen == true ?25:24" i}}
+   maskChannelMask -rgba.alpha
+   mix {{parent.mix i}}
+   name Merge7
+   xpos -185
+   ypos 2398
+  }
+  Switch {
+   inputs 2
+   which {{parent.previewPost i x1 0}}
+   name PreviewPost
+   xpos -185
+   ypos 2610
+  }
+  Switch {
+   inputs 2
+   which {{parent.preview}}
+   name PreviewPre
+   xpos -185
+   ypos 2634
+  }
+  Copy {
+   inputs 2
+   from0 rgba.alpha
+   to0 rgba.alpha
+   name ignoreAlpha
+   xpos -185
+   ypos 2838
+   disable {{"parent.ignore_alpha == 1 ? 0 : 1" i}}
+  }
+  Output {
+   name Output1
+   xpos -185
+   ypos 3062
+  }
+ end_group
+set Ncf5c2b00 [stack 0]
+ Axis2 {
+  inputs 0
+  rotate {{parent.CardControler.CardRotation} {parent.CardControler.CardRotation} {parent.CardControler.CardRotation}}
+  pivot {{parent.MasterCard.translate+parent.MasterCard.pivot} {parent.MasterCard.translate+parent.MasterCard.pivot} {parent.MasterCard.translate+parent.MasterCard.pivot}}
+  name RotationAxis
+  xpos 836
+  ypos 451
+ }
+push 0
+push $Nd0880c00
+ Dot {
+  name Dot47
+  xpos 784
+  ypos 441
+ }
+ Card3D {
+  inputs 3
+  translate {{parent.MasterCard.translate+parent.CardControler.GhostHoloPos+parent.CardControler.GhostHoloTranslate} {parent.MasterCard.translate+parent.CardControler.GhostHoloPos+parent.CardControler.GhostHoloTranslate} {parent.MasterCard.translate+parent.CardControler.GhostHoloPos+parent.CardControler.GhostHoloTranslate}}
+  scaling {{parent.MasterCard.scaling} {parent.MasterCard.scaling} {parent.MasterCard.scaling}}
+  uniform_scale {{parent.MasterCard.uniform_scale*parent.CardControler.GhostHoloSize}}
+  pivot {{parent.MasterCard.pivot} {parent.MasterCard.pivot} {parent.MasterCard.pivot}}
+  name GhostCard
+  xpos 750
+  ypos 537
+ }
+ Blur {
+  size {{parent.MasterPreBlur.size}}
+  name GhostPreBlur
+  xpos 750
+  ypos 607
+ }
+ Shuffle {
+  in Outline
+  name Shuffle20
+  xpos 750
+  ypos 660
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove2
+  xpos 750
+  ypos 686
+ }
+add_layer {GhostLayer GhostLayer.red GhostLayer.green GhostLayer.blue GhostLayer.alpha}
+ Shuffle {
+  out GhostLayer
+  name Shuffle2
+  xpos 750
+  ypos 730
+ }
+ ColorCorrect {
+  gain {0.225 1.52 3.3 1}
+  name GhostingCC
+  xpos 750
+  ypos 756
+ }
+ Multiply {
+  channels rgba
+  value {{parent.CardControler.GhostHoloIntens}}
+  name Multiply10
+  xpos 750
+  ypos 782
+ }
+push $Nd0880400
+ Shuffle {
+  in Outline
+  name Shuffle19
+  xpos 462
+  ypos 647
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove1
+  xpos 462
+  ypos 688
+ }
+ ColorCorrect {
+  gain {0.18 0.52 4 1}
+  gain_panelDropped true
+  name OutlineCC
+  selected true
+  xpos 462
+  ypos 756
+ }
+ set Cab1e6000 [stack 0]
+ Merge2 {
+  inputs 2
+  also_merge GhostLayer
+  name Merge34
+  xpos 462
+  ypos 782
+ }
+ Dot {
+  name Dot5
+  xpos 496
+  ypos 1007
+ }
+ Merge2 {
+  inputs 2
+  name Merge35
+  xpos 258
+  ypos 1003
+ }
+ Dot {
+  name Dot2
+  xpos 292
+  ypos 1189
+ }
+set Nab1e5000 [stack 0]
+ Dot {
+  name Dot4
+  xpos 592
+  ypos 1189
+ }
+set Nab1e4c00 [stack 0]
+ Noise {
+  replace true
+  size 27.5
+  zoffset {{x/40}}
+  gain 0.775
+  gamma 0.235
+  center {1024 540}
+  name Noise2
+  xpos 558
+  ypos 1404
+ }
+ Clamp {
+  name Clamp1
+  xpos 558
+  ypos 1443
+ }
+push $Nab1e4c00
+ Dot {
+  name Dot1
+  xpos 738
+  ypos 1189
+ }
+set Nbc7dfc00 [stack 0]
+ Shuffle {
+  in GhostLayer
+  name Shuffle3
+  xpos 811
+  ypos 1185
+ }
+clone $Cab1e6000 {
+  xpos 811
+  ypos 1233
+  selected false
+ }
+ Multiply {
+  value 2
+  name Multiply1
+  xpos 811
+  ypos 1257
+ }
+set Nbc7df000 [stack 0]
+ Dot {
+  name Dot7
+  xpos 845
+  ypos 1388
+ }
+push $Nbc7dfc00
+ Merge2 {
+  inputs 2
+  name Merge2
+  xpos 704
+  ypos 1384
+ }
+ ColorCorrect {
+  inputs 1+1
+  gain {0.7058825493 2.352941275 4 1}
+  name ColorCorrect1
+  xpos 704
+  ypos 1449
+ }
+ GodRays {
+  translate {{cos(((2*pi)/360)*parent.GodRayControler.GodAngle)*parent.GodRayControler.GodDistanz} {sin(((2*pi)/360)*parent.GodRayControler.GodAngle)*parent.GodRayControler.GodDistanz}}
+  scale 0.9
+  center {1057 541}
+  from_color {0.22 0.465 0.22 0.22}
+  to_color 0.24
+  steps 10
+  name GodRays1
+  xpos 704
+  ypos 1568
+ }
+push $Nad867400
+ Dot {
+  name Dot54
+  xpos -262
+  ypos 619
+ }
+set Nbc7ddc00 [stack 0]
+ Dot {
+  name Dot56
+  xpos -372
+  ypos 619
+ }
+ Shuffle {
+  in GridMult
+  red green
+  green black
+  blue black
+  alpha black
+  out alpha
+  name Shuffle22
+  label "\[value in]"
+  xpos -406
+  ypos 726
+ }
+ Shuffle {
+  in alpha
+  name Shuffle1
+  xpos -406
+  ypos 762
+ }
+ AdjBBox {
+  numpixels -10
+  name AdjBBox4
+  xpos -406
+  ypos 786
+ }
+ Dot {
+  name Dot57
+  xpos -372
+  ypos 1522
+ }
+push $Nbc7ddc00
+ Shuffle {
+  in GridMult
+  green red
+  blue red
+  alpha white
+  name Shuffle21
+  label "\[value in]"
+  xpos -296
+  ypos 726
+ }
+ AdjBBox {
+  numpixels -10
+  name AdjBBox3
+  xpos -296
+  ypos 762
+ }
+ Dot {
+  name Dot55
+  xpos -262
+  ypos 1470
+ }
+push $Nbc7df000
+push $Ncf5c2b00
+ Dot {
+  name Dot6
+  xpos 47
+  ypos 911
+ }
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos 13
+  ypos 1263
+ }
+ Glow2 {
+  channels rgba
+  tint {1 1 1 1}
+  brightness 1.74
+  effect_only true
+  size {200 150}
+  name ExtraGlow
+  xpos 13
+  ypos 1301
+ }
+ Dot {
+  name Dot50
+  xpos 47
+  ypos 1378
+ }
+push $Nab1e5000
+ Merge2 {
+  inputs 2
+  operation screen
+  bbox B
+  mix 0.435
+  name GlowMerge
+  xpos 258
+  ypos 1374
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox B
+  mix 0.315
+  name GridMerge
+  xpos 258
+  ypos 1466
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  bbox B
+  name BlockMerge
+  xpos 258
+  ypos 1518
+ }
+ Merge2 {
+  inputs 2
+  operation under
+  mix 0.475
+  name PRaysMerge
+  xpos 258
+  ypos 1574
+ }
+ Output {
+  name Output1
+  xpos 258
+  ypos 1616
+ }
+ NoOp {
+  inputs 0
+  name GodRayControler
+  xpos 859
+  ypos 1576
+  addUserKnob {20 Settings}
+  addUserKnob {7 GodAngle R 0 360}
+  GodAngle 3
+  addUserKnob {7 GodDistanz R 0 300}
+  GodDistanz 61
+ }
+ NoOp {
+  inputs 0
+  name CardControler
+  xpos 1086
+  ypos 465
+  addUserKnob {20 User}
+  addUserKnob {13 CardRotation}
+  CardRotation {0 -35 0}
+  addUserKnob {13 GhostHoloPos}
+  GhostHoloPos {0 0 {GhostHoloDistanz}}
+  addUserKnob {7 GhostHoloDistanz R -0.2 0.2}
+  GhostHoloDistanz -0.014
+  addUserKnob {7 GhostHoloIntens}
+  GhostHoloIntens 0.86
+  addUserKnob {7 GhostHoloSize R 0 2}
+  GhostHoloSize 0.975
+  addUserKnob {13 GhostHoloTranslate}
+ }
+ expoglow {
+  inputs 0
+  name expoglow4
+  selected false
+  xpos 113
+  ypos 874
+  PreGrade 1
+  white {1 1 1 1}
+  GlowSettings 1
+  size 6
+  ignore_alpha false
+  PostGrade 1
+  white_1 {-0.02810001373 0.6457400918 1.57190001 1}
+  maskChannelMask -rgba.alpha
+  mix {{"parent.GlowControler.FlickerTyp==0 ? parent.GlowControler.RandomExpression : parent.GlowControler.SinusExpression"}}
+  ShiftRed 1
+  translate {2 1}
+  ShiftGreen 1
+  ShiftBlue 1
+  translate_2 {-2 -1}
+ }
+end_group

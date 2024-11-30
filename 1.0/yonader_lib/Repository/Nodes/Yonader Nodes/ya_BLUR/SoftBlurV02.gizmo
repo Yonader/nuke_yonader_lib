@@ -1,0 +1,434 @@
+#! C:/Program Files/Nuke12.0v4/nuke-12.0.4.dll -nx
+version 12.0 v4
+Gizmo {
+ inputs 2
+ addUserKnob {20 User}
+ addUserKnob {26 Size_1 l "Adjust size of blur"}
+ addUserKnob {41 Size -STARTLINE T NoOp1._1}
+ addUserKnob {41 aspect_1 l Aspect T NoOp1.aspect_1}
+ addUserKnob {26 ""}
+ addUserKnob {26 _1 l "Adjust shape of blur"}
+ addUserKnob {41 Shape l BlurShape T ColorLookup2.lut}
+ addUserKnob {26 ""}
+ addUserKnob {41 enablePostBlur l "Enable PostBlur" T Switch4.disable}
+ addUserKnob {41 postBlur l "Post Blur" T Blur6.size}
+ addUserKnob {41 PostBlurmix l "Post Bur mix" T Blur6.mix}
+ addUserKnob {26 ""}
+ addUserKnob {26 alphas l masking t "if preMask is checked, the blur will process on RGB+Mask. If it's unchecked, it'll be PostMasked, so after blurring the picture" T "\tAlphas"}
+ addUserKnob {41 maskType l PreMasked t "If checked, PreMasked. If not, PostMasked" T Switch1.disable}
+ addUserKnob {41 disable_1 l "invert Alpha" T Invert1.disable}
+ addUserKnob {26 ""}
+ addUserKnob {41 size l "SoftBlur Alphas" T Blur1.size}
+ addUserKnob {26 ""}
+ addUserKnob {41 ShowHideKernelShape l "Show / Hide Kernel Shape" T Switch3.disable}
+ addUserKnob {41 crop l "Disable autocrop" T CopyBBox1.disable}
+ addUserKnob {41 Mix T Dissolve1.which}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x7171c600
+  label Mask
+  note_font_size 42
+  xpos 703
+  ypos -796
+  bdwidth 531
+  bdheight 845
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x7171c600
+  label BLUR
+  note_font_size 42
+  xpos -862
+  ypos -388
+  bdwidth 791
+  bdheight 433
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  label "<-- Size blur1"
+  note_font_size 31
+  xpos 1123
+  ypos -765
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote2
+  label "Multiply inverse mask -->"
+  note_font_size 31
+  xpos 388
+  ypos -561
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote3
+  label "Size transform + aspect -->"
+  note_font_size 31
+  xpos -819
+  ypos -185
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote4
+  label "cruve -->"
+  note_font_size 31
+  xpos -592
+  ypos -117
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote5
+  label "switch dispable / post mask / premask -->"
+  note_font_size 31
+  xpos -395
+  ypos -527
+ }
+ Input {
+  inputs 0
+  name Image
+  xpos 134
+  ypos -831
+ }
+ Dot {
+  name Dot1
+  xpos 175
+  ypos -716
+ }
+set N48838000 [stack 0]
+ Dot {
+  name Dot11
+  xpos -926
+  ypos -716
+ }
+ Dot {
+  name Dot4
+  xpos -926
+  ypos 365
+ }
+set N846d9c00 [stack 0]
+ Input {
+  inputs 0
+  name Mask
+  xpos 1002
+  ypos -865
+  number 1
+ }
+ Blur {
+  mix 0.95
+  name Blur1
+  xpos 1002
+  ypos -762
+ }
+ Blur {
+  size {{(parent.Blur1.size)*2}}
+  mix 0.94
+  name Blur2
+  xpos 1002
+  ypos -714
+ }
+ Blur {
+  size {{(parent.Blur2.size)*2.5}}
+  mix 0.808
+  name Blur3
+  xpos 1002
+  ypos -666
+ }
+ Blur {
+  size {{(parent.Blur3.size)*2}}
+  mix 0.51
+  name Blur4
+  xpos 1002
+  ypos -618
+ }
+ Invert {
+  name Invert1
+  xpos 1002
+  ypos -565
+  disable true
+ }
+set N846d8400 [stack 0]
+ Dot {
+  name Dot9
+  xpos 1043
+  ypos 100
+ }
+ Reformat {
+  inputs 0
+  format "701 701 0 0 701 701 1 radial"
+  name Reformat1
+  xpos -466
+  ypos -395
+ }
+set Nee38fc00 [stack 0]
+ Radial {
+  area {0 0 701 701}
+  plinear true
+  name Radial1
+  xpos -466
+  ypos -347
+ }
+ Transform {
+  scale {{parent.NoOp1._1}}
+  center {350.5 350.5}
+  name Transform3
+  xpos -466
+  ypos -295
+ }
+ Transform {
+  scale {1 {(parent.NoOp1.aspect_1)+1}}
+  center {350.5 350.5}
+  name Transform2
+  xpos -466
+  ypos -209
+ }
+ ColorLookup {
+  lut {master {curve C 0 x0.5324944258 0.2263681889 s0.6499999762 x0.8839167356 0.6669154167 x1 1}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  name ColorLookup1
+  xpos -466
+  ypos -183
+ }
+set Ne67c000 [stack 0]
+ ColorLookup {
+  lut {master {curve L 0 S x0.9223213792 0.009492094458 x0.9981553555 0.6696517467 L x1 1}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  name ColorLookup2
+  xpos -466
+  ypos -108
+ }
+set Nee38e400 [stack 0]
+push $Nee38e400
+ Blur {
+  size 70
+  mix 0.5
+  name Blur6
+  xpos -632
+  ypos -55
+ }
+ Switch {
+  inputs 2
+  which 1
+  name Switch4
+  xpos -466
+  ypos -27
+ }
+set N62d3dc00 [stack 0]
+push $N48838000
+push $N846d8400
+push $N48838000
+ Dot {
+  name Dot2
+  xpos 754
+  ypos -716
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  name Merge1
+  xpos 713
+  ypos -559
+ }
+ Dot {
+  name Dot3
+  xpos 754
+  ypos -478
+ }
+ Switch {
+  inputs 2
+  which 1
+  name Switch1
+  xpos 134
+  ypos -484
+  disable true
+ }
+ Dot {
+  name Dot5
+  xpos -185
+  ypos -478
+ }
+ Convolve2 {
+  inputs 2
+  name Convolve1
+  xpos -226
+  ypos -114
+ }
+set N62d3c400 [stack 0]
+ Merge2 {
+  inputs 2
+  operation stencil
+  invert_mask {{parent.Merge1.invert_mask}}
+  name Merge2
+  xpos -226
+  ypos 94
+ }
+ Dot {
+  name Dot6
+  xpos -185
+  ypos 270
+ }
+push $N62d3c400
+ Dot {
+  name Dot8
+  xpos 363
+  ypos -104
+ }
+ Switch {
+  inputs 2
+  which {{parent.Switch1.which}}
+  name Switch2
+  xpos 322
+  ypos 264
+  disable {{parent.Switch1.disable}}
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos 322
+  ypos 359
+ }
+push $N62d3dc00
+ Dot {
+  name Dot10
+  xpos -425
+  ypos 467
+ }
+ Switch {
+  inputs 2
+  which 1
+  name Switch3
+  xpos 322
+  ypos 461
+ }
+push $N846d9c00
+ Dot {
+  name Dot12
+  xpos -926
+  ypos 569
+ }
+ Dissolve {
+  inputs 2
+  which 1
+  name Dissolve1
+  xpos 320
+  ypos 547
+ }
+ Dot {
+  name Dot7
+  selected true
+  xpos 356
+  ypos 648
+ }
+ Output {
+  name Output1
+  xpos 322
+  ypos 708
+ }
+push $Nee38fc00
+ RotoPaint {
+  curves {{{v x3f99999a}
+  {f 0}
+  {n
+   {layer Root
+    {f 2097152}
+    {t x43af0000 x43af0000}
+    {a pt1x 0 pt1y 0 pt2x 0 pt2y 0 pt3x 0 pt3y 0 pt4x 0 pt4y 0 ptex00 0 ptex01 0 ptex02 0 ptex03 0 ptex10 0 ptex11 0 ptex12 0 ptex13 0 ptex20 0 ptex21 0 ptex22 0 ptex23 0 ptex30 0 ptex31 0 ptex32 0 ptex33 0 ptof1x 0 ptof1y 0 ptof2x 0 ptof2y 0 ptof3x 0 ptof3y 0 ptof4x 0 ptof4y 0 pterr 0 ptrefset 0 ptmot x40800000 ptref 0}
+    {curvegroup Ellipse1 512 bezier
+     {{cc
+       {f 8192}
+       {px 1
+        {xc30a0416 0}
+        {x43aed376 x42c85e2e}
+        {x430a0416 0}
+        {0 xc30a0416}
+        {x4415e354 x43af0abf}
+        {0 x430a0416}
+        {x430a0416 0}
+        {x43aed376 x4415fef9}
+        {xc30a0416 0}
+        {0 x430a0416}
+        {x42c78108 x43af0abf}
+        {0 xc30a0416}}}
+      {cc
+       {f 8192}
+       {px 1
+        {xbcb60000 0}
+        {0 x4379dd21}
+        {x3cb60000 0}
+        {0 xbca40000}
+        {xc379dc16 0}
+        {0 x3ca40000}
+        {x3cb60000 0}
+        {0 xc379dd20}
+        {xbcb60000 0}
+        {0 x3ca40000}
+        {x4379dc1e 0}
+        {0 xbca40000}}}}
+     {tx 1 x43a6f334 x43abc000}
+     {a ft 1 osw x41200000 osf 0 str 1 spx x43af0000 spy x43af0000 sb 1 tt x40e00000}}}}}}
+  toolbox {selectAll {
+  { selectAll str 1 ssx 1 ssy 1 sf 1 }
+  { selectFeatherPoints str 1 ssx 1 ssy 1 sf 1 }
+  { createBezier str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createBezierCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createBSpline str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createEllipse str 1 ssx 1 ssy 1 sf 1 sb 1 tt 7 }
+  { createRectangle str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createRectangleCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { brush str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { eraser src 2 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { clone src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { reveal src 3 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { dodge src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { burn src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { blur src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { sharpen src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { smear src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+} }
+  toolbar_brush_hardness 0.200000003
+  toolbar_source_transform_scale {1 1}
+  toolbar_source_transform_center {350 350}
+  colorOverlay {0 0 0 0}
+  lifetime_type "all frames"
+  motionblur_shutter_offset_type centred
+  feather_type smooth0
+  source_black_outside true
+  name RotoPaint1
+  xpos -352
+  ypos -359
+ }
+ Blur {
+  size 100
+  mix 0
+  name Blur5
+  xpos -352
+  ypos -323
+ }
+ NoOp {
+  inputs 0
+  name NoOp1
+  xpos -330
+  ypos -220
+  addUserKnob {20 User}
+  addUserKnob {7 _1 l "" +STARTLINE}
+  _1 0.072
+  addUserKnob {7 aspect_1 l aspect R -1 1}
+ }
+push $Ne67c000
+ Viewer {
+  frame 1038
+  frame_range 1000-1139
+  fps 25
+  name Viewer1
+  xpos -357
+  ypos -140
+ }
+end_group

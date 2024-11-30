@@ -1,0 +1,454 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name VanishingPointWarp
+ tile_color 0x308fffff
+ selected true
+ xpos -440
+ ypos -50
+ addUserKnob {20 VanishingPointWarp l "Vanishing Point Warp"}
+ addUserKnob {41 pos l "Vanishing Point" T ctrl_node.pos}
+ addUserKnob {41 blinkScriptOnOff l "Use BlinkScript" -STARTLINE T ctrl_node.blinkScriptOnOff}
+ addUserKnob {41 perspective l "Perspective Distort" T ctrl_node.perspective}
+ addUserKnob {41 round l Square/Round T ctrl_node.round}
+ addUserKnob {41 offset l z/offset T ctrl_node.offset}
+ addUserKnob {41 size l "Tile uv" T ctrl_node.size}
+ addUserKnob {41 mirrorh l "Mirror h" -STARTLINE T ctrl_node.mirrorh}
+ addUserKnob {41 mirrorw l "Mirror w" -STARTLINE T ctrl_node.mirrorw}
+ addUserKnob {41 filter T STMap1.filter}
+}
+ Expression {
+  inputs 0
+  temp_name0 size
+  temp_expr0 (ctrl_node.size.w)/8
+  temp_name1 center.x
+  temp_expr1 ctrl_node.pos.x
+  temp_name2 center.y
+  temp_expr2 ctrl_node.pos.y
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "(((atan(x - center.x, y - center.y) + pi)*(size))% (pi/2))/(pi/2)"
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  name Expression8
+  xpos 1160
+  ypos -870
+  addUserKnob {20 User}
+ }
+ ColorLookup {
+  lut {master {}
+    red {curve C 0 L x0.5 1 C 0}
+    green {}
+    blue {}
+    alpha {}}
+  name ColorLookup1
+  xpos 1160
+  ypos -808
+ }
+ Expression {
+  inputs 0
+  temp_name0 size
+  temp_expr0 (ctrl_node.size.w)/4
+  temp_name1 center.x
+  temp_expr1 ctrl_node.pos.x
+  temp_name2 center.y
+  temp_expr2 ctrl_node.pos.y
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "(((atan(x - center.x, y - center.y) + pi)*(size))% (pi/2))/(pi/2)"
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  name Expression1
+  xpos 1080
+  ypos -870
+  addUserKnob {20 User}
+ }
+ Switch {
+  inputs 2
+  which {{ctrl_node.mirrorw}}
+  name Switch1
+  xpos 1080
+  ypos -768
+ }
+ Dot {
+  name Dot1
+  xpos 1114
+  ypos -46
+ }
+ Expression {
+  inputs 0
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 1
+  name Expression2
+  xpos 40
+  ypos -310
+ }
+ Dot {
+  name Dot2
+  xpos 74
+  ypos -246
+ }
+ Grade {
+  channels rgba
+  add {{parent.ctrl_node.offset}}
+  name Grade1
+  xpos 200
+  ypos -250
+ }
+ BlinkScript {
+  inputs 0
+  kernelSourceFile Z:/Tunnel2D.blinkscript
+  recompileCount 1
+  ProgramGroup 1
+  KernelDescription "2 \"Tunnel2D\" iterate pixelWise 4de34d68a18a6449600eb49f5a253ba8fe722c2341797f4f1f026ba6051bb8b1 1 \"dst\" Write Point 5 \"Image width\" Float 1 AADwRA== \"Image height\" Float 1 AACHRA== \"Center\" Float 2 AADwQwAAh0M= \"Vanish\" Float 2 AABwRAAAB0Q= \"Step count\" Int 1 9AEAAA== 5 \"width\" 1 1 \"height\" 1 1 \"center\" 2 1 \"vanish\" 2 1 \"count\" 1 1 0"
+  kernelSource "kernel Tunnel2D : ImageComputationKernel<ePixelWise>\n\{\n    Image<eWrite, eAccessPoint> dst;\n\n    param:\n        float width;\n        float height;\n        float2 center;\n        float2 vanish;\n        int count;\n\n    void define() \{\n        defineParam(width, \"Image width\", float(1920));\n        defineParam(height, \"Image height\", float(1080));\n        defineParam(vanish, \"Vanish\", float2(960, 540));\n        defineParam(center, \"Center\",  float2(480, 270));\n        defineParam(count, \"Step count\",  int(500));\n    \}\n      \n    void init() \{\}\n      \n    void process(int2 int_pos) \{\n        float2 pos(int_pos.x, int_pos.y);\n        SampleType(dst) sample(0.0f);\n\n        for(int i = count; i >= 0; i--)\n        \{\n            float f_i(i);\n            float factor = f_i / count;\n            float2 disc_center = vanish + factor * (center - vanish);\n            float disc_radius = sqrt(width * width + height * height) * 0.5 * factor;\n            float2 v_distance = pos - disc_center;\n            float distance = sqrt(v_distance.x * v_distance.x + v_distance.y * v_distance.y);\n            \n            if( distance <= disc_radius )\n            \{\n                sample.x = factor;\n                sample.y = factor;\n                sample.z = factor;\n            \}\n        \}\n\n        dst() = sample;\n    \}\n\};"
+  rebuild ""
+  "Tunnel2D_Image width" {{width}}
+  "Tunnel2D_Image height" {{height}}
+  Tunnel2D_Center {960 540}
+  Tunnel2D_Vanish {{ctrl_node.pos.x} {ctrl_node.pos.y}}
+  "Tunnel2D_Step count" 1000
+  rebuild_finalise ""
+  name BlinkScript1
+  xpos 1000
+  ypos -656
+ }
+ Blur {
+  channels rgba
+  size 20
+  quality 4
+  name Blur1
+  selected true
+  xpos 1000
+  ypos -590
+ }
+ Expression {
+  channel0 {rgba.red -rgba.green rgba.blue none}
+  expr0 0
+  expr1 g
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  name Expression3
+  xpos 1000
+  ypos -550
+ }
+ Expression {
+  inputs 0
+  temp_name0 posX
+  temp_expr0 "clamp(ctrl_node.pos.x, 0, width)"
+  temp_name1 posY
+  temp_expr1 "clamp(ctrl_node.pos.y, 0, height)"
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 (y-posY)/((height)-posY)
+  name Expression4
+  xpos 854
+  ypos -656
+ }
+ Grade {
+  channels rgba
+  name Grade3
+  xpos 854
+  ypos -634
+ }
+ Expression {
+  inputs 0
+  temp_name0 posX
+  temp_expr0 "clamp(ctrl_node.pos.x, 0, width)"
+  temp_name1 posY
+  temp_expr1 "clamp(ctrl_node.pos.y, 0, height)"
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 (posY-y)/posY
+  name Expression5
+  xpos 760
+  ypos -654
+ }
+ Grade {
+  channels rgba
+  name Grade4
+  xpos 760
+  ypos -632
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge5
+  xpos 760
+  ypos -570
+ }
+ Dot {
+  name Dot5
+  xpos 794
+  ypos -506
+ }
+ Expression {
+  inputs 0
+  temp_name0 posX
+  temp_expr0 "clamp(ctrl_node.pos.x, 0, width)"
+  temp_name1 posY
+  temp_expr1 ctrl_node.pos.y
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 (x-posX)/((width)-posX)
+  name Expression6
+  xpos 600
+  ypos -650
+ }
+ Grade {
+  channels rgba
+  name Grade9
+  xpos 600
+  ypos -629
+ }
+ Expression {
+  inputs 0
+  temp_name0 posX
+  temp_expr0 "clamp(ctrl_node.pos.x, 0, width)"
+  temp_name1 posY
+  temp_expr1 "clamp(ctrl_node.pos.y, 0, height)"
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 (posX-x)/posX
+  name Expression7
+  xpos 506
+  ypos -649
+ }
+ Grade {
+  channels rgba
+  name Grade10
+  xpos 506
+  ypos -627
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge6
+  xpos 600
+  ypos -570
+ }
+ Merge2 {
+  inputs 2
+  operation hypot
+  name Merge7
+  xpos 600
+  ypos -510
+ }
+ Switch {
+  inputs 2
+  which {{ctrl_node.blinkScriptOnOff}}
+  name Switch2
+  xpos 600
+  ypos -430
+ }
+ Dot {
+  name Dot4
+  xpos 634
+  ypos -366
+ }
+ Expression {
+  inputs 0
+  temp_name0 posX
+  temp_expr0 "clamp(ctrl_node.pos.x, 0, width)"
+  temp_name1 posY
+  temp_expr1 "clamp(ctrl_node.pos.y, 0, height)"
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 (y-posY)/((height)-posY)
+  name Expression12
+  xpos 694
+  ypos -874
+ }
+ Grade {
+  channels rgba
+  name Grade7
+  xpos 694
+  ypos -852
+ }
+ Expression {
+  inputs 0
+  temp_name0 posX
+  temp_expr0 "clamp(ctrl_node.pos.x, 0, width)"
+  temp_name1 posY
+  temp_expr1 "clamp(ctrl_node.pos.y, 0, height)"
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 (posY-y)/posY
+  name Expression13
+  xpos 600
+  ypos -872
+ }
+ Grade {
+  channels rgba
+  name Grade8
+  xpos 600
+  ypos -850
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge11
+  xpos 600
+  ypos -788
+ }
+ Dot {
+  name Dot3
+  xpos 634
+  ypos -724
+ }
+ Expression {
+  inputs 0
+  temp_name0 posX
+  temp_expr0 "clamp(ctrl_node.pos.x, 0, width)"
+  temp_name1 posY
+  temp_expr1 ctrl_node.pos.y
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 (x-posX)/((width)-posX)
+  name Expression11
+  xpos 440
+  ypos -868
+ }
+ Grade {
+  channels rgba
+  name Grade6
+  xpos 440
+  ypos -847
+ }
+ Expression {
+  inputs 0
+  temp_name0 posX
+  temp_expr0 "clamp(ctrl_node.pos.x, 0, width)"
+  temp_name1 posY
+  temp_expr1 "clamp(ctrl_node.pos.y, 0, height)"
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 (posX-x)/posX
+  name Expression10
+  xpos 346
+  ypos -867
+ }
+ Grade {
+  channels rgba
+  name Grade5
+  xpos 346
+  ypos -845
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge10
+  xpos 440
+  ypos -788
+ }
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge3
+  xpos 440
+  ypos -728
+ }
+ Merge2 {
+  inputs 2
+  operation copy
+  mix {{ctrl_node.round}}
+  name Merge4
+  xpos 440
+  ypos -370
+ }
+ Grade {
+  channels rgba
+  gamma {{ctrl_node.perspective}}
+  black_clamp false
+  name Grade2
+  xpos 440
+  ypos -290
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge2
+  xpos 440
+  ypos -250
+ }
+set N25062000 [stack 0]
+ Expression {
+  temp_name0 size
+  temp_expr0 (1/ctrl_node.size.h)*4
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 (g%size)/size
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  name Expression9
+  xpos 600
+  ypos -170
+ }
+ ColorLookup {
+  lut {master {}
+    red {}
+    green {curve C 0 L x0.5 1 C 0}
+    blue {}
+    alpha {}}
+  name ColorLookup2
+  xpos 600
+  ypos -110
+ }
+push $N25062000
+ Expression {
+  temp_name0 size
+  temp_expr0 (1/ctrl_node.size.h)*2
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 (g%size)/size
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  name Expression14
+  xpos 440
+  ypos -170
+ }
+ Switch {
+  inputs 2
+  which {{ctrl_node.mirrorh}}
+  name Switch3
+  xpos 440
+  ypos -110
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge1
+  xpos 440
+  ypos -50
+ }
+ Input {
+  inputs 0
+  name image
+  xpos 205
+  ypos 10
+ }
+ STMap {
+  inputs 2
+  channels rgba
+  uv rgb
+  blur -rgba.green
+  blur_scale 0
+  filter Impulse
+  name STMap1
+  xpos 440
+  ypos 10
+ }
+ Output {
+  name Output1
+  xpos 440
+  ypos 120
+ }
+ NoOp {
+  inputs 0
+  name ctrl_node
+  xpos 200
+  ypos -650
+  addUserKnob {20 User}
+  addUserKnob {6 blinkScriptOnOff l "Use BlinkScript" +STARTLINE}
+  addUserKnob {6 mirrorh l "Mirror h" +STARTLINE}
+  addUserKnob {6 mirrorw l "Mirror w" +STARTLINE}
+  mirrorw true
+  addUserKnob {7 perspective l Perspective R 1 2}
+  perspective 2
+  addUserKnob {12 pos l "Vanishing Point"}
+  pos {960 540}
+  addUserKnob {7 round l Round/Square}
+  round 1
+  addUserKnob {7 offset l z/offset R 0 10}
+  offset 0.45
+  addUserKnob {14 size l "Tile uv" R 0 100}
+  size 8
+ }
+end_group

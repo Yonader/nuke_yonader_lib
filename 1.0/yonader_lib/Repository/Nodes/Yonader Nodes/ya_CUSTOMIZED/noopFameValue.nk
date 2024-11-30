@@ -1,0 +1,10 @@
+set cut_paste_input [stack 0]
+version 11.1 v3
+push $cut_paste_input
+NoOp {
+name NoOp3
+label "\[value first_frame] - \[value last_frame]"
+selected true
+xpos 444
+ypos -687
+}

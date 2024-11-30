@@ -1,0 +1,101 @@
+set cut_paste_input [stack 0]
+version 8.0 v1
+push $cut_paste_input
+Group {
+ name WarpChroma
+ tile_color 0x308fffff
+ selected true
+ xpos -150
+ ypos 6
+ addUserKnob {20 WarpChroma}
+ addUserKnob {41 format l "output format" T Reformat1.format}
+ addUserKnob {41 center T GodRays1.center}
+ addUserKnob {41 steps -STARTLINE T GodRays1.steps}
+ addUserKnob {26 Red}
+ addUserKnob {41 scale T GodRays1.scale}
+ addUserKnob {41 rotate T GodRays1.rotate}
+ addUserKnob {26 Green}
+ addUserKnob {41 scale_1 l scale T GodRays2.scale}
+ addUserKnob {41 rotate_1 l rotate T GodRays2.rotate}
+ addUserKnob {26 Blue}
+ addUserKnob {41 scale_2 l scale T GodRays3.scale}
+ addUserKnob {41 rotate_2 l rotate T GodRays3.rotate}
+}
+ Input {
+  inputs 0
+  name Source
+  xpos 180
+  ypos -34
+ }
+ Reformat {
+  name Reformat1
+  xpos 180
+  ypos 62
+ }
+set N3566efb0 [stack 0]
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 b
+  name Expression3
+  xpos 290
+  ypos 206
+ }
+ GodRays {
+  channels rgb
+  center {{parent.GodRays2.center.x} {parent.GodRays2.center.y}}
+  steps {{parent.GodRays2.steps}}
+  name GodRays3
+  xpos 290
+  ypos 254
+ }
+push 0
+push $N3566efb0
+ Expression {
+  expr0 0
+  expr1 g
+  expr2 0
+  name Expression2
+  xpos 180
+  ypos 206
+ }
+ GodRays {
+  channels {rgba.red rgba.green rgba.blue none}
+  scale 1.005
+  center {{parent.GodRays1.center.x} {parent.GodRays1.center.y}}
+  steps {{parent.GodRays1.steps}}
+  name GodRays2
+  xpos 180
+  ypos 256
+ }
+push $N3566efb0
+ Expression {
+  expr0 r
+  expr1 0
+  expr2 0
+  name Expression1
+  xpos 70
+  ypos 208
+ }
+ GodRays {
+  channels rgb
+  scale 1.01
+  center {960 576}
+  name GodRays1
+  xpos 70
+  ypos 256
+ }
+ Merge2 {
+  inputs 3+1
+  operation screen
+  also_merge all
+  name Merge1
+  xpos 180
+  ypos 374
+ }
+ Output {
+  name Output1
+  xpos 180
+  ypos 518
+ }
+end_group

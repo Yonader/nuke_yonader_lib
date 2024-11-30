@@ -1,0 +1,234 @@
+#! C:/Program Files/Nuke13.0v4/nuke-13.0.4.dll -nx
+version 13.0 v4
+Gizmo {
+ inputs 11
+ addUserKnob {20 User}
+ addUserKnob {41 mix l Ambient T Ambient.mix}
+ addUserKnob {41 mix_1 l Sunlight T Sunlight.mix}
+ addUserKnob {41 Residual T residual1.mix}
+ addUserKnob {41 mix_2 l "Light Pass 1" T Light_pass_1.mix}
+ addUserKnob {41 mix_3 l "Light Pass 2" T Light_pass_2.mix}
+ addUserKnob {41 mix_4 l "Light Pass 3" T Light_pass_3.mix}
+ addUserKnob {41 mix_5 l "Light Pass 4" T Light_pass_4.mix}
+ addUserKnob {41 mix_6 l "Light Pass 5" T Light_pass_5.mix}
+ addUserKnob {41 mix_7 l "Light Pass 6" T Light_pass_6.mix}
+ addUserKnob {41 mix_8 l "Light Pass 7" T Light_pass_7.mix}
+ addUserKnob {41 mix_9 l "Light Pass 8" T Light_pass_8.mix}
+}
+ Input {
+  inputs 0
+  name LIGHT_PASS_8
+  xpos 950
+  ypos -9
+  number 9
+ }
+ Dot {
+  name Dot9
+  xpos 984
+  ypos 344
+ }
+ Input {
+  inputs 0
+  name LIGHT_PASS_7
+  xpos 840
+  ypos -9
+  number 8
+ }
+ Dot {
+  name Dot8
+  xpos 874
+  ypos 316
+ }
+ Input {
+  inputs 0
+  name LIGHT_PASS_6
+  xpos 730
+  ypos -9
+  number 7
+ }
+ Dot {
+  name Dot7
+  xpos 764
+  ypos 292
+ }
+ Input {
+  inputs 0
+  name LIGHT_PASS_5
+  xpos 620
+  ypos -9
+  number 6
+ }
+ Dot {
+  name Dot6
+  xpos 654
+  ypos 263
+ }
+ Input {
+  inputs 0
+  name LIGHT_PASS_4
+  xpos 510
+  ypos -9
+  number 5
+ }
+ Dot {
+  name Dot5
+  xpos 544
+  ypos 235
+ }
+ Input {
+  inputs 0
+  name LIGHT_PASS_3
+  xpos 400
+  ypos -9
+  number 2
+ }
+ Dot {
+  name Dot4
+  xpos 434
+  ypos 211
+ }
+ Input {
+  inputs 0
+  name LIGHT_PASS_2
+  xpos 290
+  ypos -9
+  number 4
+ }
+ Dot {
+  name Dot3
+  xpos 324
+  ypos 181
+ }
+ Input {
+  inputs 0
+  name LIGHT_PASS_1
+  xpos 180
+  ypos -9
+  number 3
+ }
+ Dot {
+  name Dot2
+  xpos 214
+  ypos 149
+ }
+ Input {
+  inputs 0
+  name AMBIENT
+  xpos 70
+  ypos -9
+  number 1
+ }
+ Dot {
+  name Dot1
+  xpos 104
+  ypos 120
+ }
+ Input {
+  inputs 0
+  name RESIDUAL
+  xpos -305
+  ypos -10
+  number 10
+ }
+ Dot {
+  name Dot10
+  xpos -271
+  ypos 81
+ }
+ Input {
+  inputs 0
+  name SUNLIGHT
+  xpos -40
+  ypos -9
+ }
+set Nc7e8f400 [stack 0]
+push $Nc7e8f400
+ Remove {
+  name Remove1
+  xpos -187
+  ypos -15
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Sunlight
+  xpos -40
+  ypos 31
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name residual1
+  selected true
+  xpos -40
+  ypos 78
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Ambient
+  xpos -40
+  ypos 117
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Light_pass_1
+  xpos -40
+  ypos 146
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Light_pass_2
+  xpos -40
+  ypos 178
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Light_pass_3
+  xpos -40
+  ypos 208
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Light_pass_4
+  xpos -40
+  ypos 232
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Light_pass_5
+  xpos -40
+  ypos 260
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Light_pass_6
+  xpos -40
+  ypos 289
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Light_pass_7
+  xpos -40
+  ypos 313
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Light_pass_8
+  xpos -40
+  ypos 341
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 405
+ }
+end_group

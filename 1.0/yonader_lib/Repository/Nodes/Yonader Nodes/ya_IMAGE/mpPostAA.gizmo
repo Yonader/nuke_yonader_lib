@@ -1,0 +1,714 @@
+set cut_paste_input [stack 0]
+version 10.5 v6
+push $cut_paste_input
+Group {
+ name mpPostAA
+ tile_color 0x7fff00ff
+ note_font Verdana
+ selected true
+ xpos -761
+ ypos 491
+ mapsize {0.15 0.15}
+ addUserKnob {20 mpPostAA}
+ addUserKnob {26 note l "" +STARTLINE T "Modified 4-way DLAA with diagonals process (\"tame\" general purpose postAA)"}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {6 _sRGB l sRGB t "process in sRGB space (well suited for color input)" -STARTLINE}
+ _sRGB true
+ addUserKnob {6 _DLAA2 l DLAA2 t "Use DLAA long edge blur\nbetter long vertical, horizontal or long curvature edges" -STARTLINE}
+ _DLAA2 true
+ addUserKnob {6 _vectorAA l VectorAA t "Use vectorAA\nwell suited for lineart - more aggressive contour connectivity" -STARTLINE}
+ _vectorAA true
+ addUserKnob {6 _preblur l Preblur t "Slightly preblur before applying vectorAA" -STARTLINE}
+ _preblur true
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {20 colorkeysettings l "Color Key Settings" n 1}
+ colorkeysettings 0
+ addUserKnob {6 _useColorKey l UseColorKey t "Allows to key a background color" +STARTLINE}
+ addUserKnob {18 _colorKey l "Color Key"}
+ _colorKey 1
+ addUserKnob {20 endGroup n -1}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x7171c600
+  label vectorAA
+  note_font_size 42
+  xpos -774
+  ypos -194
+  bdwidth 406
+  bdheight 883
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x8e8e3800
+  label "modified DLAA"
+  note_font_size 42
+  xpos 273
+  ypos -97
+  bdwidth 573
+  bdheight 1311
+ }
+ Input {
+  inputs 0
+  name img
+  selected true
+  xpos -205
+  ypos -309
+ }
+ Expression {
+  temp_name0 kr
+  temp_expr0 rint(_colorKey.r*255)
+  temp_name1 kg
+  temp_expr1 rint(_colorKey.g*255)
+  temp_name2 kb
+  temp_expr2 rint(_colorKey.b*255)
+  channel0 alpha
+  expr0 "rint(r*255)==kr && rint(g*255)==kg && rint(b*255)==kb?0:1"
+  channel1 none
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  name rgb255_keyer
+  xpos -205
+  ypos -225
+  disable {{1-_useColorKey}}
+ }
+ Gamma {
+  channels rgba
+  value 2.2
+  name to_sRGB
+  xpos -205
+  ypos -122
+  disable {{1-_sRGB}}
+ }
+set N82062000 [stack 0]
+ Saturation {
+  saturation 0
+  name LUM
+  xpos -205
+  ypos -17
+ }
+set N82062400 [stack 0]
+ NoOp {
+  name DLAA_IN
+  xpos 471
+  ypos -17
+ }
+set N82062800 [stack 0]
+ Matrix {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  matrix {
+      {1 2 1}
+      {2 -12 2}
+      {1 2 1}
+    }
+  name edge1
+  xpos 720
+  ypos -17
+ }
+ Expression {
+  temp_name0 a
+  temp_expr0 4
+  temp_name1 b
+  temp_expr1 1
+  channel0 rgba
+  expr0 clamp(abs(r)*a-b)
+  channel1 none
+  channel2 none
+  name Expression1
+  xpos 720
+  ypos 140
+ }
+push $N82062800
+ Matrix {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  matrix {
+      {-1 0 1}
+      {-2 0 2}
+      {-1 0 1}
+    }
+  name sobelH
+  xpos 471
+  ypos 42
+ }
+ Matrix {
+  channels {-rgba.red rgba.green -rgba.blue none}
+  matrix {
+      {1 2 1}
+      {0 0 0}
+      {-1 -2 -1}
+    }
+  name sobelV
+  xpos 471
+  ypos 80
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge4
+  xpos 471
+  ypos 140
+ }
+ Expression {
+  temp_name3 M
+  temp_expr3 hypot(r,g)
+  expr0 M>.001?r/M:0
+  expr1 M>.001?g/M:0
+  channel2 none
+  name normalize1
+  xpos 471
+  ypos 221
+ }
+set N592de400 [stack 0]
+ Expression {
+  temp_name0 u
+  temp_expr0 1
+  temp_name1 v
+  temp_expr1 -1
+  temp_name2 m
+  temp_expr2 hypot(u,v)
+  channel0 rgba
+  expr0 abs(r*u/m-g*v/m)
+  channel1 none
+  channel2 none
+  name SE_NW
+  xpos 648
+  ypos 266
+ }
+ Expression {
+  temp_name0 a
+  temp_expr0 cos(PI/8)
+  temp_name1 w
+  temp_expr1 .5
+  channel0 rgba
+  expr0 mix(r>=a,r,w)
+  channel1 none
+  channel2 none
+  channel3 none
+  name C0
+  xpos 648
+  ypos 292
+ }
+ set C532fb000 [stack 0]
+ Matrix {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  matrix {
+      {1 0 0 0 0}
+      {0 1 0 0 0}
+      {0 0 1 0 0}
+      {0 0 0 1 0}
+      {0 0 0 0 1}
+    }
+  normalize true
+  name D2b1
+  xpos 648
+  ypos 318
+ }
+ Expression {
+  temp_name0 a
+  temp_expr0 4
+  temp_name1 b
+  temp_expr1 2
+  channel0 rgba
+  expr0 clamp(r*a-b)
+  channel1 none
+  channel2 none
+  name C1
+  xpos 648
+  ypos 359
+ }
+ set C532fa400 [stack 0]
+set N532fa400 [stack 0]
+push $N592de400
+ Expression {
+  temp_name0 u
+  temp_expr0 1
+  temp_name1 v
+  temp_expr1 1
+  temp_name2 m
+  temp_expr2 hypot(u,v)
+  channel0 rgba
+  expr0 abs(r*u/m-g*v/m)
+  channel1 none
+  channel2 none
+  name NE_SW
+  xpos 538
+  ypos 266
+ }
+clone $C532fb000 {
+  xpos 538
+  ypos 292
+  selected false
+ }
+ Matrix {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  matrix {
+      {0 0 0 0 1}
+      {0 0 0 1 0}
+      {0 0 1 0 0}
+      {0 1 0 0 0}
+      {1 0 0 0 0}
+    }
+  normalize true
+  name D1b1
+  xpos 538
+  ypos 318
+ }
+clone $C532fa400 {
+  xpos 538
+  ypos 357
+  selected false
+ }
+set N73c6800 [stack 0]
+push 0
+push $N592de400
+ Expression {
+  temp_name0 u
+  temp_expr0 0
+  temp_name1 v
+  temp_expr1 1
+  temp_name2 m
+  temp_expr2 hypot(u,v)
+  channel0 rgba
+  expr0 abs(r*u/m-g*v/m)
+  channel1 none
+  channel2 none
+  name NS
+  xpos 283
+  ypos 269
+ }
+clone $C532fb000 {
+  xpos 283
+  ypos 295
+  selected false
+ }
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  size {5 0}
+  filter box
+  name BlurH1
+  xpos 283
+  ypos 321
+ }
+clone $C532fa400 {
+  xpos 283
+  ypos 359
+  selected false
+ }
+set N80d08c00 [stack 0]
+push $N592de400
+ Expression {
+  temp_name0 u
+  temp_expr0 1
+  temp_name1 v
+  temp_expr1 0
+  temp_name2 m
+  temp_expr2 hypot(u,v)
+  channel0 rgba
+  expr0 abs(r*u/m-g*v/m)
+  channel1 none
+  channel2 none
+  name EW
+  xpos 409
+  ypos 269
+ }
+clone $C532fb000 {
+  xpos 409
+  ypos 295
+  selected false
+ }
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  size {0 5}
+  filter box
+  name BlurV1
+  xpos 409
+  ypos 321
+ }
+clone $C532fa400 {
+  xpos 409
+  ypos 359
+  selected false
+ }
+set Na29ff000 [stack 0]
+ Merge2 {
+  inputs 4+1
+  operation max
+  name MAX
+  xpos 476
+  ypos 453
+ }
+set Na29fe800 [stack 0]
+push $N80d08c00
+ MergeExpression {
+  inputs 2
+  channel0 rgba
+  expr0 (B.r==A.r)*B.r
+  channel1 none
+  channel2 none
+  name compare
+  xpos 283
+  ypos 543
+ }
+ set Ca29fe400 [stack 0]
+set Na29fe400 [stack 0]
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  size {15 0}
+  filter box
+  name BlurH2
+  xpos 376
+  ypos 880
+ }
+ Expression {
+  temp_name0 a
+  temp_expr0 4
+  temp_name1 b
+  temp_expr1 3
+  channel0 rgba
+  expr0 clamp(r*a-b)
+  channel1 none
+  channel2 none
+  name C2
+  xpos 376
+  ypos 918
+ }
+ set C196bf800 [stack 0]
+push $Na29fe800
+push $Na29ff000
+clone $Ca29fe400 {
+  inputs 2
+  xpos 409
+  ypos 544
+  selected false
+ }
+set N196bf000 [stack 0]
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  size {0 15}
+  filter box
+  name BlurH3
+  xpos 491
+  ypos 799
+ }
+clone $C196bf800 {
+  xpos 491
+  ypos 845
+  selected false
+ }
+push $Na29fe800
+push $N532fa400
+clone $Ca29fe400 {
+  inputs 2
+  xpos 648
+  ypos 540
+  selected false
+ }
+push $Na29fe800
+push $N73c6800
+clone $Ca29fe400 {
+  inputs 2
+  xpos 538
+  ypos 538
+  selected false
+ }
+push $N196bf000
+push $Na29fe400
+push $N82062400
+ NoOp {
+  name vectorAA_IN
+  xpos -673
+  ypos -17
+ }
+set N1966cc00 [stack 0]
+ Matrix {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  matrix {
+      {1 2 1}
+      {2 -12 2}
+      {1 2 1}
+    }
+  name edge
+  xpos -740
+  ypos 149
+ }
+ Expression {
+  channel0 rgba
+  expr0 clamp(abs(r))
+  channel1 none
+  channel2 none
+  name Expression9
+  xpos -740
+  ypos 185
+ }
+ Dot {
+  name Dot1
+  xpos -706
+  ypos 570
+ }
+push $N1966cc00
+ Blur {
+  channels rgb
+  size 1.5
+  filter triangle
+  name preBlur
+  xpos -619
+  ypos 154
+  disable {{1-_preblur i}}
+ }
+ Matrix {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  matrix {
+      {-1 0}
+      {1 0}
+    }
+  name V
+  xpos -619
+  ypos 194
+ }
+ Matrix {
+  channels {-rgba.red rgba.green -rgba.blue none}
+  matrix {
+      {-1 1}
+      {0 0}
+    }
+  name H
+  xpos -619
+  ypos 232
+ }
+ Matrix {
+  channels {-rgba.red -rgba.green rgba.blue none}
+  matrix {
+      {0 1 0}
+      {0 -2 0}
+      {0 1 0}
+    }
+  name X1
+  xpos -619
+  ypos 270
+ }
+ Expression {
+  channel0 {-rgba.red -rgba.green rgba.blue none}
+  expr0 clamp(abs(b)*4)
+  channel1 none
+  channel2 none
+  name Expression2
+  xpos -619
+  ypos 308
+ }
+ Blur {
+  channels {-rgba.red -rgba.green rgba.blue none}
+  size {5 0}
+  filter quadratic
+  name Blur6
+  xpos -619
+  ypos 332
+ }
+ Expression {
+  channel0 {-rgba.red -rgba.green rgba.blue none}
+  expr0 clamp(abs(b)*4-2)
+  channel1 none
+  channel2 none
+  name Expression10
+  xpos -619
+  ypos 372
+ }
+ Expression {
+  temp_name0 S
+  temp_expr0 b?(r>0)-(r<0):(g>0)-(g<0)
+  expr0 r*S
+  expr1 g*S
+  expr2 0
+  name conformVectors1
+  xpos -619
+  ypos 406
+ }
+ Expression {
+  temp_name0 M
+  temp_expr0 hypot(r,g)
+  expr0 (M!=0)?r/M:r
+  expr1 (M!=0)?g/M:g
+  channel2 none
+  channel3 none
+  name normalize
+  xpos -619
+  ypos 440
+ }
+push $N82062000
+ Dot {
+  name Dot2
+  xpos -467
+  ypos -119
+ }
+add_layer {mpPostAAdir mpPostAAdir.u mpPostAAdir.v mpPostAAdir.w}
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 mpPostAAdir.u
+  from1 rgba.green
+  to1 mpPostAAdir.v
+  from2 rgba.blue
+  to2 mpPostAAdir.w
+  name Copy1
+  xpos -501
+  ypos 422
+ }
+ Blur {
+  channels mpPostAAdir
+  size 2
+  filter box
+  name Blur5
+  xpos -501
+  ypos 505
+ }
+ VectorBlur {
+  inputs 1+1
+  channels rgba
+  uv mpPostAAdir
+  scale 5
+  name VectorBlur1
+  xpos -501
+  ypos 567
+ }
+ Dot {
+  name Dot4
+  xpos -467
+  ypos 635
+ }
+push $N82062000
+ Dot {
+  name Dot5
+  xpos 77
+  ypos -119
+ }
+ Switch {
+  inputs 2
+  which {{_vectorAA i}}
+  name _vectorAA_sw
+  xpos 43
+  ypos 632
+ }
+ Blur {
+  inputs 1+1
+  channels rgba
+  size {5 0}
+  filter box
+  name BlurH
+  xpos 283
+  ypos 632
+ }
+ Blur {
+  inputs 1+1
+  channels rgba
+  size {0 5}
+  filter box
+  name BlurV
+  xpos 409
+  ypos 632
+ }
+ Matrix {
+  inputs 1+1
+  channels rgba
+  matrix {
+      {0 0 0 0 1}
+      {0 0 0 1 0}
+      {0 0 1 0 0}
+      {0 1 0 0 0}
+      {1 0 0 0 0}
+    }
+  normalize true
+  name BlurD2
+  xpos 538
+  ypos 632
+ }
+ Matrix {
+  inputs 1+1
+  channels rgba
+  matrix {
+      {1 0 0 0 0}
+      {0 1 0 0 0}
+      {0 0 1 0 0}
+      {0 0 0 1 0}
+      {0 0 0 0 1}
+    }
+  normalize true
+  name BlurD1
+  xpos 648
+  ypos 632
+ }
+set N45368000 [stack 0]
+ Colorspace {
+  colorspace_out HSV
+  name to_HSV
+  xpos 648
+  ypos 768
+ }
+ Blur {
+  inputs 1+1
+  channels {-rgba.red -rgba.green rgba.blue rgba.alpha}
+  size {0 15}
+  filter box
+  name L_BlurH1
+  xpos 648
+  ypos 839
+ }
+ Blur {
+  inputs 1+1
+  channels {-rgba.red -rgba.green rgba.blue rgba.alpha}
+  size {15 0}
+  filter box
+  name L_BlurH
+  xpos 648
+  ypos 912
+ }
+ Colorspace {
+  colorspace_in HSV
+  name back_to_RGB
+  xpos 648
+  ypos 984
+ }
+push $N45368000
+ Dot {
+  name Dot8
+  xpos 785
+  ypos 635
+ }
+ Switch {
+  inputs 2
+  which {{_DLAA2}}
+  name _DLAA2_sw
+  xpos 751
+  ypos 984
+ }
+ Add {
+  channels rgb
+  value {{mix(-_colorKey,-pow(_colorKey,1/2.2),_sRGB) i} {mix(-_colorKey,-pow(_colorKey,1/2.2),_sRGB) i} {mix(-_colorKey,-pow(_colorKey,1/2.2),_sRGB) i} {mix(-_colorKey,-pow(_colorKey,1/2.2),_sRGB) i}}
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name rmColorKey
+  xpos 751
+  ypos 1047
+  disable {{1-_useColorKey i}}
+ }
+ Clamp {
+  channels rgb
+  maximum_enable false
+  name clampRGB
+  xpos 751
+  ypos 1083
+  disable {{1-_useColorKey i}}
+ }
+ Gamma {
+  channels rgba
+  value {{1/2.2}}
+  name back_to_Linear
+  xpos 751
+  ypos 1167
+  disable {{1-_sRGB}}
+ }
+ Output {
+  name Output1
+  xpos 751
+  ypos 1353
+ }
+end_group

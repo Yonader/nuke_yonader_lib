@@ -1,0 +1,15 @@
+Crop {
+ box {{newFormat.x+offset.h+transformFormat.x} {newFormat.y+offset.w+transformFormat.y} {newFormat.r-offset.w+transformFormat.x} {newFormat.t-offset.h+transformFormat.y}}
+ reformat true
+ crop false
+ name CropAdv1
+ selected true
+ xpos -2170
+ ypos 430
+ addUserKnob {20 settingsTab l Settings}
+ addUserKnob {12 transformFormat l Transform}
+ addUserKnob {15 newFormat l "new Format"}
+ newFormat {0 0 2048 2048}
+ addUserKnob {22 buttonFormat l ResetFormat -STARTLINE T "\nnode = nuke.thisNode()\nnodeFormatX = int( 0 ) \nnodeFormatY = int( 0 ) \nnodeFormatR = int( nuke.tcl(\"value width\") )\nnodeFormatT = int( nuke.tcl(\"value height\") )\nnodeNewCenter = \[nodeFormatX,nodeFormatY,nodeFormatR,nodeFormatT]\nnode\[\"newFormat\"].setValue(nodeNewCenter)\n\n          "}
+ addUserKnob {14 offset l Offset R 0 100}
+}

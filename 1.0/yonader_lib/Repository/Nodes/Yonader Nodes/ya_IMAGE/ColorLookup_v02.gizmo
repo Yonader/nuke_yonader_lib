@@ -1,0 +1,153 @@
+#! C:/Program Files/Nuke13.0v1/nuke-13.0.1.dll -nx
+version 13.0 v1
+Gizmo {
+inputs 2
+addUserKnob {20 User}
+addUserKnob {41 channels T ColorLookup1.channels}
+addUserKnob {26 "" l " "}
+addUserKnob {41 lut l "" -STARTLINE T ColorLookup1.lut}
+addUserKnob {26 "" l " "}
+addUserKnob {41 source T ColorLookup1.source}
+addUserKnob {41 target T ColorLookup1.target}
+addUserKnob {26 "" l " "}
+addUserKnob {41 setRGB l "Set RGB" T ColorLookup1.setRGB}
+addUserKnob {41 setRGBA l "Set RGBA" -STARTLINE T ColorLookup1.setRGBA}
+addUserKnob {41 setA l "Set A" -STARTLINE T ColorLookup1.setA}
+addUserKnob {26 Alphas}
+addUserKnob {41 Mask T Keymix1.mix}
+addUserKnob {41 Channel l channel -STARTLINE T Keymix1.maskChannel}
+addUserKnob {41 invertalpha l "invert alpha" T Invert1.disable}
+addUserKnob {41 Mix T NoOp1.Mix}
+}
+Input {
+inputs 0
+name mask
+xpos 501
+ypos -187
+number 1
+}
+Dot {
+name Dot4
+label mask
+xpos 535
+ypos -3
+}
+Invert {
+name Invert1
+xpos 501
+ypos 91
+}
+Input {
+inputs 0
+name IMG
+xpos 645
+ypos -224
+}
+Dot {
+name Dot1
+label RGB
+xpos 679
+ypos -149
+}
+set Nf511ac00 [stack 0]
+Dot {
+name Dot5
+xpos 679
+ypos -77
+}
+set Nf511a800 [stack 0]
+push $Nf511ac00
+Dot {
+name Dot2
+xpos 988
+ypos -149
+}
+set Nf511a400 [stack 0]
+HueCorrect {
+hue {sat {curve x2 0}
+  lum {}
+  red {}
+  green {}
+  blue {}
+  r_sup {}
+  g_sup {}
+  b_sup {}
+  sat_thrsh {}}
+mix_luminance 1
+name HueCorrect1
+xpos 954
+ypos -81
+}
+set Nf511a000 [stack 0]
+ColorLookup {
+lut {master {curve R 0 C 1}
+  red {}
+  green {}
+  blue {}
+  alpha {}}
+name ColorLookup1
+xpos 954
+ypos 25
+}
+push $Nf511a800
+push $Nf511a000
+Merge2 {
+inputs 2
+operation divide
+name Merge1
+xpos 784
+ypos -81
+}
+Merge2 {
+inputs 2
+operation multiply
+name Merge2
+xpos 784
+ypos 25
+}
+Keymix {
+inputs 3
+name Keymix1
+xpos 645
+ypos 91
+}
+push $Nf511a400
+Dot {
+name Dot7
+xpos 1161
+ypos -149
+}
+Dot {
+name Dot6
+xpos 1161
+ypos 171
+}
+Dissolve {
+inputs 2
+which {{parent.NoOp1.Mix}}
+name Dissolve1
+xpos 645
+ypos 162
+}
+Dot {
+name Dot3
+label out
+xpos 679
+ypos 214
+}
+Output {
+name Output1
+xpos 645
+ypos 269
+}
+NoOp {
+inputs 0
+name NoOp1
+selected true
+xpos 505
+ypos 170
+addUserKnob {20 User}
+addUserKnob {7 Mix}
+Mix 1
+}
+end_group

@@ -1,0 +1,219 @@
+set cut_paste_input [stack 0]
+version 8.0 v1
+push $cut_paste_input
+Group {
+ name Tranche
+ tile_color 0x308fffff
+ selected true
+ xpos 9860
+ ypos 9134
+ icon Ripper.png
+ addUserKnob {20 Tranche}
+ addUserKnob {41 MayaMax l INVISIBLE +INVISIBLE T tranche_ctrl.MayaMax}
+ addUserKnob {41 channelCut l "Axis Cut" T tranche_ctrl.channelCut}
+ addUserKnob {41 LineCut l "Line Cut" -STARTLINE T tranche_ctrl.LineCut}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 basic_offset l "Basic offset" T tranche_ctrl.basic_offset}
+ addUserKnob {41 smoothness l Smooth T tranche_ctrl.smoothness}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 invert -STARTLINE T tranche_ctrl.invert}
+ addUserKnob {41 whitepoint T BW.whitepoint}
+ addUserKnob {41 blackpoint T BW.blackpoint}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 text l "" -STARTLINE T "Don't use 3D Axis with this."}
+ addUserKnob {20 Transform l "3D Transform" n 1}
+ Transform 0
+ addUserKnob {41 translate T Axis1.translate}
+ addUserKnob {41 rotate T Axis1.rotate}
+ addUserKnob {41 scaling l scale T Axis1.scaling}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {20 world_offset l "World Offset" n 1}
+ world_offset 0
+ addUserKnob {41 activPick T tranche_ctrl.activPick}
+ addUserKnob {41 center l "" -STARTLINE T tranche_ctrl.center}
+ addUserKnob {20 endGroup n -1}
+}
+ Input {
+  inputs 0
+  name pointWorld
+  xpos 510
+  ypos 62
+ }
+set N729292f0 [stack 0]
+ ColorMatrix {
+  matrix {
+      {1 0 0}
+      {0 0 1}
+      {0 -1 0}
+    }
+  name maxToMaya
+  xpos 668
+  ypos 134
+ }
+push $N729292f0
+ Switch {
+  inputs 2
+  which {{parent.tranche_ctrl.MayaMax}}
+  name maxORmaya
+  xpos 510
+  ypos 134
+ }
+set N6fe96580 [stack 0]
+ Dot {
+  name Dot1
+  xpos 324
+  ypos 138
+ }
+ Dot {
+  name Dot2
+  xpos 324
+  ypos 738
+ }
+push $N6fe96580
+ Grade {
+  add {{-parent.tranche_ctrl.center.r} {-parent.tranche_ctrl.center.g} {-parent.tranche_ctrl.center.b} 0}
+  black_clamp false
+  name Grade1
+  xpos 510
+  ypos 182
+ }
+ Grade {
+  add {{-parent.Axis1.world_matrix.3} {parent.Axis1.world_matrix.11} {-parent.Axis1.world_matrix.7} 0}
+  black_clamp false
+  name axisTransfo
+  xpos 510
+  ypos 254
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis1.world_matrix.0} {parent.Axis1.world_matrix.1} {parent.Axis1.world_matrix.2}}
+      {{parent.Axis1.world_matrix.4} {parent.Axis1.world_matrix.5} {parent.Axis1.world_matrix.6}}
+      {{parent.Axis1.world_matrix.8} {parent.Axis1.world_matrix.9} {parent.Axis1.world_matrix.10}}
+    }
+  name worldRotate
+  xpos 510
+  ypos 280
+ }
+ Expression {
+  temp_name0 axisCut
+  temp_expr0 "\[python \{nuke.toNode('tranche_ctrl').knob('channelCut').value()\}]"
+  channel0 rgb
+  expr0 axisCut
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  channel3 {none none none -rgba.alpha}
+  name axisCut
+  xpos 510
+  ypos 374
+  addUserKnob {20 User}
+  addUserKnob {4 axisCut M {Red Green Blue}}
+  axisCut Blue
+ }
+ Grade {
+  add {{parent.tranche_ctrl.basic_offset}}
+  black_clamp false
+  name basic_offset_grade
+  xpos 510
+  ypos 422
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove2
+  xpos 510
+  ypos 466
+ }
+set N72936b80 [stack 0]
+ Expression {
+  channel0 rgba
+  expr0 fabs(r)
+  channel1 {-rgba.red -rgba.green -rgba.blue}
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  channel3 {none none none -rgba.alpha}
+  name Expression1
+  xpos 730
+  ypos 466
+ }
+push $N72936b80
+ Switch {
+  inputs 2
+  which {{parent.tranche_ctrl.LineCut}}
+  name lineCut
+  xpos 510
+  ypos 494
+ }
+ Grade {
+  whitepoint {{parent.tranche_ctrl.smoothness}}
+  black_clamp false
+  name smooth_grade
+  xpos 510
+  ypos 542
+ }
+ Grade {
+  white_clamp true
+  name BW
+  xpos 510
+  ypos 590
+ }
+ Invert {
+  channels rgba
+  mix {{parent.tranche_ctrl.invert}}
+  name Invert1
+  xpos 510
+  ypos 638
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle2
+  xpos 510
+  ypos 686
+ }
+ Switch {
+  inputs 2
+  which {{parent.tranche_ctrl.activPick}}
+  name activPick
+  xpos 510
+  ypos 734
+ }
+ Output {
+  name Output1
+  xpos 510
+  ypos 854
+ }
+ NoOp {
+  inputs 0
+  name tranche_ctrl
+  xpos -40
+  ypos 422
+  addUserKnob {20 User}
+  addUserKnob {6 invert +STARTLINE}
+  addUserKnob {7 basic_offset l "Basic offset" R -100 100}
+  basic_offset -83
+  addUserKnob {4 channelCut M {Red Green Blue}}
+  channelCut Green
+  addUserKnob {6 LineCut l "Line Cut" +STARTLINE}
+  LineCut true
+  addUserKnob {7 smoothness l Smooth R 0 100}
+  smoothness 2
+  addUserKnob {4 MayaMax M {"Max Camera" "Maya Camera" "" ""}}
+  addUserKnob {18 center}
+  center {0 0 0}
+  addUserKnob {6 activPick -STARTLINE}
+ }
+ Input {
+  inputs 0
+  name Transform_3D
+  xpos 778
+  ypos 62
+  number 1
+  addUserKnob {20 User}
+ }
+ Axis2 {
+  name Axis1
+  selected true
+  xpos 788
+  ypos 246
+ }
+end_group

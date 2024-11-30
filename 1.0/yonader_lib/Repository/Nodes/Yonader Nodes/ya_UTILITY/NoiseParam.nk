@@ -1,0 +1,26 @@
+set cut_paste_input [stack 0]
+version 11.1 v3
+push $cut_paste_input
+NoOp {
+ name NoOp1
+ selected true
+ xpos 4005
+ ypos -335
+ addUserKnob {20 User}
+ addUserKnob {7 speed}
+ speed 1.5
+ addUserKnob {7 seed}
+ seed {{frame*speed}}
+ addUserKnob {7 high}
+ high 0.3
+ addUserKnob {7 med}
+ med 0.15
+ addUserKnob {7 low}
+ low 0.05
+ addUserKnob {7 high_val}
+ high_val 5
+ addUserKnob {7 med_val}
+ med_val 5
+ addUserKnob {7 low_val}
+ low_val 5
+}

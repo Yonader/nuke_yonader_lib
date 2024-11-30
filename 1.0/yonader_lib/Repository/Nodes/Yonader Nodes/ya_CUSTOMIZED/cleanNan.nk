@@ -1,0 +1,11 @@
+Expression {
+ expr0 (isnan(r)||isinf(r))?r(x+xo,y+yo):r
+ expr1 (isnan(g)||isinf(g))?g(x+xo,y+yo):g
+ expr2 (isnan(b)||isinf(b))?b(x+xo,y+yo):b
+ expr3 (isnan(a)||isinf(a))?a(x+xo,y+yo):a
+ name Expression4
+ addUserKnob {20 User}
+ addUserKnob {7 xo l xOffset}
+ xo -8
+ addUserKnob {7 yo l yOffset}
+}

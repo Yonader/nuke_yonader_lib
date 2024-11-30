@@ -1,0 +1,103 @@
+#! /software/nuke/6.3v9/linux.centos5.x86_64/Nuke6.3 -nx
+version 6.3 v9
+Gizmo {
+ name AngleEdgeDetect
+ help "Gonzo FX\nDaniel Gonzalez Solozabal\nwww.retinaut.com "
+ selected true
+ xpos 1193
+ ypos 1324
+ addUserKnob {20 User l AngleEdgeDetect}
+ addUserKnob {26 ede l Edge T " "}
+ addUserKnob {41 Angler l Angle T Trance.Angler}
+ addUserKnob {41 weighter l Size T Trance.weighter}
+ addUserKnob {26 gb l " " T "  "}
+ addUserKnob {26 ee l Blur T " "}
+ addUserKnob {41 size l Size T Bluhr.size}
+ addUserKnob {41 filter -STARTLINE T Bluhr.filter}
+ addUserKnob {7 Intensity R 1 10}
+ Intensity 1
+ addUserKnob {26 jh l " " T " "}
+ addUserKnob {26 Signature l "" +STARTLINE T " GONZO FX\tDaniel Gonzalez Solozabal"}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -417
+  ypos 304
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shufflerer
+  xpos -417
+  ypos 351
+ }
+ Dot {
+  name Dot87
+  xpos -383
+  ypos 408
+ }
+set N88b3e90 [stack 0]
+ Dot {
+  name Dot2
+  xpos -587
+  ypos 408
+ }
+set Nfe34710 [stack 0]
+ Transform {
+  translate {{"(weighter * sin (Angler* pi/180))" i} {"(weighter * cos (Angler * pi/180))" i}}
+  center {1231 932}
+  shuttercustomoffset -0.89
+  name Trance
+  xpos -549
+  ypos 465
+  addUserKnob {20 User}
+  addUserKnob {7 Angler l Angle R 0 360}
+  addUserKnob {7 weighter l weight R 0 50}
+  weighter 5
+ }
+push $N88b3e90
+ Merge2 {
+  inputs 2
+  operation stencil
+  name CUTChemist
+  xpos -417
+  ypos 465
+ }
+ Blur {
+  channels rgba
+  name Bluhr
+  xpos -417
+  ypos 513
+ }
+ Multiply {
+  value {{"parent.Intensity " i}}
+  name Multiplay
+  xpos -417
+  ypos 550
+ }
+push $Nfe34710
+ Dot {
+  name Dot1
+  xpos -587
+  ypos 624
+ }
+ Merge2 {
+  inputs 2
+  operation in
+  name Inim
+  xpos -417
+  ypos 620
+ }
+ Clamp {
+  name Clamppost
+  xpos -417
+  ypos 680
+ }
+ Output {
+  name Output1
+  xpos -417
+  ypos 778
+ }
+end_group

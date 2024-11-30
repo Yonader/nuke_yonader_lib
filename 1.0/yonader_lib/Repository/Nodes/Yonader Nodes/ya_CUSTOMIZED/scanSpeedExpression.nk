@@ -1,0 +1,30 @@
+Expression {
+ expr0 sin((y+pos.y)*scanSpace)
+ expr1 sin((y+pos.y)*scanSpace)
+ expr2 sin((y+pos.y)*scanSpace)
+ name Expression4
+ label "NOISY\nGRADIENT\nSCAN\n"
+ addUserKnob {20 User}
+ addUserKnob {7 scanSpace}
+ scanSpace 0.01
+ addUserKnob {7 wavelength}
+ wavelength 0.16
+ addUserKnob {7 amp}
+ amp 100
+ addUserKnob {12 pos}
+ pos {690 {1500+(((noise((frame*wavelength)))*amp)+(amp+offset)) x52 -510 x78 835.6544}}
+ addUserKnob {7 size R 0 500}
+ size 500
+ addUserKnob {7 offset}
+ offset {{"direction == 0 ? (((frame*speed)*-1)+maxVal) : (frame*speed)"}}
+ addUserKnob {26 ""}
+ addUserKnob {7 scanSpeed}
+ scanSpeed 10
+ addUserKnob {7 speed}
+ speed 0.475
+ addUserKnob {7 maxFrame}
+ maxFrame 100
+ addUserKnob {4 direction M {down up}}
+ addUserKnob {7 maxVal}
+ maxVal {{speed*maxFrame}}
+}

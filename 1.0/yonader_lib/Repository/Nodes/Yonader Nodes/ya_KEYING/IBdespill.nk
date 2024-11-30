@@ -1,0 +1,977 @@
+set cut_paste_input [stack 0]
+version 11.1 v1
+push 0
+push 0
+push $cut_paste_input
+Group {
+ inputs 3
+ name IBdespill3
+ onCreate "def configureOCIO(OCIOColorspace):\n    OCIOColorspace.knob('in_colorspace').setValue('Utility - Raw')\n    OCIOColorspace.knob('out_colorspace').setValue('Utility - Raw')\n\nif nuke.root().knob('colorManagement').value() == 'OCIO':\n    with nuke.thisGroup():\n        try:\n            configureOCIO(nuke.toNode('Redcolour_to_wetaWide'))\n        except Exception as e:\n            print str(e)\n            print 'No node found'\nelse:\n    with nuke.thisGroup():\n        nodeToModify = nuke.toNode('Redcolour_to_wetaWide')\n        nodeToModify.knob('in_colorspace').setValue('linear')\n        nodeToModify.knob('out_colorspace').setValue('linear')"
+ tile_color 0x9a00ff
+ selected true
+ xpos -97
+ ypos 5536
+ addUserKnob {20 despill}
+ addUserKnob {4 despillColour t "screen colour" M {Red Green Blue "" ""}}
+ despillColour Green
+ addUserKnob {18 bias t "bias the despill over-all.  this colour becomes the neutral hue"}
+ bias {0.2 0.18 0.3}
+ addUserKnob {6 bias_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bias_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bias_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bias_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bias_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bias_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bias_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bias_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bias_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bias_panelDropped_1_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 screenVar l "colour variation" t "allow BG screen colour variation to bias despill.  Also affects scren subtraction"}
+ screenVar 1
+ addUserKnob {26 ""}
+ addUserKnob {6 subScreen l "screen subtraction" t "sutract the screen luma " +STARTLINE}
+ subScreen true
+ addUserKnob {7 screenSub l "screen sub" t "amount to sutract the luma of the screen.  set to +1 to add back the luma lost in despill.  " R -2 2}
+ screenSub -0.96
+ addUserKnob {18 bgLumaAmount l "bg luma add" R 0 4}
+ bgLumaAmount 0.96
+ addUserKnob {6 bgLumaAmount_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bgLumaAmount_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bgLumaAmount_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bgLumaAmount_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bgLumaAmount_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bgLumaAmount_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bgLumaAmount_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bgLumaAmount_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bgLumaAmount_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 bgLumaAmount_panelDropped_1_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 maskscreensub l "in mask luma add" R 0 4}
+ maskscreensub 1
+ addUserKnob {6 maskscreensub_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 maskscreensub_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 maskscreensub_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 maskscreensub_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 maskscreensub_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 maskscreensub_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 maskscreensub_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 maskscreensub_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 maskscreensub_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 maskscreensub_panelDropped_1_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 bgSaturation}
+ bgSaturation 1
+ addUserKnob {26 ""}
+ addUserKnob {41 mix l subFGmix T subFG.mix}
+ addUserKnob {20 tweaks}
+ addUserKnob {7 despillMax l "despill Max" t "limit of value to apply despill to. can resolve some problems with odd colours in superwhite halos in digital cameras" R 0 10}
+ despillMax 5
+ addUserKnob {20 lumaMask l "limit bg luma" n 1}
+ addUserKnob {7 maskInner l Inner R -1 1}
+ addUserKnob {41 gamma T additiveMaskControl.gamma}
+ addUserKnob {7 maskOuter l Outer R 0 2}
+ maskOuter 1
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {7 limitDarks l "limit darks" t "try to limit minimum output values to min of bg and fg to avoid dark edges.  Constrained to alpha "}
+ limitDarks 1
+ addUserKnob {7 limitEdge l "limit darks edge" t "amount of halftones that limitDarks influences" R 0 4}
+ addUserKnob {26 ""}
+ addUserKnob {6 premult -STARTLINE}
+ addUserKnob {6 spillOnly -STARTLINE}
+ addUserKnob {6 cropC l "crop clean screen input" -STARTLINE}
+ cropC true
+ addUserKnob {26 ""}
+ addUserKnob {6 cameraRGB l "use red camera matrix" t "convert from redColour2 to cameraRGB colours to avoid dark edges" +STARTLINE}
+ addUserKnob {7 negProt l "negs protection" R 0 0.1}
+ negProt 0.01
+ addUserKnob {26 v l "" +STARTLINE T v12}
+}
+ Input {
+  inputs 0
+  name fg
+  xpos 572
+  ypos -1687
+ }
+ ColorMatrix {
+  matrix {
+      {0.96599801 -0.18485456 0.21958821}
+      {-0.07864645 0.99693186 0.08231127}
+      {0.04120103 -0.5164596 1.47469565}
+    }
+  invert true
+  name toCameraRGB2
+  xpos 570
+  ypos -1592
+  disable {{cameraRGB?0:1 x3 0}}
+ }
+ Multiply {
+  channels rgb
+  value {{((parent.bias.r*.3)+(parent.bias.g*.59)+(parent.bias.b*.11))/parent.bias.r} {((parent.bias.r*.3)+(parent.bias.g*.59)+(parent.bias.b*.11))/parent.bias.g} {((parent.bias.r*.3)+(parent.bias.g*.59)+(parent.bias.b*.11))/parent.bias.b} {curve}}
+  name bias_to_neutral
+  xpos 570
+  ypos -1523
+ }
+ Dot {
+  name Dot24
+  xpos 604
+  ypos -896
+ }
+set N28a7ea80 [stack 0]
+ Dot {
+  name Dot9
+  xpos -419
+  ypos -770
+ }
+ Dot {
+  name Dot25
+  xpos -419
+  ypos 2832
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 1 1 0}
+  format "12 12 0 0 12 12 1 12pixel"
+  name one
+  xpos 1153
+  ypos -115
+ }
+ Reformat {
+  type "to box"
+  box_width {{c.width}}
+  box_height {{c.height}}
+  box_fixed true
+  filter Impulse
+  black_outside true
+  name Reformat4
+  xpos 1153
+  ypos -11
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {{despillColour==0?.8:.1} {despillColour==1?.8:.1} {despillColour==2?.8:.1} {curve}}
+  format "12 12 0 0 12 12 1 12pixel"
+  name backupaScreenColour
+  xpos 1642
+  ypos -1557
+ }
+ Reformat {
+  type "to box"
+  box_width {{c.width}}
+  box_height {{c.height}}
+  box_fixed true
+  filter Impulse
+  black_outside true
+  name Reformat5
+  xpos 1642
+  ypos -1386
+ }
+ Input {
+  inputs 0
+  name c
+  xpos 1245
+  ypos -1555
+  number 2
+ }
+ Dot {
+  name Dot16
+  xpos 1279
+  ypos -1492
+ }
+ Crop {
+  box {1 0 {c.width} {c.height}}
+  crop false
+  name Crop1
+  xpos 1245
+  ypos -1441
+  disable {{cropC?0:1}}
+ }
+ Switch {
+  inputs 2
+  which {{"\[exists parent.input2]?0:1"}}
+  name Switch4
+  xpos 1260
+  ypos -1376
+ }
+ ColorMatrix {
+  matrix {
+      {0.96599801 -0.18485456 0.21958821}
+      {-0.07864645 0.99693186 0.08231127}
+      {0.04120103 -0.5164596 1.47469565}
+    }
+  invert true
+  name toCameraRGB1
+  xpos 1245
+  ypos -1218
+  disable {{cameraRGB?0:1 x3 0}}
+ }
+ Multiply {
+  channels rgb
+  value {{((parent.bias.r*.3)+(parent.bias.g*.59)+(parent.bias.b*.11))/parent.bias.r} {((parent.bias.r*.3)+(parent.bias.g*.59)+(parent.bias.b*.11))/parent.bias.g} {((parent.bias.r*.3)+(parent.bias.g*.59)+(parent.bias.b*.11))/parent.bias.b} {curve}}
+  name bias_to_neutral1
+  xpos 1245
+  ypos -1161
+ }
+ Dot {
+  name Dot14
+  xpos 1279
+  ypos -1069
+ }
+set N28adbc00 [stack 0]
+ Dot {
+  name Dot2
+  xpos 914
+  ypos -992
+ }
+set N28adb880 [stack 0]
+ Dot {
+  name Dot26
+  xpos 968
+  ypos -903
+ }
+set N28adb500 [stack 0]
+ Input {
+  inputs 0
+  name mask
+  xpos 268
+  ypos -1124
+  number 3
+ }
+ Dot {
+  name Dot11
+  xpos 302
+  ypos -1053
+ }
+set N28adae00 [stack 0]
+push $N28adb500
+push $N28adb880
+ Keymix {
+  inputs 3
+  name KeymixSreenAverage
+  label "if mask input\n"
+  xpos 807
+  ypos -938
+  disable {{"\[exists parent.input3]?0:1" x51 1}}
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name findScreenVariation
+  xpos 880
+  ypos -801
+ }
+ Saturation {
+  saturation {{screenVar x1 0.37}}
+  unpremult -rgba.alpha
+  name screen_colour_variation
+  xpos 880
+  ypos -761
+ }
+set N28ada380 [stack 0]
+push $N28adbc00
+ Merge2 {
+  inputs 2
+  operation multiply
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name biasForColourVariation
+  xpos 1255
+  ypos -626
+ }
+set N28ada000 [stack 0]
+ Expression {
+  temp_name0 deRed
+  temp_expr0 ((b+g)/2)<r?(b+g)/2:r
+  temp_name1 deGreen
+  temp_expr1 ((r+b)/2)<g?(r+b)/2:g
+  temp_name2 deBlue
+  temp_expr2 ((r+g)/2)<b?(r+g)/2:b
+  expr0 despillColour==0?deRed:r
+  expr1 despillColour==1?deGreen:g
+  expr2 despillColour==2?deBlue:b
+  unpremult -rgba.red
+  name SwitchingDespill
+  tile_color 0x77507ff
+  label "screen\n"
+  xpos 1255
+  ypos -410
+ }
+ Dot {
+  name Dot30
+  xpos 1289
+  ypos -303
+ }
+set N28b03500 [stack 0]
+push $N28ada000
+ Dot {
+  name Dot18
+  xpos 1077
+  ypos -594
+ }
+ Merge2 {
+  inputs 2
+  operation from
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name matchSpillOnly
+  xpos 1043
+  ypos -285
+  addUserKnob {20 User}
+  addUserKnob {4 op l operation M {disjoint-over in max min minus multiply out over plus screen under}}
+  op over
+ }
+set N28b02e00 [stack 0]
+ Merge2 {
+  inputs 2
+  operation divide
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name findMultiplier
+  xpos 1043
+  ypos -11
+ }
+push $N28ada380
+push $N28a7ea80
+ Merge2 {
+  inputs 2
+  operation multiply
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name equalise_screen_variation
+  xpos 570
+  ypos -577
+  disable true
+ }
+set N28b02700 [stack 0]
+ Keyer {
+  invert true
+  operation "luminance key"
+  range {{parent.despillMax*.8} {parent.despillMax} 1 1}
+  name Keyer3
+  xpos 677
+  ypos -518
+ }
+push $N28b02700
+ Expression {
+  inputs 1+1
+  temp_name0 deRed
+  temp_expr0 ((b+g)/2)<r?(b+g)/2:r
+  temp_name1 deGreen
+  temp_expr1 ((r+b)/2)<g?(r+b)/2:g
+  temp_name2 deBlue
+  temp_expr2 ((r+g)/2)<b?(r+g)/2:b
+  expr0 despillColour==0?deRed:r
+  expr1 despillColour==1?deGreen:g
+  expr2 despillColour==2?deBlue:b
+  unpremult -rgba.red
+  name SwitchingDespill2
+  tile_color 0x77507ff
+  label main
+  xpos 570
+  ypos -434
+ }
+ Dot {
+  name Dot17
+  xpos 604
+  ypos -269
+ }
+set N28b2d880 [stack 0]
+push $N28b02700
+ Dot {
+  name Dot5
+  xpos 457
+  ypos -521
+ }
+ Merge2 {
+  inputs 2
+  operation from
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name spillOnly
+  xpos 423
+  ypos -162
+  addUserKnob {20 User}
+  addUserKnob {4 op l operation M {disjoint-over in max min minus multiply out over plus screen under}}
+  op over
+ }
+ Dot {
+  name Dot20
+  xpos 457
+  ypos 70
+ }
+set N28b2ce00 [stack 0]
+ Merge2 {
+  inputs 2
+  operation multiply
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge3
+  xpos 1043
+  ypos 66
+ }
+ Grade {
+  blackpoint {{parent.maskInner x53 -0.004}}
+  whitepoint {{parent.maskOuter}}
+  gamma 0.8
+  white_clamp true
+  unpremult -rgba.alpha
+  name additiveMaskControl
+  xpos 1043
+  ypos 511
+ }
+ Keyer {
+  operation "max keyer"
+  name Keyer2
+  xpos 1043
+  ypos 537
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle1
+  xpos 1043
+  ypos 575
+ }
+set N28b2c000 [stack 0]
+ Dot {
+  name Dot13
+  xpos 1267
+  ypos 699
+ }
+ Invert {
+  channels rgba
+  name Invert1
+  xpos 1233
+  ypos 2045
+ }
+push $N28b2ce00
+ Dot {
+  name Dot1
+  xpos 439
+  ypos 2042
+ }
+push $N28b2c000
+ Dot {
+  name Dot6
+  xpos 1077
+  ypos 645
+ }
+set N28b65180 [stack 0]
+ Multiply {
+  channels rgba
+  value {{1-((1-limitEdge)/10)}}
+  name Multiply1
+  xpos 1043
+  ypos 1675
+ }
+ Gamma {
+  channels rgba
+  value {{limitEdge}}
+  name limitEdge
+  xpos 1043
+  ypos 1756
+ }
+push $N28b2d880
+ Dot {
+  name Dot15
+  xpos 198
+  ypos -114
+ }
+ Saturation {
+  saturation 0
+  unpremult -rgba.alpha
+  name FGsat
+  xpos 159
+  ypos 92
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color 0.6
+  format "12 12 0 0 12 12 1 12pixel"
+  name backupBgColour1
+  xpos -47
+  ypos -1712
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color 0.18
+  format "12 12 0 0 12 12 1 12pixel"
+  name backupBgColour2
+  xpos 94
+  ypos -1716
+ }
+ Switch {
+  inputs 2
+  which {{"\[exists parent.input2]?0:1"}}
+  name Switch1
+  xpos -9
+  ypos -1619
+ }
+ Reformat {
+  type "to box"
+  box_width {{c.width}}
+  box_height {{c.height}}
+  box_fixed true
+  filter Impulse
+  black_outside true
+  name Reformat6
+  xpos -9
+  ypos -1570
+ }
+ Input {
+  inputs 0
+  name bg
+  xpos -177
+  ypos -1657
+  number 1
+ }
+ Switch {
+  inputs 2
+  which {{"\[exists parent.input1]?0:1"}}
+  name Switch5
+  xpos -177
+  ypos -1570
+ }
+ ColorMatrix {
+  matrix {
+      {0.96599801 -0.18485456 0.21958821}
+      {-0.07864645 0.99693186 0.08231127}
+      {0.04120103 -0.5164596 1.47469565}
+    }
+  invert true
+  name toCameraRGB3
+  xpos -177
+  ypos -1500
+  disable {{cameraRGB?0:1 x3 0}}
+ }
+ Multiply {
+  channels rgb
+  value {{((parent.bias.r*.3)+(parent.bias.g*.59)+(parent.bias.b*.11))/parent.bias.r} {((parent.bias.r*.3)+(parent.bias.g*.59)+(parent.bias.b*.11))/parent.bias.g} {((parent.bias.r*.3)+(parent.bias.g*.59)+(parent.bias.b*.11))/parent.bias.b} {curve}}
+  name bias_to_neutral2
+  xpos -177
+  ypos -1445
+ }
+ Saturation {
+  saturation {{bgSaturation}}
+  unpremult -rgba.alpha
+  name BGsat
+  xpos -177
+  ypos 245
+ }
+set N28b9e380 [stack 0]
+ Merge2 {
+  inputs 2
+  operation min
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge5
+  xpos 159
+  ypos 328
+ }
+ Dot {
+  name Dot12
+  xpos 193
+  ypos 1786
+ }
+push $N28adae00
+ Dot {
+  name Dot7
+  xpos 302
+  ypos 982
+ }
+set N28bcd880 [stack 0]
+push $N28b65180
+ Dot {
+  name Dot22
+  xpos 92
+  ypos 703
+ }
+ Dot {
+  name Dot23
+  xpos 92
+  ypos 1368
+ }
+ Input {
+  inputs 0
+  name subFGmask
+  xpos -359
+  ypos 1302
+  number 4
+ }
+ Invert {
+  channels rgba
+  name Invert2
+  xpos -359
+  ypos 1328
+ }
+push $N28a7ea80
+ Dot {
+  name Dot10
+  xpos 894
+  ypos -513
+ }
+set N28bcc700 [stack 0]
+ Keyer {
+  invert true
+  operation "luminance key"
+  range {{parent.despillMax*.8} {parent.despillMax} 1 1}
+  name Keyer5
+  xpos 939
+  ypos -479
+ }
+push $N28bcc700
+ Expression {
+  inputs 1+1
+  temp_name0 deRed
+  temp_expr0 ((b+g)/2)<r?(b+g)/2:r
+  temp_name1 deGreen
+  temp_expr1 ((r+b)/2)<g?(r+b)/2:g
+  temp_name2 deBlue
+  temp_expr2 ((r+g)/2)<b?(r+g)/2:b
+  expr0 despillColour==0?deRed:r
+  expr1 despillColour==1?deGreen:g
+  expr2 despillColour==2?deBlue:b
+  unpremult -rgba.red
+  name SwitchingDespill1
+  tile_color 0x77507ff
+  label "without \nscreen variation"
+  xpos 860
+  ypos -423
+ }
+ Add {
+  channels rgb
+  value {{negProt}}
+  name a_tiny_lift
+  tile_color 0x3d2126ff
+  xpos 860
+  ypos -141
+ }
+push $N28b2d880
+ Add {
+  channels rgb
+  value {{parent.a_tiny_lift.value}}
+  name another_tiny_lift1
+  tile_color 0x3d2126ff
+  xpos 748
+  ypos -142
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  bbox B
+  name Merge13
+  xpos 748
+  ypos -85
+ }
+ Add {
+  channels rgb
+  value {{-parent.a_tiny_lift.value x49 0}}
+  name inverted_tiny_lift2
+  tile_color 0x3d2126ff
+  xpos 860
+  ypos -34
+ }
+ Dot {
+  name Dot29
+  xpos 894
+  ypos 1132
+ }
+push $N28bcd880
+push $N28b2ce00
+ Clamp {
+  channels rgba
+  name Clamp2
+  xpos 490
+  ypos 142
+ }
+ Saturation {
+  saturation 0
+  unpremult -rgba.alpha
+  name desat
+  xpos 490
+  ypos 168
+ }
+ Dot {
+  name Dot19
+  xpos 524
+  ypos 251
+ }
+set N28bec000 [stack 0]
+ Multiply {
+  channels rgba
+  value {{parent.maskscreensub x1 4} {parent.maskscreensub x1 4} {parent.maskscreensub x1 4} {parent.maskscreensub x1 4}}
+  name maskScreenSubAmount
+  xpos 699
+  ypos 315
+ }
+push $N28b2d880
+ Dot {
+  name Dot8
+  xpos 604
+  ypos 348
+ }
+set N28c27880 [stack 0]
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox B
+  name lumaScreenAdd
+  xpos 699
+  ypos 378
+ }
+ Dot {
+  name Dot4
+  xpos 733
+  ypos 890
+ }
+push $N28b03500
+push $N28b02e00
+ Clamp {
+  channels rgba
+  name Clamp1
+  xpos 1154
+  ypos -261
+ }
+ Saturation {
+  saturation 0
+  unpremult -rgba.alpha
+  name matchDesat
+  xpos 1154
+  ypos -235
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  bbox B
+  name matchColourVariation
+  xpos 1255
+  ypos -185
+ }
+ Dot {
+  name Dot21
+  xpos 1289
+  ypos 430
+ }
+push $N28bec000
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox B
+  name Merge21
+  xpos 490
+  ypos 426
+ }
+ Multiply {
+  channels rgba
+  value {{parent.screenSub x1 4}}
+  name screenSubAmount
+  xpos 490
+  ypos 740
+ }
+push $N28c27880
+ Merge2 {
+  inputs 2
+  operation plus
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name subScreen
+  xpos 566
+  ypos 843
+  disable {{subScreen?0:1 x1 1 x3 0}}
+ }
+ Keymix {
+  inputs 3
+  name switchMaskInput
+  label "apply inner\nluma add version\nin mask input"
+  xpos 566
+  ypos 952
+  disable {{"\[exists parent.input3]?0:1" x3 0 x291 1}}
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox B
+  name removeColourVariation
+  xpos 566
+  ypos 1163
+ }
+set N28c55180 [stack 0]
+ Dot {
+  name Dot32
+  xpos -32
+  ypos 1188
+ }
+set N28c54e00 [stack 0]
+push $N28b9e380
+ Multiply {
+  channels rgba
+  value {{bgLumaAmount} {bgLumaAmount} {bgLumaAmount} {bgLumaAmount}}
+  name lumaAmount
+  xpos -177
+  ypos 904
+ }
+ Dot {
+  name Dot33
+  xpos -143
+  ypos 1209
+ }
+set N28c54700 [stack 0]
+ Merge2 {
+  inputs 2
+  operation from
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name subFG1
+  xpos -239
+  ypos 1275
+ }
+push $N28c54e00
+push $N28c54700
+ Merge2 {
+  inputs 2
+  operation from
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  mix 0
+  name subFG
+  xpos -104
+  ypos 1271
+ }
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos -180
+  ypos 1319
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name multKey
+  xpos -177
+  ypos 1406
+ }
+ Dot {
+  name Dot3
+  xpos -143
+  ypos 1474
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  bbox B
+  name inMaskOnly
+  label "in mask input\n"
+  xpos 268
+  ypos 1556
+  disable {{"\[exists parent.input3]?0:1" x3 0}}
+ }
+push $N28c55180
+ Merge2 {
+  inputs 2
+  operation plus
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name bgLumaAdd
+  xpos 566
+  ypos 1634
+ }
+ Merge2 {
+  inputs 2+1
+  operation max
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  mix {{parent.limitDarks}}
+  name Merge8
+  label "blacks protect"
+  xpos 566
+  ypos 1889
+ }
+ Switch {
+  inputs 2
+  which {{parent.spillOnly}}
+  name justSpillSwitch
+  xpos 566
+  ypos 2096
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy2
+  xpos 566
+  ypos 2296
+ }
+ Multiply {
+  channels rgb
+  value {{1/bias_to_neutral.value.r} {1/bias_to_neutral.value.g} {1/bias_to_neutral.value.b} {curve}}
+  name reapply_bias
+  xpos 566
+  ypos 2971
+ }
+ ColorMatrix {
+  matrix {
+      {0.96599801 -0.18485456 0.21958821}
+      {-0.07864645 0.99693186 0.08231127}
+      {0.04120103 -0.5164596 1.47469565}
+    }
+  name fromCameraRGB
+  selected true
+  xpos 566
+  ypos 3024
+  disable {{cameraRGB?0:1 x3 0}}
+ }
+ OCIOColorSpace {
+  in_colorspace linear
+  out_colorspace linear
+  name Redcolour_to_wetaWide
+  xpos 566
+  ypos 3062
+  disable {{cameraRGB?0:1 x3 0}}
+ }
+ Premult {
+  name Premult1
+  xpos 566
+  ypos 3117
+  disable {{premult?0:1}}
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos 566
+  ypos 3195
+ }
+ Output {
+  name Output1
+  xpos 566
+  ypos 3244
+ }
+ Copy {
+  inputs 0
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 3677
+  ypos 142
+ }
+end_group

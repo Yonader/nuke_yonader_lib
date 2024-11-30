@@ -1,0 +1,284 @@
+#! /usr/local/Nuke9.0v7/libnuke-9.0.7.so -nx
+version 9.0 v7
+Gizmo {
+ tile_color 0x212121ff
+ addUserKnob {20 settings l Settings}
+ addUserKnob {7 extend l amount R -25 25}
+ extend 4
+ addUserKnob {41 threshold T Grade1.gamma}
+ addUserKnob {7 finetune l "fine tune" R 0 0.3}
+ finetune 0.15
+ addUserKnob {6 holdout l "hold out by original alpha" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {26 x l "" +STARTLINE T "by Ian Northrop"}
+}
+ Input {
+  inputs 0
+  name plate
+  xpos -40
+  ypos -660
+ }
+ Shuffle {
+  alpha white
+  name Shuffle1
+  label isAlpha
+  xpos -40
+  ypos -601
+  disable {{"\[python \"len(\\\[n for n in nuke.channels(nuke.thisNode().input(0)) if n.find(\\\".a\\\") != -1])>0\"]"}}
+ }
+ Dot {
+  name Dot4
+  xpos -6
+  ypos -526
+ }
+set N1c84990 [stack 0]
+ Dot {
+  name Dot3
+  xpos -131
+  ypos -526
+ }
+set N1c00820 [stack 0]
+ Dot {
+  name Dot1
+  xpos -256
+  ypos -526
+ }
+push $N1c84990
+ Invert {
+  channels alpha
+  name Invert2
+  xpos -40
+  ypos -471
+ }
+ Dot {
+  name Dot5
+  xpos -6
+  ypos -396
+ }
+set N1bccee0 [stack 0]
+ Dot {
+  name Dot6
+  xpos 119
+  ypos -396
+ }
+set N1bece40 [stack 0]
+ Dot {
+  name Dot7
+  xpos 244
+  ypos -396
+ }
+set N1c73ab0 [stack 0]
+ Dot {
+  name Dot8
+  xpos 369
+  ypos -396
+ }
+set N1b850a0 [stack 0]
+ Dot {
+  name Dot9
+  xpos 494
+  ypos -396
+ }
+ Matrix {
+  channels alpha
+  matrix {
+      {0 0 0}
+      {0 -1 0}
+      {0 1 0}
+    }
+  name Matrix8
+  xpos 460
+  ypos -341
+ }
+ Dot {
+  name Dot13
+  xpos 494
+  ypos -71
+ }
+push $N1b850a0
+ Matrix {
+  channels alpha
+  matrix {
+      {0 1 0}
+      {0 -1 0}
+      {0 0 0}
+    }
+  name Matrix7
+  xpos 335
+  ypos -341
+ }
+ Dot {
+  name Dot12
+  xpos 369
+  ypos -136
+ }
+push $N1c73ab0
+ Matrix {
+  channels alpha
+  matrix {
+      {0 0 0}
+      {0 -1 1}
+      {0 0 0}
+    }
+  name Matrix6
+  xpos 210
+  ypos -341
+ }
+ Dot {
+  name Dot11
+  xpos 244
+  ypos -201
+ }
+push $N1bece40
+ Matrix {
+  channels alpha
+  matrix {
+      {0 0 0}
+      {1 -1 0}
+      {0 0 0}
+    }
+  name Matrix5
+  xpos 85
+  ypos -341
+ }
+ Dot {
+  name Dot10
+  xpos 119
+  ypos -266
+ }
+push $N1bccee0
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle2
+  label "\n"
+  xpos -40
+  ypos -335
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.red
+  name Copy8
+  xpos -40
+  ypos -276
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.green
+  name Copy9
+  xpos -40
+  ypos -211
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.blue
+  name Copy10
+  xpos -40
+  ypos -146
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy11
+  xpos -40
+  ypos -81
+ }
+set N182ed10 [stack 0]
+ Blur {
+  channels rgba
+  size {{"(parent.extend * -1) * (input.width / 1000)"}}
+  name Grow
+  xpos -40
+  ypos -10
+ }
+ Grade {
+  multiply {{abs(parent.Grow.size)}}
+  black_clamp false
+  name Grade1
+  xpos -40
+  ypos 55
+ }
+ Expression {
+  temp_name0 l
+  temp_expr0 red
+  temp_name1 r
+  temp_expr1 green
+  temp_name2 t
+  temp_expr2 blue
+  temp_name3 d
+  temp_expr3 alpha
+  channel0 {forward.u -forward.v}
+  expr0 (r-l)*Grow.size
+  channel1 {-forward.u forward.v}
+  expr1 (t-d)*Grow.size
+  channel2 none
+  channel3 none
+  name BuildForward
+  xpos -40
+  ypos 185
+ }
+push $N1c00820
+ Copy {
+  inputs 2
+  from0 -rgba.alpha
+  to0 -rgba.alpha
+  channels forward
+  name Copy12
+  xpos -165
+  ypos 173
+ }
+set N19cc420 [stack 0]
+ IDistort {
+  channels rgba
+  uv forward
+  uv_scale {{parent.finetune}}
+  name IDistort2
+  xpos -165
+  ypos 315
+ }
+set N19da6a0 [stack 0]
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos -290
+  ypos 309
+ }
+ Premult {
+  name Premult1
+  xpos -290
+  ypos 380
+ }
+push $N19da6a0
+ Switch {
+  inputs 2
+  which {{"extend>=0 & holdout==true"}}
+  name Switch1
+  label "\[knob which]"
+  xpos -165
+  ypos 374
+ }
+ Output {
+  name Output1
+  xpos -165
+  ypos 575
+ }
+push $N182ed10
+push $N19cc420
+ Viewer {
+  inputs 2
+  frame_range 100-100
+  fps 30
+  input_process_node viewerProcess
+  name Viewer1
+  xpos 210
+  ypos 185
+ }
+end_group

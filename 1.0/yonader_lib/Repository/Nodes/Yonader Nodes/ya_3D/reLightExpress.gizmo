@@ -1,0 +1,65 @@
+set cut_paste_input [stack 0]
+version 10.5 v6
+push $cut_paste_input
+Group {
+ name reLightExpress
+ tile_color 0x308fffff
+ selected true
+ xpos -655
+ ypos -226
+ icon /isilon.cubedns.fr/R/deploy/cube/pommier/icons/gizmos/reLightExpress.png
+ addUserKnob {20 reLightExpress}
+ addUserKnob {41 orbit l Orbit T ctrl.orbit}
+ addUserKnob {41 depth l Depth T ctrl.depth}
+ addUserKnob {41 extend_backlight l "Extend Backlight" T ctrl.extend_backlight}
+ addUserKnob {20 HelpTab l Help}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 HelpText l "" +STARTLINE T "reLightExpress permet de creer des masques de relight a partir de votre passe de VRayNormals camera. "}
+ addUserKnob {20 AboutTab l About}
+ addUserKnob {26 About_1 l "" +STARTLINE T "reLightExpress 1.0 by Noss : bruno.ortolland@gmail.com\n"}
+}
+ Input {
+  inputs 0
+  name normals
+  xpos 3
+  ypos -610
+ }
+ NoOp {
+  name ctrl
+  xpos 3
+  ypos -575
+  addUserKnob {20 User}
+  addUserKnob {7 extend_backlight l "Extend Backlight"}
+  addUserKnob {7 depth l Depth R -1 1}
+  depth -0.03
+  addUserKnob {7 orbit l Orbit R 0 6.29}
+ }
+ Grade {
+  channels {-rgba.red -rgba.green rgba.blue none}
+  blackpoint {{parent.ctrl.extend_backlight}}
+  black_clamp false
+  name Grade1
+  xpos 3
+  ypos -520
+ }
+ Expression {
+  temp_name0 depth
+  temp_expr0 ctrl.depth
+  temp_name1 orbit
+  temp_expr1 ctrl.orbit
+  channel0 rgba
+  expr0 ((r*sin(orbit)+g*cos(orbit)-(fabs(depth))*((r*sin(orbit)+g*cos(orbit))))+(b*depth))
+  channel1 none
+  channel2 none
+  channel3 none
+  name Rimlight_Exp
+  label "\n\n\n"
+  xpos 3
+  ypos -466
+ }
+ Output {
+  name Output1
+  xpos 3
+  ypos -180
+ }
+end_group

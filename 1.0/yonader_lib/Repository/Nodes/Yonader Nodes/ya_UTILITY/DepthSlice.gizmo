@@ -1,0 +1,129 @@
+Group {
+ name DepthSlice
+ tile_color 0xce8453ff
+ addUserKnob {20 DepthSlice}
+ addUserKnob {41 from0 l "depth in" t "Choose what channel to use as your Z-Depth source." T CopyDepth.from0}
+ addUserKnob {41 to0 l "&nbsp; &nbsp; &nbsp; &nbsp; slice out" t "Choose what channel to output the depth slice to." -STARTLINE T SliceOut.to0}
+ addUserKnob {7 normalize_depth l "normalize depth" t "Set the white point of your z depth. Useful if you want to normalize the range of your Z-Depth if the values are absolute world units from camera." R 0 30000}
+ normalize_depth 1
+ addUserKnob {26 ""}
+ addUserKnob {4 slice_type l "slice type" t "This assumes depth type of 0 at camera with value increasing linearly over depth.\n\nChoose the type of slice: \nSlice: a slice in depth with width and falloff on each side.\nNear: a slice with area closer than center as white + falloff\nFar: a slice with z farther than center as white + falloff " M {slice near far ""}}
+ addUserKnob {41 slice_center t "Set the center of your slice. If the value is 0.5, the center of the Z-slice will be at 0.5 in your depth." T CalculateSlice.slice_center}
+ addUserKnob {41 slice_width t "The width of your slice. A value of 0.2 will create a slice width with 0.1 on either side of your slice center." T CalculateSlice.slice_width}
+ addUserKnob {41 feather t "How much feather softening to create on either side of your slice." T CalculateSlice.feather}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -260
+  ypos 207
+ }
+ Dot {
+  name Dot3
+  note_font_size 42
+  note_font_color 0x7f7f7f01
+  xpos -226
+  ypos 329
+ }
+set N3a87c0 [stack 0]
+ Dot {
+  name Dot1
+  note_font_size 42
+  note_font_color 0x7f7f7f01
+  xpos -446
+  ypos 329
+ }
+set N3aa9b0 [stack 0]
+push $N3aa9b0
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  bbox B
+  name CopyDepth
+  xpos -480
+  ypos 347
+ }
+ Grade {
+  channels alpha
+  whitepoint {{parent.normalize_depth}}
+  name NormalizeDepth
+  xpos -480
+  ypos 404
+ }
+ Expression {
+  temp_name0 fea
+  temp_expr0 "feather == 0 ? 0.0001 : feather"
+  temp_name1 far
+  temp_expr1 "clamp(1-(1-(clamp(a*1/slice_center + slice_width/2) ))*1/fea)"
+  temp_name2 near
+  temp_expr2 clamp(1-(1-clamp((-a*1/slice_center+2)+slice_width/2))*1/fea)
+  expr0 "near == 1 ? far : near"
+  expr1 near
+  expr2 far
+  channel3 none
+  name CalculateSlice
+  xpos -480
+  ypos 471
+  addUserKnob {20 User}
+  addUserKnob {7 slice_center t "The Center to take the depth slice from" R 0 3}
+  slice_center 0.1
+  addUserKnob {7 slice_width t "The slice width - falloff is extra"}
+  slice_width 0.225
+  addUserKnob {7 feather t "The amount of falloff"}
+  feather 0.205
+ }
+set N1d8fa530 [stack 0]
+ Shuffle {
+  red blue
+  green blue
+  alpha blue
+  name FAR
+  tile_color 0xff00
+  xpos -370
+  ypos 519
+ }
+push $N1d8fa530
+ Shuffle {
+  red green
+  blue green
+  alpha green
+  name NEAR
+  tile_color 0xff0000
+  xpos -480
+  ypos 519
+ }
+push $N1d8fa530
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name SLICE
+  tile_color 0xff0000ff
+  xpos -590
+  ypos 519
+ }
+ Switch {
+  inputs 3
+  which {{parent.slice_type}}
+  name Choose_Type
+  xpos -480
+  ypos 591
+ }
+push $N3a87c0
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.alpha
+  bbox B
+  name SliceOut
+  selected true
+  xpos -260
+  ypos 587
+ }
+ Output {
+  name Output1
+  xpos -260
+  ypos 735
+ }
+end_group

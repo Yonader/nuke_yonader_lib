@@ -1,0 +1,4956 @@
+#! C:/Program Files/Nuke13.1v1/nuke-13.1.1.dll -nx
+version 13.1 v1
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="0" w="1917" h="1128" screen="0">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="1254" stretch="1"/>
+            <splitter orientation="2">
+                <split size="0"/>
+                <dock id=""/>
+                <split size="815"/>
+                <dock id="" activePageId="DAG.1" focus="true">
+                    <page id="DAG.1"/>
+                    <page id="DAG.2"/>
+                </dock>
+                <split size="267"/>
+                <dock id="" activePageId="Curve Editor.1">
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <splitter orientation="2">
+                <split size="756"/>
+                <dock id="" activePageId="Properties.1">
+                    <page id="Properties.1"/>
+                    <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+                    <page id="uk.co.thefoundry.scripteditor.1"/>
+                </dock>
+                <split size="58"/>
+                <dock id="" activePageId="uk.co.thefoundry.monitorController.1">
+                    <page id="uk.co.thefoundry.monitorController.1"/>
+                </dock>
+                <split size="268"/>
+                <dock id="" activePageId="Pixel Analyzer.1">
+                    <page id="Pixel Analyzer.1"/>
+                </dock>
+            </splitter>
+        </splitter>
+    </window>
+    <window x="1920" y="0" w="1918" h="1168" maximized="1" screen="1">
+        <splitter orientation="1">
+            <split size="957"/>
+            <dock id="" activePageId="Viewer.1">
+                <page id="Viewer.1"/>
+            </dock>
+            <split size="957"/>
+            <dock id="" activePageId="Viewer.2">
+                <page id="Viewer.2"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name //192.168.131.2/ds_projects/000-TOOLs/NUKE/NukeShared/Repository/Nodes/TheSeedNodes/3D/WorldPosition_Toolkit.nk
+ fps 25
+ format "1920 1080 0 0 1920 1080 1 HD_1080"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement OCIO
+ OCIO_config aces_1.2
+ defaultViewerLUT "OCIO LUTs"
+ workingSpaceLUT scene_linear
+ monitorLut ACES/Rec.709
+ monitorOutLUT "sRGB (ACES)"
+ int8Lut matte_paint
+ int16Lut texture_paint
+ logLut compositing_log
+ floatLut scene_linear
+ addUserKnob {20 PositionPass_maskGenerator_hub l "PointPosition Mask Generator hub" t "If the the result is completly black try to raise spread and multiplier values.\nIf the the result is completly white try to lower spread and multiplier values."}
+ addUserKnob {41 in l "Point Position" T ShuffleIN.in}
+ addUserKnob {80 Switch1_disable l "VIEW ON PP" +STARTLINE}
+ addUserKnob {41 color l "pick color" T Constant1.color}
+ addUserKnob {6 premult +STARTLINE}
+ addUserKnob {6 Put_Alpha_In_RGB l "Copy Alpha In RGB" -STARTLINE}
+ addUserKnob {6 invert +STARTLINE}
+ addUserKnob {19 OutGain_white l "    Out Gain" -STARTLINE R 0 10}
+ OutGain_white {0 0 0 0}
+ addUserKnob {6 OutGain_white_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {20 setup n 1}
+ addUserKnob {80 ReformatOUT_disable l " " +STARTLINE}
+ addUserKnob {41 filter l "" -STARTLINE T ReformatOUT.filter}
+ addUserKnob {6 AntiAlias l "MatrixAntiAlias (when no double size Ppass)" +STARTLINE}
+ addUserKnob {80 M_dropZeros_disable l "drop Zeros" +STARTLINE}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {6 pos_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {41 rotate T AxisInternRot.rotate}
+ addUserKnob {18 pos l offset R -2 -2}
+ pos {0 0 0}
+ addUserKnob {6 pos_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 spread_uniform l spread R 1e-05 1}
+ addUserKnob {7 Multiplier R 0.1 50}
+ addUserKnob {7 falloff R 0 2}
+ addUserKnob {26 Falloff_tip l "" +STARTLINE T "(Ratio between Sphere and Cube)"}
+ addUserKnob {20 non_unif_GROUP l non_uniform n 1}
+ addUserKnob {7 spread_x l "spread x" R 1e-05 0.5}
+ addUserKnob {7 falloff_x l "falloff x" R 0 2}
+ addUserKnob {7 spread_y l "spread y" R 1e-05 0.5}
+ addUserKnob {7 falloff_y l "falloff y" R 0 2}
+ addUserKnob {7 spread_z l "spread z" R 1e-05 0.5}
+ addUserKnob {7 falloff_z l "falloff z" R 0 2}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {18 outFade}
+ outFade {0 0 0}
+ addUserKnob {6 outFade_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {22 infos T "import webbrowser \nwebbrowser.open(\"http://www.nukepedia.com/gizmos/keyer/ppass_mask_hub\")" +STARTLINE}
+ addUserKnob {26 howto l "" -STARTLINE T "  ( HOWTO in \"?\" gizmo button )"}
+ addUserKnob {20 CustomCurve_grp l "Custom Curve"}
+ addUserKnob {6 customCurve l "Custom Curve" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {26 ""}
+ addUserKnob {26 ""}
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode18
+ tile_color 0x335940ff
+ label "WorldPosition Toolkit"
+ note_font_size 42
+ xpos -2488
+ ypos -232
+ bdwidth 2036
+ bdheight 1071
+ z_order -2
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0xaaaaaa00
+ label "Normals based relight"
+ note_font_size 32
+ xpos -1014
+ ypos -124
+ bdwidth 417
+ bdheight 444
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode2
+ tile_color 0x71c67100
+ label "<p>P transform (resize, shift, rotate Position values)"
+ note_font Verdana
+ note_font_size 22
+ xpos -2385
+ ypos -118
+ bdwidth 350
+ bdheight 165
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode3
+ tile_color 0x8e8e3800
+ label "<p>Add Reflection, speculars"
+ note_font_size 42
+ xpos -1356
+ ypos -122
+ bdwidth 320
+ bdheight 446
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode4
+ tile_color 0x8e388e00
+ label RELIGHT
+ note_font_size 42
+ xpos -1616
+ ypos 368
+ bdwidth 951
+ bdheight 410
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode5
+ tile_color 0x8e8e3800
+ label "IMG test"
+ note_font_size 42
+ xpos -2438
+ ypos 445
+ bdwidth 402
+ bdheight 352
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode25
+ tile_color 0x7171c600
+ label "3D Mask"
+ note_font_size 42
+ xpos -2025
+ ypos -120
+ bdwidth 403
+ bdheight 437
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode26
+ tile_color 0x8e388e00
+ label "Pos Texture"
+ note_font_size 42
+ xpos -1608
+ ypos -121
+ bdwidth 240
+ bdheight 445
+ z_order 1
+}
+Group {
+ inputs 0
+ name WorldPos_Texture_Generator_ik
+ help "WorldPos_Texture_Generator create procedural texture over world position points. Choose type of texture, adjust properties, enjoy! To adjust scale and position use together with TransformWorld_ik gizmo,\n------\nv002\nIvan Kokov. Pixomondo. Beijing. 2015\nbutafor@inbox.ru\n\n"
+ xpos -1537
+ ypos -12
+ addUserKnob {20 Texture}
+ addUserKnob {68 textureType l "Texture Type" M {Checker Random fBm Turbulate RadialWaves "" ""}}
+ textureType Turbulate
+ addUserKnob {3 switcher l INVISIBLE +INVISIBLE}
+ switcher {{"\[python -execlocal n\\ =\\ nuke.thisNode()\\nret\\ =\\ n\\\['textureType'\\].getValue()\\nif\\ (ret\\ ==\\ 0)\\ :\\n\\ \\ \\ \\ n.knob('checker').setEnabled(True)\\n\\ \\ \\ \\ n.knob('CheckerSize').setEnabled(True)\\n\\ \\ \\ \\ n.knob('tip').setEnabled(True)\\n\\ \\ \\ \\ n.knob('noise').setEnabled(False)\\n\\ \\ \\ \\ n.knob('octaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('lacunarity').setEnabled(False)\\n\\ \\ \\ \\ n.knob('gain').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Radius').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Center').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Phase').setEnabled(False)\\n\\ \\ \\ \\ ret\\ =\\ 0\\n\\nif\\ (ret\\ ==\\ 1):\\n\\ \\ \\ \\ n.knob('noise').setEnabled(True)\\n\\ \\ \\ \\ n.knob('checker').setEnabled(False)\\n\\ \\ \\ \\ n.knob('CheckerSize').setEnabled(False)\\n\\ \\ \\ \\ n.knob('tip').setEnabled(False)\\n\\ \\ \\ \\ n.knob('octaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('lacunarity').setEnabled(False)\\n\\ \\ \\ \\ n.knob('gain').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Radius').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Center').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Phase').setEnabled(False)\\n\\ \\ \\ \\ ret\\ =\\ 1\\n\\nif\\ (\\ (ret\\ ==\\ 2)\\ or\\ (ret\\ ==\\ 3)\\ )\\ \\ :\\n\\ \\ \\ \\ n.knob('noise').setEnabled(True)\\n\\ \\ \\ \\ n.knob('octaves').setEnabled(True)\\n\\ \\ \\ \\ n.knob('lacunarity').setEnabled(True)\\n\\ \\ \\ \\ n.knob('gain').setEnabled(True)\\n\\ \\ \\ \\ n.knob('checker').setEnabled(False)\\n\\ \\ \\ \\ n.knob('CheckerSize').setEnabled(False)\\n\\ \\ \\ \\ n.knob('tip').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Radius').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Center').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves_Phase').setEnabled(False)\\n\\ \\ \\ \\ ret\\ =\\ 1\\n\\nif\\ (\\ (ret\\ ==\\ 4)\\ )\\ \\ :\\n\\ \\ \\ \\ n.knob('noise').setEnabled(False)\\n\\ \\ \\ \\ n.knob('octaves').setEnabled(False)\\n\\ \\ \\ \\ n.knob('lacunarity').setEnabled(False)\\n\\ \\ \\ \\ n.knob('gain').setEnabled(False)\\n\\ \\ \\ \\ n.knob('checker').setEnabled(False)\\n\\ \\ \\ \\ n.knob('CheckerSize').setEnabled(False)\\n\\ \\ \\ \\ n.knob('tip').setEnabled(False)\\n\\ \\ \\ \\ n.knob('RadialWaves').setEnabled(True)\\n\\ \\ \\ \\ n.knob('RadialWaves_Radius').setEnabled(True)\\n\\ \\ \\ \\ n.knob('RadialWaves_Center').setEnabled(True)\\n\\ \\ \\ \\ n.knob('RadialWaves_Phase').setEnabled(True)\\n\\ \\ \\ \\ ret\\ =\\ 2\\n]"}}
+ addUserKnob {20 checker l Checker +DISABLED n 1}
+ addUserKnob {41 CheckerSize T CheckerTexture.CheckerSize}
+ addUserKnob {26 tip l "" -STARTLINE +DISABLED T "<i> most interesting is in alpha</i>"}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 noise l Noise n 1}
+ addUserKnob {41 octaves T NoiseTexture_ik.octaves}
+ addUserKnob {41 lacunarity T NoiseTexture_ik.lacunarity}
+ addUserKnob {41 gain T NoiseTexture_ik.gain}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {20 RadialWaves l "Radial Waves" +DISABLED n 1}
+ addUserKnob {18 RadialWaves_Radius l Radius +DISABLED}
+ RadialWaves_Radius 1
+ addUserKnob {6 RadialWaves_Radius_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Radius_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 RadialWaves_Center l Center +DISABLED}
+ RadialWaves_Center {0 0.2624262869 0.08337425441}
+ addUserKnob {6 RadialWaves_Center_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 RadialWaves_Center_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 RadialWaves_Phase l Phase +DISABLED R 0 100}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {26 credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo. Beijing. 2015"}
+}
+ Input {
+  inputs 0
+  name InputPointPos
+  xpos 2
+  ypos 3
+ }
+set Nb82e3000 [stack 0]
+ Expression {
+  temp_name0 dist
+  temp_expr0 "sqrt(pow2( (r - Center.r) /Radius.r*2) + pow2( (g- Center.g) / Radius.g*2) + pow2( (b - Center.b) / Radius.b*2) )"
+  temp_name1 tex
+  temp_expr1 "sin(dist+Phase)/2 + 0.5"
+  expr0 tex
+  expr1 tex
+  expr2 tex
+  name RadialWaves
+  selected true
+  xpos 293
+  ypos 160
+  addUserKnob {20 User}
+  addUserKnob {18 Radius}
+  Radius {{parent.RadialWaves_Radius.r} {parent.RadialWaves_Radius.g} {parent.RadialWaves_Radius.b}}
+  addUserKnob {6 Radius_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Radius_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 Center}
+  Center {{parent.RadialWaves_Center.r} {parent.RadialWaves_Center.g} {parent.RadialWaves_Center.b}}
+  addUserKnob {6 Center_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Center_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {7 Phase R 0 100}
+  Phase {{parent.RadialWaves_Phase}}
+ }
+set Nb82e2c00 [stack 0]
+push $Nb82e3000
+ Expression {
+  temp_name0 RND
+  temp_expr0 "random(r, g, b) "
+  temp_name1 FBM
+  temp_expr1 "(fBm(r, g, b, octaves, lacunarity, gain))/2 + 0.5"
+  temp_name2 TRB
+  temp_expr2 "turbulence(r, g, b, octaves, lacunarity, gain)"
+  temp_name3 OUTPUT
+  temp_expr3 "(textureType == 1) ? RND : ((textureType == 2) ? FBM : TRB)"
+  expr0 OUTPUT
+  expr1 OUTPUT
+  expr2 OUTPUT
+  name NoiseTexture_ik
+  xpos -103
+  ypos 155
+  addUserKnob {20 User}
+  addUserKnob {7 octaves R 0 10}
+  octaves 10
+  addUserKnob {7 lacunarity}
+  lacunarity 2
+  addUserKnob {7 gain}
+  gain 0.5
+ }
+push $Nb82e3000
+ Expression {
+  temp_name0 LinesR
+  temp_expr0 "fabs(fmod(r, CheckerSize.x)/CheckerSize.x) > 0.5 ? (r>0) : (r<0)"
+  temp_name1 LinesG
+  temp_expr1 "fabs(fmod(g, CheckerSize.y)/CheckerSize.y) > 0.5 ? (g>0) : (g<0)"
+  temp_name2 LinesB
+  temp_expr2 "fabs(fmod(b, CheckerSize.z)/CheckerSize.z) > 0.5 ? (b>0) : (b<0)"
+  temp_name3 Checker
+  temp_expr3 "LinesR ^^ LinesG ^^ LinesB"
+  expr0 LinesR
+  expr1 LinesG
+  expr2 LinesB
+  expr3 Checker
+  name CheckerTexture
+  xpos 130
+  ypos 155
+  addUserKnob {20 User}
+  addUserKnob {13 CheckerSize +DISABLED}
+  CheckerSize {500 500 500}
+ }
+ Switch {
+  inputs 3
+  which {{switcher}}
+  name Switch1
+  xpos 8
+  ypos 254
+ }
+ Output {
+  name Output1
+  xpos 8
+  ypos 300
+ }
+push $Nb82e2c00
+ Viewer {
+  frame 981
+  input_process false
+  name Viewer1
+  xpos 156
+  ypos -29
+ }
+end_group
+Group {
+ inputs 0
+ name WorldPos_Texture_Projection_ik
+ help "WorldPos_Texture_Projection create parallel projection of texture over world position point. Place center of your projection, press “Bake Position”, adjust transformation and tilling options, enjoy!\n------\nv001\nIvan Kokov. Yellow Mountain Studio Tianjin. 2013\nbutafor@inbox.ru"
+ xpos -1537
+ ypos 124
+ addUserKnob {20 User}
+ addUserKnob {41 Center T Pick1.Center}
+ addUserKnob {41 CenterPosition l INVISIBLE +INVISIBLE T Pick1.CenterPosition}
+ addUserKnob {41 BakePosition l "Bake Position" T Pick1.BakePosition}
+ addUserKnob {41 BakedCenterPosition T Pick1.BakedCenterPosition}
+ addUserKnob {26 ""}
+ addUserKnob {41 rotate T AxisTransformation.rotate}
+ addUserKnob {41 scaling l scale T AxisTransformation.scaling}
+ addUserKnob {41 uniform_scale l "uniform scale" T AxisTransformation.uniform_scale}
+ addUserKnob {41 skew T AxisTransformation.skew}
+ addUserKnob {26 ""}
+ addUserKnob {41 TileX T Tiling2.TileX}
+ addUserKnob {41 MirrorX -STARTLINE T Tiling2.MirrorX}
+ addUserKnob {41 TileY T Tiling2.TileY}
+ addUserKnob {41 MirrorY -STARTLINE T Tiling2.MirrorY}
+ addUserKnob {26 ""}
+ addUserKnob {26 credits l "" +STARTLINE T "v002 © Ivan Kokov. Yelow Mountain Studio. Tianjin. 2013"}
+}
+ Input {
+  inputs 0
+  name InputScr
+  xpos 462
+  ypos -60
+ }
+ Dot {
+  name Dot8
+  xpos 496
+  ypos -20
+ }
+ NoOp {
+  name scr1
+  xpos 462
+  ypos 19
+ }
+ Dot {
+  name Dot9
+  selected true
+  xpos 496
+  ypos 106
+ }
+set Nb82e0c00 [stack 0]
+ NoOp {
+  name Get_format1
+  xpos 378
+  ypos 103
+  addUserKnob {20 User}
+  addUserKnob {14 format R 0 100}
+  format {{format.h} {format.w}}
+ }
+ Input {
+  inputs 0
+  name InputPointPos
+  xpos 48
+  ypos -15
+  number 1
+ }
+ NoOp {
+  name PointPos1
+  xpos 48
+  ypos 25
+ }
+ Dot {
+  name Dot6
+  xpos 82
+  ypos 107
+ }
+set Nb8277800 [stack 0]
+ NoOp {
+  name Pick1
+  xpos 174
+  ypos 104
+  addUserKnob {20 User}
+  addUserKnob {12 Center}
+  Center {1024.5 778.5}
+  addUserKnob {13 CenterPosition}
+  CenterPosition {{"\[sample this Red Center.x Center.y]"} {"\[sample this Green Center.x Center.y]"} {"\[sample this Blue Center.x Center.y]"}}
+  addUserKnob {22 BakePosition l "Bake Position" T "m = nuke.thisNode()\nxyz = m\['CenterPosition'].getValue()\nm\['BakedCenterPosition'].setValue(xyz)" +STARTLINE}
+  addUserKnob {13 BakedCenterPosition}
+ }
+push $Nb8277800
+ Expression {
+  expr0 "r - parent.Pick1.BakedCenterPosition.x"
+  expr1 "g - parent.Pick1.BakedCenterPosition.y"
+  expr2 "b - parent.Pick1.BakedCenterPosition.z"
+  name MoveToCenter1
+  xpos 48
+  ypos 146
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis2.world_matrix.0} {parent.Axis2.world_matrix.1} {parent.Axis2.world_matrix.2}}
+      {{parent.Axis2.world_matrix.4} {parent.Axis2.world_matrix.5} {parent.Axis2.world_matrix.6}}
+      {{parent.Axis2.world_matrix.8} {parent.Axis2.world_matrix.9} {parent.Axis2.world_matrix.10}}
+    }
+  name ColorMatrix2
+  xpos 48
+  ypos 215
+ }
+ Expression {
+  expr0 "(r + (parent.Get_format1.format.w/2) ) / parent.Get_format1.format.w"
+  expr1 "(g + (parent.Get_format1.format.h/2) ) / parent.Get_format1.format.h"
+  name Transform_to_STMap1
+  xpos 48
+  ypos 268
+ }
+ Expression {
+  expr0 "TileX ? ( MirrorX ? (     (abs(fmod(r, 2)) > 1) ? (1 - abs(fmod(r,1))) : abs(fmod(r,1))     ) :  abs(fmod(r, 1)) ) : r"
+  expr1 "TileY ? ( MirrorY ? (     (abs(fmod(g, 2)) > 1) ? (1 - abs(fmod(g,1))) : abs(fmod(g,1))     ) :  abs(fmod(g, 1)) ) : g"
+  name Tiling2
+  xpos 48
+  ypos 324
+  addUserKnob {20 User}
+  addUserKnob {6 TileX +STARTLINE}
+  addUserKnob {6 MirrorX -STARTLINE}
+  addUserKnob {6 TileY +STARTLINE}
+  addUserKnob {6 MirrorY -STARTLINE}
+ }
+ BlackOutside {
+  name BlackOutside1
+  xpos 48
+  ypos 348
+ }
+push $Nb82e0c00
+ Dot {
+  name Dot10
+  xpos 496
+  ypos 428
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap2
+  xpos 48
+  ypos 419
+ }
+set Nb8275800 [stack 0]
+ Output {
+  name Output1
+  xpos 48
+  ypos 519
+ }
+push $Nb8275800
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos -196
+  ypos 346
+ }
+ Axis2 {
+  inputs 0
+  name AxisTransformation
+  xpos -171
+  ypos 177
+ }
+ Axis2 {
+  inputs 0
+  rotate {{-parent.AxisTransformation.rotate} {-parent.AxisTransformation.rotate} {-parent.AxisTransformation.rotate}}
+  scaling {{1/parent.AxisTransformation.scaling} {1/parent.AxisTransformation.scaling} {1/parent.AxisTransformation.scaling}}
+  uniform_scale {{1000/parent.AxisTransformation.uniform_scale}}
+  skew {{-parent.AxisTransformation.skew} {-parent.AxisTransformation.skew} {-parent.AxisTransformation.skew}}
+  name Axis2
+  xpos -65
+  ypos 193
+ }
+end_group
+Group {
+ inputs 0
+ name PositionTransform_ik4
+ help "This gizmo modifies World Position coordinate. Also may be useful in work with Object Position, World Normals and similar data passes. Feed it as input.\nUses with Mask3D_ik and Mask3DSpherical_ik or any another WorldPosition based nodes and gizmos. Strongly recomend to pick pivot point before starting your tweaking!\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ xpos -964
+ ypos 534
+ addUserKnob {20 User}
+ addUserKnob {41 Pivot T Control.Pivot}
+ addUserKnob {26 ""}
+ addUserKnob {41 rot_order l "Rotation order" T Axis4.rot_order}
+ addUserKnob {41 Translate T Control.Translate}
+ addUserKnob {41 Rotate T Control.Rotate}
+ addUserKnob {41 Scale T Control.Scale}
+ addUserKnob {41 UniformScale T Control.UniformScale}
+ addUserKnob {41 Scew T Control.Scew}
+ addUserKnob {26 ""}
+ addUserKnob {26 Credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos 137
+  ypos -545
+ }
+ Dot {
+  name Dot461
+  xpos 171
+  ypos -505
+ }
+set Nb0349800 [stack 0]
+ NoOp {
+  name Control
+  xpos 233
+  ypos -508
+  addUserKnob {20 User}
+  addUserKnob {18 Pivot}
+  Pivot {0 0 0}
+  addUserKnob {6 Pivot_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {26 ""}
+  addUserKnob {13 Translate}
+  addUserKnob {13 Rotate}
+  Rotate {90 180 0}
+  addUserKnob {13 Scale}
+  Scale {-1 1 1}
+  addUserKnob {7 UniformScale R 0 10}
+  UniformScale 1
+  addUserKnob {13 Scew}
+ }
+push $Nb0349800
+ Add {
+  value {{-parent.Control.Pivot i} {-parent.Control.Pivot i} {-parent.Control.Pivot i} 0}
+  name Add1
+  label "move center of transformation (pivot) to center of coordinate"
+  xpos 137
+  ypos -453
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis4.world_matrix.0 i} {parent.Axis4.world_matrix.1 i} {parent.Axis4.world_matrix.2 i}}
+      {{parent.Axis4.world_matrix.4 i} {parent.Axis4.world_matrix.5 i} {parent.Axis4.world_matrix.6 i}}
+      {{parent.Axis4.world_matrix.8 i} {parent.Axis4.world_matrix.9 i} {parent.Axis4.world_matrix.10 i}}
+    }
+  name ColorMatrix1
+  label "apply rotation, scale and  scew"
+  xpos 137
+  ypos -390
+ }
+ Add {
+  value {{parent.Control.Pivot i} {parent.Control.Pivot i} {parent.Control.Pivot i} 0}
+  name Add2
+  label "move center of transformation (pivot) back"
+  xpos 137
+  ypos -334
+ }
+ Add {
+  value {{parent.Control.Translate i} {parent.Control.Translate i} {parent.Control.Translate i} {curve i}}
+  name Add3
+  label "aplly translate"
+  xpos 137
+  ypos -274
+ }
+ Output {
+  name Output1
+  xpos 137
+  ypos -172
+ }
+ Axis2 {
+  inputs 0
+  rotate {{parent.Control.Rotate.x i} {parent.Control.Rotate.y i} {parent.Control.Rotate.z i}}
+  scaling {{parent.Control.Scale.x i} {parent.Control.Scale.y i} {parent.Control.Scale.z i}}
+  uniform_scale {{parent.Control.UniformScale i}}
+  skew {{parent.Control.Scew.x i} {parent.Control.Scew.y i} {parent.Control.Scew.z i}}
+  name Axis4
+  xpos 257
+  ypos -409
+ }
+end_group
+Group {
+ inputs 0
+ name Vray_Relight
+ xpos -944
+ ypos -12
+ addUserKnob {20 User}
+ addUserKnob {41 longitude T Constant1.longitude}
+ addUserKnob {41 latitude T Constant1.latitude}
+ addUserKnob {6 postmult l post-multiply +STARTLINE}
+}
+ Constant {
+  inputs 0
+  channels rgb
+  color {{sin(radians(longitude))*cos(radians(latitude))} {sin(radians(latitude))} {cos(radians(longitude))*cos(radians(latitude))} 0}
+  format "256 256 0 0 256 256 1 square_256"
+  name Constant1
+  xpos 93
+  ypos -102
+  addUserKnob {20 User}
+  addUserKnob {7 longitude R -180 180}
+  longitude 79
+  addUserKnob {7 latitude R -90 90}
+  latitude 1.5
+ }
+ Input {
+  inputs 0
+  name Input1
+  selected true
+  xpos -36
+  ypos -249
+ }
+add_layer {VRay_Normals VRay_Normals.X VRay_Normals.Y VRay_Normals.Z}
+ Shuffle2 {
+  fromInput1 {{0} B}
+  out1 VRay_Normals
+  fromInput2 {{0} B}
+  mappings "3 rgba.red 0 0 VRay_Normals.X 0 0 rgba.green 0 1 VRay_Normals.Y 0 1 rgba.blue 0 2 VRay_Normals.Z 0 2"
+  name Shuffle1
+  xpos -36
+  ypos -176
+ }
+ Expression {
+  channel0 {none none none VRay_Normals.Z}
+  expr0 VRay_Normals.Z-(1-a)
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression1
+  xpos -36
+  ypos -118
+ }
+ Unpremult {
+  channels VRay_Normals
+  name Unpremult1
+  xpos -36
+  ypos -71
+ }
+ MergeExpression {
+  inputs 2
+  expr0 Ar*BVRay_Normals.X
+  expr1 Ag*BVRay_Normals.Y
+  expr2 Ab*BVRay_Normals.Z
+  channel3 none
+  name MergeExpression1
+  xpos 21
+  ypos 2
+ }
+ Expression {
+  channel0 rgb
+  expr0 r+b+g
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression2
+  xpos 21
+  ypos 54
+ }
+ Premult {
+  name Premult1
+  xpos 21
+  ypos 111
+  disable {{1-parent.postmult}}
+ }
+ Output {
+  name Output1
+  xpos 21
+  ypos 172
+ }
+end_group
+add_layer {BumpNormals BumpNormals.red BumpNormals.green BumpNormals.blue}
+Group {
+ inputs 0
+ name Relight_Bb_v05
+ help "2D tool to help relight 3d renders with help of a normals pass\n\nFeed it with a normals pass through the \"image\" input, and select the right channel for it.\nUse the \"mask\" input to isolate a specific object in your scene.\n\n\n- Antialias normals to get rid of flickering\n- use ReNorm if your normals are coded from 0 to 1\n\nHave fun !\n\nby bflat (Bastien Brenot)\nmail@bastienbrenot.com"
+ tile_color 0x55ffbfff
+ label "diff \[value enableDiffuse] / spec \[value enableSpec] / AA \[value AntiAlias_normals]"
+ xpos -757
+ ypos -18
+ addUserKnob {20 Settings}
+ addUserKnob {41 normalsChannel l "Normals : " T Shuffle15.in}
+ addUserKnob {6 AntiAlias_normals l antiAlias -STARTLINE}
+ addUserKnob {6 oldWay l "reNorm ( 0/1 -> -1/1 )" -STARTLINE}
+ addUserKnob {6 testRange l "test range" +STARTLINE}
+ addUserKnob {7 remapNorm l "    // old max value :" -STARTLINE R 1 4}
+ remapNorm 1
+ addUserKnob {6 softClip l "softClip ultra high" -STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {6 SpecColor_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 DiffuseColor_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {20 lightdirection l "light direction" n 1}
+ addUserKnob {6 enableDiffuse l "DIFFUSE     " +STARTLINE}
+ enableDiffuse true
+ addUserKnob {6 enableSpec l "SPECULAR     " -STARTLINE}
+ enableSpec true
+ addUserKnob {26 noText l "" +STARTLINE T " "}
+ addUserKnob {7 X_Angle l "X Angle" R -180 180}
+ addUserKnob {7 Y_Angle l "Y Angle" R -180 180}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {20 settings l "light settings" n 1}
+ addUserKnob {26 void l " "}
+ addUserKnob {18 DiffuseColor l "Diffuse Color"}
+ DiffuseColor 1
+ addUserKnob {6 DiffuseColor_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 affectDiffuseAlpha l "affect alpha" -STARTLINE}
+ affectDiffuseAlpha true
+ addUserKnob {26 ""}
+ addUserKnob {7 spec_cosinPower l "cosin power"}
+ spec_cosinPower 0.75
+ addUserKnob {18 SpecColor l "Specular Color"}
+ SpecColor 1
+ addUserKnob {6 SpecColor_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 affectSpecAlpha l "affect alpha" -STARTLINE}
+ affectSpecAlpha true
+ addUserKnob {6 boostSpec l "boost spec" +STARTLINE}
+ boostSpec true
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {20 mask n 1}
+ addUserKnob {26 void2 l " "}
+ addUserKnob {6 postMult l "post multiply by original Alpha ? " +STARTLINE}
+ addUserKnob {6 enableMask l "enable mask" +STARTLINE}
+ addUserKnob {41 maskChannelMask l "" -STARTLINE T maskMultiply.maskChannelMask}
+ addUserKnob {41 inject -STARTLINE T maskMultiply.inject}
+ addUserKnob {41 invert_mask l invert -STARTLINE T maskMultiply.invert_mask}
+ addUserKnob {41 fringe -STARTLINE T maskMultiply.fringe}
+ addUserKnob {41 mix T maskMultiply.mix}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 ""}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0xff00bfff
+  label ZEBRAS
+  note_font_size 42
+  xpos -638
+  ypos -74
+  bdwidth 643
+  bdheight 288
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode13
+  tile_color 0x8e8e3800
+  label "RELIGHT DIFF + SPEC"
+  note_font_size 42
+  xpos -1014
+  ypos -702
+  bdwidth 1025
+  bdheight 371
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x71c67100
+  label "remap normals\n\n+ softclip high\n\nPOSITIF\n\n\n\n\n\nNEGATIF"
+  note_font_size 42
+  xpos -817
+  ypos -1664
+  bdwidth 827
+  bdheight 772
+ }
+ Input {
+  inputs 0
+  name Input_image_
+  xpos -439
+  ypos -1994
+ }
+ Dot {
+  name Dot53
+  xpos -405
+  ypos -1914
+ }
+set Nf44f6000 [stack 0]
+ Shuffle {
+  in BumpNormals
+  green blue
+  blue green
+  alpha black
+  name Shuffle15
+  label "\[value in]"
+  xpos -439
+  ypos -1875
+ }
+ Dot {
+  name Dot9
+  xpos -405
+  ypos -1803
+ }
+set Nf44f5800 [stack 0]
+ Dot {
+  name Dot10
+  xpos -528
+  ypos -1803
+ }
+ Expression {
+  expr0 r*2-1
+  expr1 g*2-1
+  expr2 b*2-1
+  name normalize
+  label "\[value expr0]"
+  xpos -562
+  ypos -1756
+ }
+push $Nf44f5800
+ Switch {
+  inputs 2
+  which 1
+  name Switch_oldWay
+  xpos -439
+  ypos -1750
+  disable {{parent.oldWay==0?1:0}}
+ }
+set Nf44f4c00 [stack 0]
+ Multiply {
+  channels rgb
+  value {{1/parent.remapNorm}}
+  name Multiply_setNewRange
+  label "\[value value]"
+  xpos -439
+  ypos -1639
+ }
+ Dot {
+  name Dot14
+  xpos -405
+  ypos -1582
+ }
+set Nf44f4400 [stack 0]
+ Dot {
+  name Dot15
+  xpos -260
+  ypos -1582
+ }
+set Naf8bc00 [stack 0]
+ ClipTest {
+  channels rgb
+  lower -10000
+  name ClipTest2
+  xpos -176
+  ypos -1585
+ }
+push $Naf8bc00
+ Difference {
+  inputs 2
+  name Difference2
+  xpos -176
+  ypos -1546
+ }
+ FilterErode {
+  size -3
+  name FilterErode1
+  xpos -176
+  ypos -1510
+ }
+ Blur {
+  channels rgba
+  size 5
+  name Blur1
+  label "\[value size]"
+  xpos -176
+  ypos -1449
+ }
+ Multiply {
+  channels rgba
+  value 1.2
+  name Multiply3
+  label "\[value value]"
+  xpos -176
+  ypos -1413
+ }
+ Clamp {
+  name Clamp2
+  xpos -176
+  ypos -1377
+ }
+push $Nf44f4400
+ Dot {
+  name Dot12
+  xpos -406
+  ypos -1482
+ }
+set Naf8a000 [stack 0]
+ Expression {
+  temp_name0 Y
+  temp_expr0 "0.2126*r + 0.7152*g + 0.0722*b"
+  temp_name1 L
+  temp_expr1 (r+g+b)/3
+  channel0 rgba
+  expr0 Y
+  name Expression1
+  label "\[value expr0]"
+  xpos -296
+  ypos -1491
+ }
+ ColorLookup {
+  lut {master {curve C x0.3000000119 0 s0 x0.6999999881 1 s3.200000048}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  name ColorLookup1
+  xpos -296
+  ypos -1443
+ }
+ Multiply {
+  inputs 1+1
+  channels rgba
+  value 0
+  invert_mask true
+  name Multiply2
+  label "\[value value]"
+  xpos -296
+  ypos -1377
+ }
+push $Naf8a000
+ SoftClip {
+  conversion "logarithmic compress"
+  softclip_min 0.6
+  name SoftClip1
+  xpos -692
+  ypos -1371
+ }
+push $Naf8a000
+ Keymix {
+  inputs 3
+  name Keymix2
+  xpos -440
+  ypos -1377
+  disable {{!parent.softClip}}
+ }
+ Expression {
+  expr0 -r
+  expr1 -g
+  expr2 -b
+  name Expression2
+  label "\[value expr0]"
+  xpos -439
+  ypos -1281
+ }
+ Dot {
+  name Dot16
+  xpos -405
+  ypos -1223
+ }
+set Naf88400 [stack 0]
+ Dot {
+  name Dot17
+  xpos -258
+  ypos -1223
+ }
+set Naf2bc00 [stack 0]
+ ClipTest {
+  channels rgb
+  lower -10000
+  name ClipTest3
+  xpos -175
+  ypos -1226
+ }
+push $Naf2bc00
+ Difference {
+  inputs 2
+  name Difference3
+  xpos -175
+  ypos -1188
+ }
+ FilterErode {
+  size -5
+  name FilterErode2
+  xpos -175
+  ypos -1152
+ }
+ Blur {
+  channels rgba
+  size 5
+  name Blur2
+  label "\[value size]"
+  xpos -175
+  ypos -1093
+ }
+ Multiply {
+  channels rgba
+  value 1.2
+  name Multiply4
+  label "\[value value]"
+  xpos -175
+  ypos -1057
+ }
+ Clamp {
+  name Clamp3
+  xpos -175
+  ypos -1021
+ }
+push $Naf88400
+ Dot {
+  name Dot13
+  xpos -405
+  ypos -1189
+ }
+set Naf2a000 [stack 0]
+ Expression {
+  temp_name0 Y
+  temp_expr0 "0.2126*r + 0.7152*g + 0.0722*b"
+  temp_name1 L
+  temp_expr1 (r+g+b)/3
+  channel0 rgba
+  expr0 L
+  name Expression3
+  label "\[value expr0]"
+  xpos -295
+  ypos -1198
+ }
+ ColorLookup {
+  lut {master {curve C x0.3000000119 0 s0 x0.6999999881 1 s3.200000048}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  name ColorLookup2
+  xpos -295
+  ypos -1149
+ }
+ Multiply {
+  inputs 1+1
+  channels rgba
+  value 0
+  invert_mask true
+  name Multiply5
+  label "\[value value]"
+  xpos -295
+  ypos -1021
+ }
+push $Naf2a000
+ SoftClip {
+  conversion "logarithmic compress"
+  softclip_min 0.6
+  name SoftClip2
+  xpos -691
+  ypos -1015
+ }
+push $Naf2a000
+ Keymix {
+  inputs 3
+  name Keymix3
+  xpos -439
+  ypos -1021
+  disable {{!parent.softClip}}
+ }
+ Expression {
+  expr0 -r
+  expr1 -g
+  expr2 -b
+  name Expression4
+  label "\[value expr0]"
+  xpos -439
+  ypos -971
+ }
+set Naf28800 [stack 0]
+ Dot {
+  name Dot4
+  xpos -405
+  ypos -808
+ }
+set Naf28400 [stack 0]
+ Dot {
+  name Dot3
+  xpos -1170
+  ypos -808
+ }
+ Dot {
+  name Dot8
+  xpos -1170
+  ypos 3
+ }
+ Dot {
+  name Dot7
+  xpos -536
+  ypos 3
+ }
+set Naecb400 [stack 0]
+ Dot {
+  name Dot6
+  xpos -536
+  ypos 137
+ }
+push $Naecb400
+ Dot {
+  name Dot5
+  xpos -464
+  ypos 3
+ }
+ ClipTest {
+  channels rgb
+  lower -1
+  name ClipTest1
+  xpos -498
+  ypos 38
+ }
+ Difference {
+  inputs 2
+  name Difference1
+  xpos -498
+  ypos 128
+ }
+ Clamp {
+  name Clamp1
+  xpos -331
+  ypos 128
+ }
+ Dot {
+  name Dot2
+  xpos -205
+  ypos 137
+ }
+set Naec9c00 [stack 0]
+push $Naec9c00
+ Grade {
+  white 10
+  name Grade1
+  xpos -239
+  ypos 169
+ }
+push $Naec9c00
+push $Nf44f6000
+ Dot {
+  name Dot55
+  xpos -727
+  ypos -1914
+ }
+ Dot {
+  name Dot11
+  xpos -727
+  ypos -175
+ }
+ Input {
+  inputs 0
+  name mask
+  xpos 151
+  ypos -286
+  number 1
+ }
+ Invert {
+  name Invert1
+  xpos 9
+  ypos -292
+ }
+ Expression {
+  inputs 0
+  temp_name0 Xx
+  temp_expr0 sin(pi*(parent.X_Angle)/180)
+  temp_name1 Xy
+  temp_expr1 cos(pi*(parent.X_Angle)/180)
+  temp_name2 Yx
+  temp_expr2 sin(pi*(parent.Y_Angle-90)/180)
+  temp_name3 Yy
+  temp_expr3 cos(pi*(parent.Y_Angle-90)/180)
+  expr0 Xx*Yx
+  expr1 Xy*Yx
+  expr2 Yy
+  name diffuseDirectionColor
+  xpos -685
+  ypos -585
+ }
+set Naec8400 [stack 0]
+push $Naf28400
+ Matrix {
+  channels rgb
+  matrix {
+      {1 2 1}
+      {2 4 2}
+      {1 2 1}
+    }
+  normalize true
+  name antiAlias_Normals
+  xpos -439
+  ypos -768
+  disable {{parent.AntiAlias_normals==0?1:0}}
+ }
+ Dot {
+  name Dot54
+  xpos -405
+  ypos -635
+ }
+set Nae7b800 [stack 0]
+ Dot {
+  name Dot1
+  xpos -547
+  ypos -635
+ }
+ MergeExpression {
+  inputs 2
+  temp_name0 X
+  temp_expr0 A.r*B.r
+  temp_name1 Y
+  temp_expr1 A.g*B.g
+  temp_name2 Z
+  temp_expr2 A.b*B.b
+  temp_name3 DIR
+  temp_expr3 X+Y+Z
+  channel0 rgba
+  expr0 pow(DIR,(parent.spec_cosinPower/pow(parent.spec_cosinPower/1.2,5)))
+  channel1 none
+  channel2 none
+  name SpecDirMult
+  xpos -581
+  ypos -471
+ }
+ Multiply {
+  channels rgba
+  value 3
+  name Spec_Multiply
+  label "\[value value]"
+  xpos -397
+  ypos -477
+  disable {{!parent.boostSpec}}
+ }
+set Nae7ac00 [stack 0]
+ Multiply {
+  channels alpha
+  value {{(0.2126*parent.SpecColor.r+0.7152*parent.SpecColor.g+0.0722*parent.SpecColor.b)}}
+  name MultiplySpecAlpha
+  label "\[value value]"
+  xpos -315
+  ypos -522
+ }
+push $Nae7ac00
+ Multiply {
+  channels rgb
+  value {{parent.SpecColor.r} {parent.SpecColor.g} {parent.SpecColor.b} 1}
+  name SpecColor
+  label "\[value value]"
+  xpos -317
+  ypos -431
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name CopySpecAlpha
+  xpos -229
+  ypos -467
+  disable {{parent.affectSpecAlpha==0?1:0}}
+ }
+push $Naec8400
+push $Nae7b800
+ MergeExpression {
+  inputs 2
+  temp_name0 X
+  temp_expr0 A.r*B.r
+  temp_name1 Y
+  temp_expr1 A.g*B.g
+  temp_name2 Z
+  temp_expr2 A.b*B.b
+  temp_name3 DIR
+  temp_expr3 X+Y+Z
+  channel0 rgba
+  expr0 DIR
+  channel1 none
+  channel2 none
+  name DiffuseDirMult
+  xpos -439
+  ypos -585
+ }
+set Nae79c00 [stack 0]
+ Multiply {
+  channels alpha
+  value {{(0.2126*parent.DiffuseColor.r+0.7152*parent.DiffuseColor.g+0.0722*parent.DiffuseColor.b)}}
+  name MultiplyDiffAlpha
+  label "\[value value]"
+  xpos -338
+  ypos -635
+ }
+push $Nae79c00
+ Multiply {
+  channels rgb
+  value {{parent.DiffuseColor.r} {parent.DiffuseColor.g} {parent.DiffuseColor.b} {parent.affectDiffuseAlpha==0?1:((parent.DiffuseColor.r+parent.DiffuseColor.g+parent.DiffuseColor.b)/3)}}
+  name DiffuseColor
+  label "\[value value]"
+  xpos -341
+  ypos -571
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name CopyDiffAlpha
+  xpos -227
+  ypos -581
+  disable {{parent.affectDiffuseAlpha==0?1:0}}
+ }
+push $Nf44f6000
+ Dot {
+  name Dot59
+  xpos -85
+  ypos -1914
+ }
+ Expression {
+  channel0 rgba
+  expr0 0
+  name BlackExpression
+  label "RGBA = 0"
+  xpos -119
+  ypos -1845
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge_DIFFUSE
+  xpos -119
+  ypos -575
+  disable {{parent.enableDiffuse==0?1:0}}
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge_SPEC
+  xpos -119
+  ypos -461
+  disable {{parent.enableSpec==0?1:0}}
+ }
+ Multiply {
+  inputs 1+1
+  channels rgba
+  value 0
+  name maskMultiply
+  label "\[value value]"
+  xpos -119
+  ypos -292
+  disable {{parent.enableMask==0?1:0}}
+ }
+ Multiply {
+  inputs 1+1
+  channels rgba
+  value 0
+  invert_mask true
+  name postMultiply
+  label "\[value value]"
+  xpos -119
+  ypos -184
+  disable {{parent.postMult==0?1:0}}
+ }
+ Multiply {
+  inputs 1+1
+  channels rgb
+  value 0
+  name Multiply1
+  label "\[value value]"
+  xpos -119
+  ypos 128
+  disable {{!parent.testRange}}
+ }
+ Keymix {
+  inputs 3
+  channels {rgba.red -rgba.green rgba.blue none}
+  name Keymix1
+  xpos -119
+  ypos 169
+  disable {{!parent.testRange}}
+ }
+ Output {
+  name Output1
+  xpos -119
+  ypos 379
+ }
+ Expression {
+  inputs 0
+  temp_name0 Xx
+  temp_expr0 sin(pi*(parent.X_Angle/2)/180)
+  temp_name1 Xy
+  temp_expr1 cos(pi*(parent.X_Angle/2)/180)
+  temp_name2 Yx
+  temp_expr2 sin(pi*(parent.Y_Angle/2-90)/180)
+  temp_name3 Yy
+  temp_expr3 cos(pi*(parent.Y_Angle/2-90)/180)
+  expr0 Xx*Yx
+  expr1 Xy*Yx
+  expr2 Yy
+  name specDirectionColor
+  xpos -693
+  ypos -471
+  disable true
+ }
+push $Nf44f4c00
+ ClipTest {
+  channels rgb
+  lower -1
+  upper 100
+  name ClipTest4
+  xpos -250
+  ypos -1703
+ }
+push $Naf28800
+ Viewer {
+  fps 25
+  colour_sample_bbox {0.6833333373 -0.196875006 0.6843749881 -0.1958333403}
+  samplepoints {{0.6833333373 -0.196875006}
+    }
+  useGPUForViewer true
+  input_process false
+  name Viewer1
+  xpos -587
+  ypos -413
+ }
+end_group
+Group {
+ inputs 0
+ name reLightExpress
+ tile_color 0x308fffff
+ xpos -757
+ ypos 124
+ icon /isilon.cubedns.fr/R/deploy/cube/pommier/icons/gizmos/reLightExpress.png
+ addUserKnob {20 reLightExpress}
+ addUserKnob {41 orbit l Orbit T ctrl.orbit}
+ addUserKnob {41 depth l Depth T ctrl.depth}
+ addUserKnob {41 extend_backlight l "Extend Backlight" T ctrl.extend_backlight}
+ addUserKnob {20 HelpTab l Help}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 HelpText l "" +STARTLINE T "reLightExpress permet de creer des masques de relight a partir de votre passe de VRayNormals camera. "}
+ addUserKnob {20 AboutTab l About}
+ addUserKnob {26 About_1 l "" +STARTLINE T "reLightExpress 1.0 by Noss : bruno.ortolland@gmail.com\n"}
+}
+ Input {
+  inputs 0
+  name normals
+  xpos 3
+  ypos -610
+ }
+ NoOp {
+  name ctrl
+  xpos 3
+  ypos -575
+  addUserKnob {20 User}
+  addUserKnob {7 extend_backlight l "Extend Backlight"}
+  addUserKnob {7 depth l Depth R -1 1}
+  depth 0.19
+  addUserKnob {7 orbit l Orbit R 0 6.29}
+  orbit 0.4
+ }
+ Grade {
+  channels {-rgba.red -rgba.green rgba.blue none}
+  blackpoint {{parent.ctrl.extend_backlight}}
+  black_clamp false
+  name Grade1
+  xpos 3
+  ypos -520
+ }
+ Expression {
+  temp_name0 depth
+  temp_expr0 ctrl.depth
+  temp_name1 orbit
+  temp_expr1 ctrl.orbit
+  channel0 rgba
+  expr0 ((r*sin(orbit)+g*cos(orbit)-(fabs(depth))*((r*sin(orbit)+g*cos(orbit))))+(b*depth))
+  channel1 none
+  channel2 none
+  channel3 none
+  name Rimlight_Exp
+  label "\n\n\n"
+  xpos 3
+  ypos -466
+ }
+ Output {
+  name Output1
+  xpos 3
+  ypos -180
+ }
+end_group
+Group {
+ inputs 0
+ name NORMAL_RELIGHT
+ xpos -944
+ ypos 124
+ addUserKnob {20 User}
+ addUserKnob {41 white l gain T Grade2.white}
+ addUserKnob {41 latitude T Vray_Relight1.latitude}
+ addUserKnob {41 disable_2 l "Overlay (lift 0.5)" T Switch1.disable}
+ addUserKnob {41 mix l "Add upper values" T ColorHIGH.mix}
+ addUserKnob {41 mix_1 l "Substract lower values" T ColorLOW.mix}
+}
+ Input {
+  inputs 0
+  name CG
+  xpos -158
+  ypos -398
+ }
+ Dot {
+  name Dot1
+  xpos -124
+  ypos -358
+ }
+set Nf3ef9400 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  in1 BumpNormals
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.alpha 0 3 BumpNormals.red 0 0 rgba.red 0 0 BumpNormals.green 0 1 rgba.green 0 1 BumpNormals.blue 0 2 rgba.blue 0 2"
+  name Smooth
+  xpos -81
+  ypos -329
+ }
+push $Nf3ef9400
+add_layer {N N.red N.green N.blue}
+ Shuffle2 {
+  fromInput1 {{0} B}
+  in1 N
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.alpha 0 3 N.red 0 0 rgba.red 0 0 N.green 0 1 rgba.green 0 1 N.blue 0 2 rgba.blue 0 2"
+  name Normal
+  xpos -232
+  ypos -328
+ }
+ Merge2 {
+  inputs 2
+  operation from
+  name Merge1
+  xpos -157
+  ypos -287
+ }
+ Group {
+  name Vray_Relight1
+  xpos -157
+  ypos -231
+  addUserKnob {20 User}
+  addUserKnob {41 longitude T Constant1.longitude}
+  addUserKnob {41 latitude T Constant1.latitude}
+  addUserKnob {6 postmult l post-multiply +STARTLINE}
+ }
+  Constant {
+   inputs 0
+   channels rgb
+   color {{sin(radians(longitude))*cos(radians(latitude))} {sin(radians(latitude))} {cos(radians(longitude))*cos(radians(latitude))} 0}
+   format "256 256 0 0 256 256 1 square_256"
+   name Constant1
+   xpos 93
+   ypos -102
+   addUserKnob {20 User}
+   addUserKnob {7 longitude R -180 180}
+   longitude 90
+   addUserKnob {7 latitude R -90 90}
+   latitude -53.5
+  }
+  Input {
+   inputs 0
+   name Input1
+   selected true
+   xpos -36
+   ypos -249
+  }
+  Shuffle2 {
+   fromInput1 {{0} B}
+   out1 VRay_Normals
+   fromInput2 {{0} B}
+   mappings "3 rgba.red 0 0 VRay_Normals.X 0 0 rgba.green 0 1 VRay_Normals.Y 0 1 rgba.blue 0 2 VRay_Normals.Z 0 2"
+   name Shuffle1
+   xpos -36
+   ypos -176
+  }
+  Expression {
+   channel0 {none none none VRay_Normals.Z}
+   expr0 VRay_Normals.Z-(1-a)
+   channel1 none
+   channel2 none
+   channel3 none
+   name Expression1
+   xpos -36
+   ypos -118
+  }
+  Unpremult {
+   channels VRay_Normals
+   name Unpremult1
+   xpos -36
+   ypos -71
+  }
+  MergeExpression {
+   inputs 2
+   expr0 Ar*BVRay_Normals.X
+   expr1 Ag*BVRay_Normals.Y
+   expr2 Ab*BVRay_Normals.Z
+   channel3 none
+   name MergeExpression1
+   xpos 21
+   ypos 2
+  }
+  Expression {
+   channel0 rgb
+   expr0 r+b+g
+   channel1 none
+   channel2 none
+   channel3 none
+   name Expression2
+   xpos 21
+   ypos 54
+  }
+  Premult {
+   name Premult1
+   xpos 21
+   ypos 111
+   disable {{1-parent.postmult}}
+  }
+  Output {
+   name Output1
+   xpos 21
+   ypos 172
+  }
+ end_group
+ Grade {
+  white 3.3
+  black_clamp false
+  name Grade2
+  xpos -157
+  ypos -172
+ }
+set Nf3e99c00 [stack 0]
+push $Nf3e99c00
+ Grade {
+  add 0.5
+  name OFFSET
+  xpos -296
+  ypos -133
+ }
+ ColorLookup {
+  lut {master {curve C 0 L x0.5 0.5 C x0.515442729 1}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  mix 0
+  name ColorHIGH
+  xpos -296
+  ypos -109
+ }
+ ColorLookup {
+  lut {master {curve C x0.4940603971 0 L x0.5 0.5 C x1 1}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  mix 0
+  name ColorLOW
+  selected true
+  xpos -296
+  ypos -85
+ }
+ Switch {
+  inputs 2
+  which 1
+  name Switch1
+  xpos -157
+  ypos -66
+  disable true
+ }
+ Output {
+  name Output1
+  xpos -157
+  ypos 46
+ }
+end_group
+Group {
+ inputs 0
+ name Tranche
+ tile_color 0x308fffff
+ xpos -1954
+ ypos 245
+ icon Ripper.png
+ addUserKnob {20 Tranche}
+ addUserKnob {41 MayaMax l INVISIBLE +INVISIBLE T tranche_ctrl.MayaMax}
+ addUserKnob {41 channelCut l "Axis Cut" T tranche_ctrl.channelCut}
+ addUserKnob {41 LineCut l "Line Cut" -STARTLINE T tranche_ctrl.LineCut}
+ addUserKnob {26 ""}
+ addUserKnob {41 basic_offset l "Basic offset" T tranche_ctrl.basic_offset}
+ addUserKnob {41 smoothness l Smooth T tranche_ctrl.smoothness}
+ addUserKnob {26 ""}
+ addUserKnob {41 invert -STARTLINE T tranche_ctrl.invert}
+ addUserKnob {41 whitepoint T BW.whitepoint}
+ addUserKnob {41 blackpoint T BW.blackpoint}
+ addUserKnob {26 ""}
+ addUserKnob {26 text l "" -STARTLINE T "Don't use 3D Axis with this."}
+ addUserKnob {20 Transform l "3D Transform" n 1}
+ Transform 0
+ addUserKnob {41 translate T Axis1.translate}
+ addUserKnob {41 rotate T Axis1.rotate}
+ addUserKnob {41 scaling l scale T Axis1.scaling}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {20 world_offset l "World Offset" n 1}
+ world_offset 0
+ addUserKnob {41 activPick T tranche_ctrl.activPick}
+ addUserKnob {41 center l "" -STARTLINE T tranche_ctrl.center}
+ addUserKnob {20 endGroup n -1}
+}
+ Input {
+  inputs 0
+  name pointWorld
+  xpos 510
+  ypos 62
+ }
+set N4e1cd000 [stack 0]
+ ColorMatrix {
+  matrix {
+      {1 0 0}
+      {0 0 1}
+      {0 -1 0}
+    }
+  name maxToMaya
+  xpos 668
+  ypos 134
+ }
+push $N4e1cd000
+ Switch {
+  inputs 2
+  which {{parent.tranche_ctrl.MayaMax}}
+  name maxORmaya
+  xpos 510
+  ypos 134
+ }
+set N4e1cc800 [stack 0]
+ Dot {
+  name Dot1
+  xpos 324
+  ypos 138
+ }
+ Dot {
+  name Dot2
+  xpos 324
+  ypos 738
+ }
+push $N4e1cc800
+ Grade {
+  add {{-parent.tranche_ctrl.center.r} {-parent.tranche_ctrl.center.g} {-parent.tranche_ctrl.center.b} 0}
+  black_clamp false
+  name Grade1
+  xpos 510
+  ypos 182
+ }
+ Grade {
+  add {{-parent.Axis1.world_matrix.3} {parent.Axis1.world_matrix.11} {-parent.Axis1.world_matrix.7} 0}
+  black_clamp false
+  name axisTransfo
+  xpos 510
+  ypos 254
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis1.world_matrix.0} {parent.Axis1.world_matrix.1} {parent.Axis1.world_matrix.2}}
+      {{parent.Axis1.world_matrix.4} {parent.Axis1.world_matrix.5} {parent.Axis1.world_matrix.6}}
+      {{parent.Axis1.world_matrix.8} {parent.Axis1.world_matrix.9} {parent.Axis1.world_matrix.10}}
+    }
+  name worldRotate
+  xpos 510
+  ypos 280
+ }
+ Expression {
+  temp_name0 axisCut
+  temp_expr0 "\[python \{nuke.toNode('tranche_ctrl').knob('channelCut').value()\}]"
+  channel0 rgb
+  expr0 axisCut
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  channel3 {none none none -rgba.alpha}
+  name axisCut
+  xpos 510
+  ypos 374
+  addUserKnob {20 User}
+  addUserKnob {4 axisCut M {Red Green Blue}}
+  axisCut Blue
+ }
+ Grade {
+  add {{parent.tranche_ctrl.basic_offset}}
+  black_clamp false
+  name basic_offset_grade
+  xpos 510
+  ypos 422
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove2
+  xpos 510
+  ypos 466
+ }
+set Na411a400 [stack 0]
+ Expression {
+  channel0 rgba
+  expr0 fabs(r)
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  channel3 {none none none -rgba.alpha}
+  name Expression1
+  xpos 730
+  ypos 466
+ }
+push $Na411a400
+ Switch {
+  inputs 2
+  which {{parent.tranche_ctrl.LineCut}}
+  name lineCut
+  xpos 510
+  ypos 494
+ }
+ Grade {
+  whitepoint {{parent.tranche_ctrl.smoothness}}
+  black_clamp false
+  name smooth_grade
+  xpos 510
+  ypos 542
+ }
+ Grade {
+  white_clamp true
+  name BW
+  xpos 510
+  ypos 590
+ }
+ Invert {
+  channels rgba
+  mix {{parent.tranche_ctrl.invert}}
+  name Invert1
+  xpos 510
+  ypos 638
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle2
+  xpos 510
+  ypos 686
+ }
+ Switch {
+  inputs 2
+  which {{parent.tranche_ctrl.activPick}}
+  name activPick
+  xpos 510
+  ypos 734
+ }
+ Output {
+  name Output1
+  xpos 510
+  ypos 854
+ }
+ NoOp {
+  inputs 0
+  name tranche_ctrl
+  xpos -40
+  ypos 422
+  addUserKnob {20 User}
+  addUserKnob {6 invert +STARTLINE}
+  addUserKnob {7 basic_offset l "Basic offset" R -100 100}
+  basic_offset -83
+  addUserKnob {4 channelCut M {Red Green Blue}}
+  channelCut Green
+  addUserKnob {6 LineCut l "Line Cut" +STARTLINE}
+  LineCut true
+  addUserKnob {7 smoothness l Smooth R 0 100}
+  smoothness 2
+  addUserKnob {4 MayaMax M {"Max Camera" "Maya Camera" "" ""}}
+  addUserKnob {18 center}
+  center {0 0 0}
+  addUserKnob {6 center_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 activPick -STARTLINE}
+ }
+ Input {
+  inputs 0
+  name Transform_3D
+  xpos 778
+  ypos 62
+  number 1
+  addUserKnob {20 User}
+ }
+ Axis2 {
+  name Axis1
+  selected true
+  xpos 788
+  ypos 246
+ }
+end_group
+Group {
+ inputs 0
+ name Patate_3D
+ tile_color 0x308fffff
+ xpos -1954
+ ypos 124
+ icon Ripper.png
+ addUserKnob {20 User l "Patate 3D"}
+ addUserKnob {22 activate_axis_input l "Use 3D Axis input" -STARTLINE T "node = nuke.thisNode()\nif node.knob(\"activate_axis_input\").label() == \"Use 3D Axis input\":\n    node.knob(\"activate_axis_input\").setLabel(\"Use picker input\")\n    node.knobs()\[\"rgb_picker\"].setVisible(False)\n    node.knobs()\[\"Show_picker\"].setVisible(False)\n    node.knob(\"Show_picker\").setValue(0)\n    node.knob(\"rgb_picker\").setValue(\[0,0,0])\n    axis_input_node  = nuke.createNode(\"Input\", inpanel = False)\n    axis_input_node.setName(\"Axis_3D\")\n    nuke.toNode(\"Axis1\").setInput(0, axis_input_node)\nelse:\n    node.knob(\"activate_axis_input\").setLabel(\"Use 3D Axis input\")\n    nuke.delete(nuke.toNode(\"Axis_3D\"))\n    node.knobs()\[\"rgb_picker\"].setVisible(True)\n    node.knobs()\[\"Show_picker\"].setVisible(True)\n    node.knob(\"Show_picker\").setValue(1)\n   "}
+ addUserKnob {41 Show_picker l Show T controls.Show_picker}
+ addUserKnob {41 rgb_picker l "RGB/XYZ Picker" -STARTLINE T controls.rgb_picker}
+ addUserKnob {26 ""}
+ addUserKnob {41 forme l Shape T cubeORsphere.forme}
+ addUserKnob {41 scale l " Scale" T controls.scale}
+ addUserKnob {41 smoothness l Smooth T smooth.smoothness}
+ addUserKnob {26 ""}
+ addUserKnob {20 group l "Additionnal transformations" n 1}
+ group 0
+ addUserKnob {41 translate T Axis1.translate}
+ addUserKnob {41 rotate T Axis1.rotate}
+ addUserKnob {41 scaling l Scale T Axis1.scaling}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 Help}
+ addUserKnob {26 HelpInfo l "" +STARTLINE T "Ce node fonctionne a partir de la passe de point position (ex: VrayPointWorld). \nIl permet de realiser un masque spherique (Omni) ou cubique dans votre image.\n\nUtilisation sans Axis: \nA l'aide de la pipette selectionnez un point dans votre image, ce point sera le centre de votre patate. \nBasculez la vue sur \"Result\", Il vous suffit ensuite d'adapter le scale et la douceur de votre patate. \n\nUtilisation avec Axis 3D:\nBranchez un point (Helper, Locator etc...) anime ou non en provenance de votre logiciel 3d, \net votre patate se placera automatiquement a la place de cet objet dans votre scene 3D. "}
+}
+ Input {
+  inputs 0
+  name pointWorld
+  xpos 510
+  ypos 134
+ }
+ Dot {
+  name Dot3
+  xpos 544
+  ypos 210
+ }
+set Ncbdb5400 [stack 0]
+ Dot {
+  name Dot1
+  xpos 324
+  ypos 210
+ }
+ Dot {
+  name Dot2
+  xpos 324
+  ypos 618
+ }
+push $Ncbdb5400
+ Expression {
+  expr0 r-parent.controls.rgb_picker.r
+  expr1 g-parent.controls.rgb_picker.g
+  expr2 b-parent.controls.rgb_picker.b
+  name offset
+  xpos 510
+  ypos 254
+ }
+ Expression {
+  expr0 r*(1/controls.scale)
+  expr1 g*(1/controls.scale)
+  expr2 b*(1/controls.scale)
+  name Scale
+  xpos 510
+  ypos 302
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis1.world_matrix.0} {parent.Axis1.world_matrix.1} {parent.Axis1.world_matrix.2}}
+      {{parent.Axis1.world_matrix.4} {parent.Axis1.world_matrix.5} {parent.Axis1.world_matrix.6}}
+      {{parent.Axis1.world_matrix.8} {parent.Axis1.world_matrix.9} {parent.Axis1.world_matrix.10}}
+    }
+  name Rotate
+  xpos 510
+  ypos 350
+ }
+ Expression {
+  expr0 r+parent.Axis1.world_matrix.3
+  expr1 g+parent.Axis1.world_matrix.7
+  expr2 b+parent.Axis1.world_matrix.11
+  name transform
+  xpos 510
+  ypos 398
+ }
+set N4e1cf800 [stack 0]
+ Expression {
+  channel0 rgba
+  expr0 "clamp(1-abs(r)) * clamp(1-abs(g)) * clamp(1-abs(b))"
+  channel1 none
+  channel2 none
+  channel3 none
+  name cube
+  xpos 400
+  ypos 446
+ }
+push $N4e1cf800
+ Expression {
+  channel0 rgba
+  expr0 1-sqrt(r*r+g*g+b*b)
+  channel1 none
+  channel2 none
+  name sphere
+  xpos 620
+  ypos 446
+ }
+ Switch {
+  inputs 2
+  which {{forme}}
+  name cubeORsphere
+  xpos 510
+  ypos 494
+  addUserKnob {20 User}
+  addUserKnob {4 forme M {Sphere Cube}}
+ }
+ Expression {
+  channel0 rgba
+  expr0 "smoothstep(0,smoothness, clamp((r+g+b)/3))"
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  name smooth
+  xpos 510
+  ypos 542
+  addUserKnob {20 User}
+  addUserKnob {7 smoothness}
+  smoothness 0.5
+ }
+ Switch {
+  inputs 2
+  which {{parent.controls.Show_picker}}
+  name activPick
+  xpos 510
+  ypos 614
+ }
+ Output {
+  name Output1
+  xpos 510
+  ypos 710
+ }
+ Axis2 {
+  inputs 0
+  name Axis1
+  xpos 740
+  ypos 330
+ }
+ NoOp {
+  inputs 0
+  name controls
+  xpos 730
+  ypos 254
+  addUserKnob {20 User}
+  addUserKnob {4 Show_picker l Show M {Result "Position pass (picker)"}}
+  addUserKnob {18 rgb_picker l XYZ +HIDDEN}
+  rgb_picker {0 0 0}
+  addUserKnob {6 rgb_picker_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {7 scale l "Global Scale" R 0 100}
+  scale 20
+ }
+end_group
+Group {
+ inputs 0
+ name Mask3DGradient_ik
+ help "Mask3DGradient creates a gradient mate betveen two point in 3D space based on a World position pass. Also may be useful in work with Object Position and similar data passes which contains position cordinate. Feed it as input.\nAvoid using same values for 'From' and 'To'!\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ xpos -1768
+ ypos 245
+ addUserKnob {20 User}
+ addUserKnob {41 From T Mask3DGradient_ik.From}
+ addUserKnob {41 To T Mask3DGradient_ik.To}
+ addUserKnob {41 ReplaceRGB l "Replace RGB / Keep original (generate matte in alpha only)" T Mask3DGradient_ik.ReplaceRGB}
+ addUserKnob {41 IgnoreByAlpha l "Ignore outside by alpha" T Mask3DGradient_ik.IgnoreByAlpha}
+ addUserKnob {26 ""}
+ addUserKnob {26 credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos -77
+  ypos -353
+ }
+ Expression {
+  temp_name0 DistF
+  temp_expr0 "sqrt(pow2(From.r - r) + pow2(From.g - g) + pow2(From.b - b))"
+  temp_name1 DistT
+  temp_expr1 "sqrt(pow2(To.r - r) + pow2(To.g - g) + pow2(To.b - b))"
+  temp_name2 DistFT
+  temp_expr2 "sqrt(pow2(From.r - To.r) + pow2(From.g - To.g) + pow2(From.b - To.b))"
+  temp_name3 F
+  temp_expr3 "acos(clamp((pow2(DistF) + pow2(DistFT) - pow2(DistT))/(2 * DistF * DistFT), -1, 1))"
+  expr0 "ReplaceRGB ? (IgnoreByAlpha ? (clamp( (DistF * cos(F)) / DistFT)*a) : clamp( (DistF * cos(F)) / DistFT) ) : r"
+  expr1 "ReplaceRGB ? (IgnoreByAlpha ? (clamp( (DistF * cos(F)) / DistFT)*a) : clamp( (DistF * cos(F)) / DistFT) ) : g"
+  expr2 "ReplaceRGB ? (IgnoreByAlpha ? (clamp( (DistF * cos(F)) / DistFT)*a) : clamp( (DistF * cos(F)) / DistFT) ) : b"
+  expr3 "IgnoreByAlpha ? (clamp( (DistF * cos(F)) / DistFT)*a) : clamp( (DistF * cos(F)) / DistFT)"
+  name Mask3DGradient_ik
+  selected true
+  xpos -77
+  ypos -313
+  addUserKnob {20 User}
+  addUserKnob {18 From}
+  From {0 0 0}
+  addUserKnob {6 From_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 From_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 To}
+  To {100 100 100}
+  addUserKnob {6 To_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 To_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 ReplaceRGB l "Replace RGB / Keep original (generate matte in alpha only)" +STARTLINE}
+  addUserKnob {6 IgnoreByAlpha l "Ignore outside by alpha" +STARTLINE}
+ }
+ Output {
+  name Output1
+  xpos -77
+  ypos -213
+ }
+end_group
+Group {
+ inputs 0
+ name Mask3DCubical_ik
+ help "Mask3DCubical creates a cubical 3D matte based on a World position pass. Also may be useful in work with Object Position and similar data passes which contains position cordinate. Feed it as input.\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ xpos -1768
+ ypos 124
+ addUserKnob {20 User}
+ addUserKnob {41 Position T Mask3DCubical_ik.Position}
+ addUserKnob {41 Softness T Mask3DCubical_ik.Softness}
+ addUserKnob {41 rotate l Rotation T Axis1.rotate}
+ addUserKnob {41 rot_order l "Rotation order" -STARTLINE T Axis1.rot_order}
+ addUserKnob {41 ReplaceRGB l "Replace RGB by additional mattes / Keep original (generate matte in alpha only)" T Mask3DCubical_ik.ReplaceRGB}
+ addUserKnob {41 IgnoreByAlpha l "Ignore outside by alpha" T Mask3DCubical_ik.IgnoreByAlpha}
+ addUserKnob {26 ""}
+ addUserKnob {26 credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Axis2 {
+  inputs 0
+  name Axis1
+  xpos -376
+  ypos -361
+ }
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos -496
+  ypos -448
+ }
+ Dot {
+  name Dot2
+  xpos -462
+  ypos -408
+ }
+set Nb8352800 [stack 0]
+ Dot {
+  name Dot3
+  xpos -578
+  ypos -408
+ }
+ Dot {
+  name Dot1
+  xpos -578
+  ypos -184
+ }
+set Nb8352000 [stack 0]
+push $Nb8352000
+push $Nb8352800
+ Add {
+  channels rgb
+  value {{-parent.Mask3DCubical_ik.Position i} {-parent.Mask3DCubical_ik.Position i} {-parent.Mask3DCubical_ik.Position i} 0}
+  name Add1
+  xpos -496
+  ypos -367
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis1.world_matrix.0 i} {parent.Axis1.world_matrix.1 i} {parent.Axis1.world_matrix.2 i}}
+      {{parent.Axis1.world_matrix.4 i} {parent.Axis1.world_matrix.5 i} {parent.Axis1.world_matrix.6 i}}
+      {{parent.Axis1.world_matrix.8 i} {parent.Axis1.world_matrix.9 i} {parent.Axis1.world_matrix.10 i}}
+    }
+  name ColorMatrix1
+  label "apply rotation, scale and  scew"
+  xpos -496
+  ypos -343
+ }
+ Add {
+  channels rgb
+  value {{parent.Mask3DCubical_ik.Position i} {parent.Mask3DCubical_ik.Position i} {parent.Mask3DCubical_ik.Position i} 0}
+  name Add2
+  xpos -496
+  ypos -307
+ }
+ Expression {
+  temp_name0 matteR
+  temp_expr0 "r > Position.r ? (1- ((r - Position.r) / Softness.r)) : (1-((-r + Position.r) / Softness.r))"
+  temp_name1 matteG
+  temp_expr1 "g > Position.g ? (1- ((g - Position.g) / Softness.g)) : (1-((-g + Position.g) / Softness.g))"
+  temp_name2 matteB
+  temp_expr2 "b > Position.b ? (1- ((b - Position.b) / Softness.b)) : (1-((-b + Position.b) / Softness.b))"
+  temp_name3 Mask3D
+  temp_expr3 "clamp(matteR) * clamp(matteB) * clamp(matteG)"
+  expr0 "ReplaceRGB ? matteR : r "
+  expr1 "ReplaceRGB ? matteG : g"
+  expr2 "ReplaceRGB ? matteB : b"
+  expr3 Mask3D
+  name Mask3DCubical_ik
+  selected true
+  xpos -496
+  ypos -244
+  addUserKnob {20 User}
+  addUserKnob {18 Position R 0 10}
+  Position {0 0 0}
+  addUserKnob {6 Position_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 Softness R 0 10}
+  Softness {100 100 100}
+  addUserKnob {6 Softness_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 ReplaceRGB l "Replace RGB by additional mattes / Keep original (generate matte in alpha only)" +STARTLINE}
+  addUserKnob {6 IgnoreByAlpha l "Ignore outside by alpha" +STARTLINE}
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  from1 rgba.green
+  to1 rgba.green
+  from2 rgba.blue
+  to2 rgba.blue
+  name Copy1
+  xpos -497
+  ypos -205
+  disable {{parent.Mask3DCubical_ik.ReplaceRGB i}}
+ }
+ Multiply {
+  inputs 1+1
+  value 0
+  invert_mask true
+  name Multiply1
+  xpos -497
+  ypos -100
+  disable {{!parent.Mask3DCubical_ik.IgnoreByAlpha i}}
+ }
+ Output {
+  name Output1
+  xpos -497
+  ypos 74
+ }
+end_group
+Group {
+ inputs 0
+ name Mask3DSpherical_ik
+ help "Mask3DSpherical creates a spherical 3D matte based on a World position pass. Also may be useful in work with Object Position and similar data passes which contains position cordinate. Feed it as input.\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ note_font Verdana
+ xpos -1768
+ ypos -12
+ addUserKnob {20 User}
+ addUserKnob {41 Position T Mask3DSpherical_ik.Position}
+ addUserKnob {41 Softness T Mask3DSpherical_ik.Softness}
+ addUserKnob {41 rotate T Axis1.rotate}
+ addUserKnob {41 rot_order l "Rotation order" -STARTLINE T Axis1.rot_order}
+ addUserKnob {41 ReplaceRGB l "Replace RGB / Keep original (generate matte in alpha only)" T Mask3DSpherical_ik.ReplaceRGB}
+ addUserKnob {41 IgnoreByAlpha l "Ignore outside by alpha" T Mask3DSpherical_ik.IgnoreByAlpha}
+ addUserKnob {26 ""}
+ addUserKnob {26 credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Axis2 {
+  inputs 0
+  name Axis1
+  xpos -232
+  ypos -433
+ }
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos -352
+  ypos -535
+ }
+ Dot {
+  name Dot1
+  xpos -318
+  ypos -487
+ }
+set Nf3e27400 [stack 0]
+ Dot {
+  name Dot2
+  xpos -480
+  ypos -487
+ }
+ Dot {
+  name Dot3
+  xpos -480
+  ypos -176
+ }
+set Nf3e26c00 [stack 0]
+ Dot {
+  name Dot4
+  xpos -480
+  ypos -102
+ }
+push $Nf3e26c00
+push $Nf3e27400
+ Add {
+  channels rgb
+  value {{-parent.Mask3DSpherical_ik.Position i} {-parent.Mask3DSpherical_ik.Position i} {-parent.Mask3DSpherical_ik.Position i} 0}
+  name Add1
+  xpos -352
+  ypos -439
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis1.world_matrix.0 i} {parent.Axis1.world_matrix.1 i} {parent.Axis1.world_matrix.2 i}}
+      {{parent.Axis1.world_matrix.4 i} {parent.Axis1.world_matrix.5 i} {parent.Axis1.world_matrix.6 i}}
+      {{parent.Axis1.world_matrix.8 i} {parent.Axis1.world_matrix.9 i} {parent.Axis1.world_matrix.10 i}}
+    }
+  name ColorMatrix1
+  label "apply rotation, scale and  scew"
+  xpos -352
+  ypos -415
+ }
+ Add {
+  channels rgb
+  value {{parent.Mask3DSpherical_ik.Position i} {parent.Mask3DSpherical_ik.Position i} {parent.Mask3DSpherical_ik.Position i} {curve i}}
+  name Add2
+  xpos -352
+  ypos -379
+ }
+ Expression {
+  temp_name0 R
+  temp_expr0 "(r - Position.r)/Softness.r + Position.r"
+  temp_name1 G
+  temp_expr1 "(g - Position.g)/Softness.g + Position.g"
+  temp_name2 B
+  temp_expr2 "(b - Position.b)/Softness.b + Position.b"
+  temp_name3 Mask3D
+  temp_expr3 "1-sqrt(pow2(R - Position.r) + pow2(G - Position.g)+ pow2(B - Position.b))"
+  expr0 "ReplaceRGB ? (clamp(Mask3D)) : r"
+  expr1 "ReplaceRGB ? (clamp(Mask3D)) : g"
+  expr2 "ReplaceRGB ? (clamp(Mask3D)) : b"
+  expr3 clamp(Mask3D)
+  name Mask3DSpherical_ik
+  xpos -352
+  ypos -333
+  addUserKnob {20 User}
+  addUserKnob {18 Position R 0 10}
+  Position {0.788806 -0.142887 0.5268554688}
+  addUserKnob {6 Position_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Position_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 Softness R 0 10}
+  Softness {1 1 1}
+  addUserKnob {6 Softness_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Softness_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 ReplaceRGB l "Replace RGB / Keep original (generate matte in alpha only)" +STARTLINE}
+  addUserKnob {6 IgnoreByAlpha l "Ignore outside by alpha" +STARTLINE}
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  from1 rgba.green
+  to1 rgba.green
+  from2 rgba.blue
+  to2 rgba.blue
+  name Copy1
+  selected true
+  xpos -352
+  ypos -197
+  disable {{parent.Mask3DSpherical_ik.ReplaceRGB}}
+ }
+ Multiply {
+  inputs 1+1
+  channels rgba
+  value 0
+  invert_mask true
+  name Multiply1
+  xpos -352
+  ypos -105
+  disable {{!parent.Mask3DSpherical_ik.IgnoreByAlpha i}}
+ }
+ Output {
+  name Output1
+  xpos -352
+  ypos -26
+ }
+end_group
+Group {
+ inputs 0
+ name PP_Mask_hub
+ help "- first pick color on Ppass to select center of mask\n\n- For fine details on tiny distances, prefer 32b float renders to avoid banding.\n- To perform better antialiasing than by Matrix antialias, render pPass with double master resolution. The output is downscaled to root.format resolution.\n\n- If the the result is completly black, try raising spread and multiplier values.\n- If the the result is completly white, try lowering spread and multiplier values.\n - You can copy the rotation of the camera in the rotate channels to line up the orientations or tweak it to your needs...\n\n- falloff issue is now fixed, it's bidirectional.\n- This gizmo uses RotateNormals gizmo from Hakan Blomdahl. Thanks to him\n- Thanks to Nathan Dunsworth who made me discover point position power !\n"
+ tile_color 0xff00ff
+ xpos -1954
+ ypos -12
+ addUserKnob {20 PositionPass_maskGenerator_hub l "PointPosition Mask Generator hub" t "If the the result is completly black try to raise spread and multiplier values.\nIf the the result is completly white try to lower spread and multiplier values."}
+ addUserKnob {41 in l "Point Position" T ShuffleIN.in}
+ addUserKnob {80 Switch1_disable l "VIEW ON PP" +STARTLINE}
+ Switch1_disable true
+ addUserKnob {41 disable_1 l "Alpha View" T SwitchRGB.disable}
+ addUserKnob {41 color l "pick color" T Constant1.color}
+ addUserKnob {6 premult +STARTLINE}
+ addUserKnob {6 Put_Alpha_In_RGB l "Copy Alpha In RGB" -STARTLINE}
+ addUserKnob {6 invert +STARTLINE}
+ addUserKnob {19 OutGain_white l "    Out Gain" -STARTLINE R 0 10}
+ OutGain_white 1
+ addUserKnob {6 OutGain_white_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {20 setup n 1}
+ setup 0
+ addUserKnob {80 ReformatOUT_disable l " " +STARTLINE}
+ addUserKnob {41 format l "output format" -STARTLINE T ReformatOUT.format}
+ addUserKnob {41 filter l "" -STARTLINE T ReformatOUT.filter}
+ addUserKnob {6 AntiAlias l "MatrixAntiAlias (when no double size Ppass)" +STARTLINE}
+ addUserKnob {80 M_dropZeros_disable l "drop Zeros" +STARTLINE}
+ M_dropZeros_disable true
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {6 pos_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {41 rotate T AxisInternRot.rotate}
+ addUserKnob {18 pos l offset R -2 -2}
+ pos {0 0 0}
+ addUserKnob {6 pos_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 spread_uniform l spread R 1e-05 1}
+ spread_uniform 10
+ addUserKnob {7 Multiplier R 0.1 50}
+ Multiplier 1
+ addUserKnob {7 falloff R 0 2}
+ falloff 0.1
+ addUserKnob {26 Falloff_tip l "" +STARTLINE T "(Ratio between Sphere and Cube)"}
+ addUserKnob {20 non_unif_GROUP l non_uniform n 1}
+ addUserKnob {7 spread_x l "spread x" R 1e-05 0.5}
+ spread_x 1
+ addUserKnob {7 falloff_x l "falloff x" R 0 2}
+ falloff_x 0.5
+ addUserKnob {7 spread_y l "spread y" R 1e-05 0.5}
+ spread_y 1
+ addUserKnob {7 falloff_y l "falloff y" R 0 2}
+ falloff_y 0.5
+ addUserKnob {7 spread_z l "spread z" R 1e-05 0.5}
+ spread_z 1
+ addUserKnob {7 falloff_z l "falloff z" R 0 2}
+ falloff_z 0.5
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {18 outFade}
+ outFade {0 0 0}
+ addUserKnob {6 outFade_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {22 infos T "import webbrowser \nwebbrowser.open(\"http://www.nukepedia.com/gizmos/keyer/ppass_mask_hub\")" +STARTLINE}
+ addUserKnob {26 howto l "" -STARTLINE T "  ( HOWTO in \"?\" gizmo button )"}
+ addUserKnob {20 CustomCurve_grp l "Custom Curve"}
+ addUserKnob {6 customCurve l "Custom Curve" +STARTLINE}
+ customCurve true
+ addUserKnob {41 lut l "" +STARTLINE T GaussCentered_custom.lut}
+}
+ Input {
+  inputs 0
+  name Input1
+  label "\[value number]"
+  xpos 349
+  ypos -234
+ }
+set Nf41c9c00 [stack 0]
+ Dot {
+  name Dot12
+  xpos 765
+  ypos -224
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 2.629042513e-07 0 0}
+  format "1280 720 0 0 1280 720 1 HDTV"
+  name Constant1
+  xpos 461
+  ypos -120
+ }
+ Axis2 {
+  inputs 0
+  name AxisInternRot
+  xpos 239
+  ypos 25
+ }
+push $Nf41c9c00
+ Shuffle {
+  name ShuffleIN
+  xpos 349
+  ypos -165
+ }
+set Nf41c8800 [stack 0]
+ Dot {
+  name Dot2
+  xpos 590
+  ypos -161
+ }
+ Dot {
+  name Dot1
+  xpos 590
+  ypos 320
+ }
+set Nf4167c00 [stack 0]
+ Expression {
+  channel0 rgba
+  expr0 r!=0&&g!=0&&b!=0?1:0
+  name expr
+  xpos 556
+  ypos 383
+ }
+push $Nf4167c00
+push $Nf4167c00
+push $Nf41c8800
+ Expression {
+  expr0 r-parent.color.r
+  expr1 g-parent.color.g
+  expr2 b-parent.color.b
+  name exprPickColor
+  xpos 349
+  ypos -27
+ }
+ Dot {
+  name Dot4
+  xpos 383
+  ypos 114
+ }
+ Group {
+  name RotateNormals
+  help "This will rotate Normal-data using rotation matrixes.\nhttp://en.wikipedia.org/wiki/Rotation_matrix\n\nYou enable Normal-data in the ScanlineRender-node, create a new layer for this.\n\nTip 1:\n Link the rotation knob to the Nuke camera, revert the camera order and then either invert the matrixes or negate the angles.\nThis will convert the Normal data from World Space to Camera Space. I guess. I am no expert on the subject.\n\n\nTip 2:\nPut these in your init.tcl to always render out the normals:\n\nadd_layer \{P P.x P.y P.z\}\nknob_default ScanlineRender.P_channel P\nadd_layer \{N N.x N.y N.z\}\nknob_default ScanlineRender.N_channel N\nknob_default ScanlineRender.output_shader_vectors true\n\nNote:\n In Nuke4.6 and earlier, the Normals is multiplied with the Z, so you need to divide them first. Use Channel Merge for this.\n"
+  xpos 231
+  ypos 110
+  addUserKnob {20 "" l Parameters}
+  addUserKnob {26 "" l Rotation}
+  addUserKnob {41 negx t "Multiply x-angle with -1.\nGood if you have linked the rotation data to something and want to reverse it.\n" T RotData.negx}
+  addUserKnob {41 negy t "Multiply y-angle with -1.\nGood if you have linked the rotation data to something and want to reverse it.\n" T RotData.negy}
+  addUserKnob {41 negz t "Multiply z-angle with -1.\nGood if you have linked the rotation data to something and want to reverse it.\n" T RotData.negz}
+  addUserKnob {41 rotate T RotData.rotate}
+  addUserKnob {26 ""}
+  addUserKnob {4 rotationorder M {XYZ XZY YXZ YZX ZXY ZYX}}
+  rotationorder ZXY
+  addUserKnob {6 revertorder l "Revert Order" t "Quick order reversal." -STARTLINE}
+  addUserKnob {26 ""}
+  addUserKnob {41 invertxmatrix t "Inverts the X rotation matrix. (Checks the invert knob on the ColorMatrix Node)\n" T RotData.invertxmatrix}
+  addUserKnob {41 invertymatrix t "Inverts the Y rotation matrix. (Checks the invert knob on the ColorMatrix Node)\n" T RotData.invertymatrix}
+  addUserKnob {41 invertzmatrix t "Inverts the Z rotation matrix. (Checks the invert knob on the ColorMatrix Node)\n" T RotData.invertzmatrix}
+  addUserKnob {26 "" l "Source Channels"}
+  addUserKnob {41 from0 l "Normal X" T CopyFrom.from0}
+  addUserKnob {41 from1 l "Normal Y" T CopyFrom.from1}
+  addUserKnob {41 from2 l "Normal Z" T CopyFrom.from2}
+  addUserKnob {26 "" l "Destination Channels"}
+  addUserKnob {41 to0 l X T CopyBack.to0}
+  addUserKnob {41 to1 l Y T CopyBack.to1}
+  addUserKnob {41 to2 l Z T CopyBack.to2}
+ }
+  BackdropNode {
+   inputs 0
+   name BackdropNode1
+   tile_color 0x7171c600
+   label "Reverted Order"
+   note_font_size 32
+   xpos 650
+   ypos 4
+   bdwidth 1030
+   bdheight 354
+  }
+  BackdropNode {
+   inputs 0
+   name BackdropNode2
+   tile_color 0x8e8e3800
+   label "Normal Order"
+   note_font_size 32
+   xpos -581
+   ypos 22
+   bdwidth 1001
+   bdheight 355
+  }
+  NoOp {
+   inputs 0
+   name RotData
+   xpos 1170
+   ypos -370
+   addUserKnob {20 "" l User}
+   addUserKnob {6 invertxmatrix -STARTLINE}
+   addUserKnob {6 invertymatrix -STARTLINE}
+   addUserKnob {6 invertzmatrix -STARTLINE}
+   addUserKnob {26 ""}
+   addUserKnob {6 negx -STARTLINE}
+   addUserKnob {6 negy -STARTLINE}
+   addUserKnob {6 negz -STARTLINE}
+   addUserKnob {13 rotate}
+   rotate {{parent.parent.AxisInternRot.rotate} {parent.parent.AxisInternRot.rotate} {parent.parent.AxisInternRot.rotate}}
+   addUserKnob {26 ""}
+   addUserKnob {1 alphaexpr}
+   alphaexpr (negy?-1:1)*rotate.y/360.0*(2*PI)
+   addUserKnob {1 betaexpr}
+   betaexpr (negz?-1:1)*rotate.z/360.0*(2*PI)
+   addUserKnob {1 gammaexpr}
+   gammaexpr (negx?-1:1)*rotate.x/360.0*(2*PI)
+   addUserKnob {26 ""}
+   addUserKnob {7 alpha}
+   alpha {{"\[knob alphaexpr]" i}}
+   addUserKnob {7 beta}
+   beta {{"\[knob betaexpr]" i}}
+   addUserKnob {7 gamma}
+   gamma {{"\[knob gammaexpr]" i}}
+  }
+  Input {
+   inputs 0
+   name Input1
+   xpos 1830
+   ypos -610
+  }
+  Dot {
+   name Dot2
+   xpos 1863
+   ypos -487
+  }
+set Nf4165c00 [stack 0]
+  Dot {
+   name Dot3
+   xpos 653
+   ypos -477
+  }
+set Nf4165800 [stack 0]
+  Dot {
+   name Dot1
+   xpos 433
+   ypos -477
+  }
+push $Nf4165800
+  Copy {
+   inputs 2
+   from0 rgba.red
+   to0 rgba.red
+   from1 rgba.green
+   to1 rgba.green
+   from2 rgba.blue
+   to2 rgba.blue
+   name CopyFrom
+   xpos 400
+   ypos -367
+  }
+  Dot {
+   name Dot4
+   xpos 433
+   ypos -175
+  }
+set Nf4164c00 [stack 0]
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )" i} {"-1 * sin( \[value RotData.gamma] )" i}}
+       {0 {"sin( \[value RotData.gamma] )" i} {"cos( \[value RotData.gamma] )" i}}
+     }
+   invert {{"\[value RotData.invertxmatrix]" i}}
+   name ColorMatrix10
+   label "ROLL  X\ngamma"
+   xpos 1500
+   ypos 96
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )" i} 0 {"sin( \[value RotData.alpha] )" i}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )" i} 0 {"cos( \[value RotData.alpha] )" i}}
+     }
+   invert {{"\[value RotData.invertymatrix]" i}}
+   name ColorMatrix11
+   label "Pitch  Y\nalpha"
+   xpos 1500
+   ypos 150
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )" i} {"-1 * sin( \[value RotData.beta] )" i} 0}
+       {{"sin( \[value RotData.beta] )" i} {"cos( \[value RotData.beta] )" i} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix12
+   label "Yaw  Z\nbeta"
+   xpos 1500
+   ypos 204
+  }
+push $Nf4164c00
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )"} 0 {"sin( \[value RotData.alpha] )"}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )"} 0 {"cos( \[value RotData.alpha] )"}}
+     }
+   invert {{"\[value RotData.invertymatrix]"}}
+   name ColorMatrix34
+   label "Pitch  Y\nalpha"
+   xpos 1360
+   ypos 98
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )"} {"-1 * sin( \[value RotData.gamma] )"}}
+       {0 {"sin( \[value RotData.gamma] )"} {"cos( \[value RotData.gamma] )"}}
+     }
+   invert {{"\[value RotData.invertxmatrix]"}}
+   name ColorMatrix35
+   label "ROLL  X\ngamma"
+   xpos 1360
+   ypos 150
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )"} {"-1 * sin( \[value RotData.beta] )"} 0}
+       {{"sin( \[value RotData.beta] )"} {"cos( \[value RotData.beta] )"} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix36
+   label "Yaw  Z\nbeta"
+   xpos 1360
+   ypos 204
+  }
+push $Nf4164c00
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )"} {"-1 * sin( \[value RotData.beta] )"} 0}
+       {{"sin( \[value RotData.beta] )"} {"cos( \[value RotData.beta] )"} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix31
+   label "Yaw  Z\nbeta"
+   xpos 1210
+   ypos 102
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )"} {"-1 * sin( \[value RotData.gamma] )"}}
+       {0 {"sin( \[value RotData.gamma] )"} {"cos( \[value RotData.gamma] )"}}
+     }
+   invert {{"\[value RotData.invertxmatrix]"}}
+   name ColorMatrix32
+   label "ROLL  X\ngamma"
+   xpos 1210
+   ypos 156
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )"} 0 {"sin( \[value RotData.alpha] )"}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )"} 0 {"cos( \[value RotData.alpha] )"}}
+     }
+   invert {{"\[value RotData.invertymatrix]"}}
+   name ColorMatrix33
+   label "Pitch  Y\nalpha"
+   xpos 1210
+   ypos 210
+  }
+push $Nf4164c00
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )"} {"-1 * sin( \[value RotData.gamma] )"}}
+       {0 {"sin( \[value RotData.gamma] )"} {"cos( \[value RotData.gamma] )"}}
+     }
+   invert {{"\[value RotData.invertxmatrix]"}}
+   name ColorMatrix30
+   label "ROLL  X\ngamma"
+   xpos 1047
+   ypos 108
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )"} {"-1 * sin( \[value RotData.beta] )"} 0}
+       {{"sin( \[value RotData.beta] )"} {"cos( \[value RotData.beta] )"} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix29
+   label "Yaw  Z\nbeta"
+   xpos 1047
+   ypos 174
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )"} 0 {"sin( \[value RotData.alpha] )"}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )"} 0 {"cos( \[value RotData.alpha] )"}}
+     }
+   invert {{"\[value RotData.invertymatrix]"}}
+   name ColorMatrix28
+   label "Pitch  Y\nalpha"
+   xpos 1047
+   ypos 228
+  }
+push $Nf4164c00
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )"} 0 {"sin( \[value RotData.alpha] )"}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )"} 0 {"cos( \[value RotData.alpha] )"}}
+     }
+   invert {{"\[value RotData.invertymatrix]"}}
+   name ColorMatrix25
+   label "Pitch  Y\nalpha"
+   xpos 890
+   ypos 108
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )"} {"-1 * sin( \[value RotData.beta] )"} 0}
+       {{"sin( \[value RotData.beta] )"} {"cos( \[value RotData.beta] )"} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix26
+   label "Yaw  Z\nbeta"
+   xpos 890
+   ypos 167
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )"} {"-1 * sin( \[value RotData.gamma] )"}}
+       {0 {"sin( \[value RotData.gamma] )"} {"cos( \[value RotData.gamma] )"}}
+     }
+   invert {{"\[value RotData.invertxmatrix]"}}
+   name ColorMatrix27
+   label "ROLL  X\ngamma"
+   xpos 890
+   ypos 229
+  }
+push $Nf4164c00
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )"} {"-1 * sin( \[value RotData.beta] )"} 0}
+       {{"sin( \[value RotData.beta] )"} {"cos( \[value RotData.beta] )"} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix22
+   label "Yaw  Z\nbeta"
+   xpos 730
+   ypos 120
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )"} 0 {"sin( \[value RotData.alpha] )"}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )"} 0 {"cos( \[value RotData.alpha] )"}}
+     }
+   invert {{"\[value RotData.invertymatrix]"}}
+   name ColorMatrix23
+   label "Pitch  Y\nalpha"
+   xpos 730
+   ypos 174
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )"} {"-1 * sin( \[value RotData.gamma] )"}}
+       {0 {"sin( \[value RotData.gamma] )"} {"cos( \[value RotData.gamma] )"}}
+     }
+   invert {{"\[value RotData.invertxmatrix]"}}
+   name ColorMatrix24
+   label "ROLL  X\ngamma"
+   xpos 730
+   ypos 228
+  }
+  Switch {
+   inputs 6
+   which {{rotationorder}}
+   name Switch2
+   xpos 950
+   ypos 446
+  }
+push $Nf4164c00
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )"} {"-1 * sin( \[value RotData.beta] )"} 0}
+       {{"sin( \[value RotData.beta] )"} {"cos( \[value RotData.beta] )"} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix21
+   label "Yaw  Z\nbeta"
+   xpos 240
+   ypos 102
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )"} 0 {"sin( \[value RotData.alpha] )"}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )"} 0 {"cos( \[value RotData.alpha] )"}}
+     }
+   invert {{"\[value RotData.invertymatrix]"}}
+   name ColorMatrix20
+   label "Pitch  Y\nalpha"
+   xpos 240
+   ypos 156
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )"} {"-1 * sin( \[value RotData.gamma] )"}}
+       {0 {"sin( \[value RotData.gamma] )"} {"cos( \[value RotData.gamma] )"}}
+     }
+   invert {{"\[value RotData.invertxmatrix]"}}
+   name ColorMatrix19
+   label "ROLL  X\ngamma"
+   xpos 240
+   ypos 210
+  }
+push $Nf4164c00
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )"} {"-1 * sin( \[value RotData.beta] )"} 0}
+       {{"sin( \[value RotData.beta] )"} {"cos( \[value RotData.beta] )"} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix16
+   label "Yaw  Z\nbeta"
+   xpos 100
+   ypos 102
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )"} {"-1 * sin( \[value RotData.gamma] )"}}
+       {0 {"sin( \[value RotData.gamma] )"} {"cos( \[value RotData.gamma] )"}}
+     }
+   invert {{"\[value RotData.invertxmatrix]"}}
+   name ColorMatrix17
+   label "ROLL  X\ngamma"
+   xpos 100
+   ypos 156
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )"} 0 {"sin( \[value RotData.alpha] )"}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )"} 0 {"cos( \[value RotData.alpha] )"}}
+     }
+   invert {{"\[value RotData.invertymatrix]"}}
+   name ColorMatrix18
+   label "Pitch  Y\nalpha"
+   xpos 100
+   ypos 210
+  }
+push $Nf4164c00
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )"} 0 {"sin( \[value RotData.alpha] )"}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )"} 0 {"cos( \[value RotData.alpha] )"}}
+     }
+   invert {{"\[value RotData.invertymatrix]"}}
+   name ColorMatrix15
+   label "Pitch  Y\nalpha"
+   xpos -50
+   ypos 108
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )"} {"-1 * sin( \[value RotData.gamma] )"}}
+       {0 {"sin( \[value RotData.gamma] )"} {"cos( \[value RotData.gamma] )"}}
+     }
+   invert {{"\[value RotData.invertxmatrix]"}}
+   name ColorMatrix14
+   label "ROLL  X\ngamma"
+   xpos -50
+   ypos 162
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )"} {"-1 * sin( \[value RotData.beta] )"} 0}
+       {{"sin( \[value RotData.beta] )"} {"cos( \[value RotData.beta] )"} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix13
+   label "Yaw  Z\nbeta"
+   xpos -50
+   ypos 216
+  }
+push $Nf4164c00
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )"} 0 {"sin( \[value RotData.alpha] )"}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )"} 0 {"cos( \[value RotData.alpha] )"}}
+     }
+   invert {{"\[value RotData.invertymatrix]"}}
+   name ColorMatrix7
+   label "Pitch  Y\nalpha"
+   xpos -213
+   ypos 114
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )"} {"-1 * sin( \[value RotData.beta] )"} 0}
+       {{"sin( \[value RotData.beta] )"} {"cos( \[value RotData.beta] )"} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix8
+   label "Yaw  Z\nbeta"
+   xpos -213
+   ypos 180
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )"} {"-1 * sin( \[value RotData.gamma] )"}}
+       {0 {"sin( \[value RotData.gamma] )"} {"cos( \[value RotData.gamma] )"}}
+     }
+   invert {{"\[value RotData.invertxmatrix]"}}
+   name ColorMatrix9
+   label "ROLL  X\ngamma"
+   xpos -213
+   ypos 234
+  }
+push $Nf4164c00
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )"} {"-1 * sin( \[value RotData.gamma] )"}}
+       {0 {"sin( \[value RotData.gamma] )"} {"cos( \[value RotData.gamma] )"}}
+     }
+   invert {{"\[value RotData.invertxmatrix]"}}
+   name ColorMatrix6
+   label "ROLL  X\ngamma"
+   xpos -370
+   ypos 114
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )"} {"-1 * sin( \[value RotData.beta] )"} 0}
+       {{"sin( \[value RotData.beta] )"} {"cos( \[value RotData.beta] )"} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix5
+   label "Yaw  Z\nbeta"
+   xpos -370
+   ypos 173
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )"} 0 {"sin( \[value RotData.alpha] )"}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )"} 0 {"cos( \[value RotData.alpha] )"}}
+     }
+   invert {{"\[value RotData.invertymatrix]"}}
+   name ColorMatrix4
+   label "Pitch  Y\nalpha"
+   xpos -370
+   ypos 247
+  }
+push $Nf4164c00
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {"cos( \[value RotData.gamma] )"} {"-1 * sin( \[value RotData.gamma] )"}}
+       {0 {"sin( \[value RotData.gamma] )"} {"cos( \[value RotData.gamma] )"}}
+     }
+   invert {{"\[value RotData.invertxmatrix]"}}
+   name ColorMatrix1
+   label "ROLL  X\ngamma"
+   xpos -501
+   ypos 102
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.alpha] )"} 0 {"sin( \[value RotData.alpha] )"}}
+       {0 1 0}
+       {{"-1 * sin( \[value RotData.alpha] )"} 0 {"cos( \[value RotData.alpha] )"}}
+     }
+   invert {{"\[value RotData.invertymatrix]"}}
+   name ColorMatrix2
+   label "Pitch  Y\nalpha"
+   xpos -501
+   ypos 171
+  }
+  ColorMatrix {
+   matrix {
+       {{"cos( \[value RotData.beta] )"} {"-1 * sin( \[value RotData.beta] )"} 0}
+       {{"sin( \[value RotData.beta] )"} {"cos( \[value RotData.beta] )"} 0}
+       {0 0 1}
+     }
+   invert {{"\[value RotData.invertzmatrix]"}}
+   name ColorMatrix3
+   label "Yaw  Z\nbeta"
+   xpos -501
+   ypos 234
+  }
+  Switch {
+   inputs 6
+   which {{rotationorder}}
+   name Switch1
+   xpos -75
+   ypos 422
+  }
+  Switch {
+   inputs 2
+   which {{revertorder}}
+   name Switch3
+   xpos 510
+   ypos 542
+  }
+  Dot {
+   name Dot5
+   xpos 543
+   ypos 665
+  }
+push $Nf4165c00
+  Copy {
+   inputs 2
+   from0 rgba.red
+   to0 rgba.red
+   from1 rgba.green
+   to1 rgba.green
+   from2 rgba.blue
+   to2 rgba.blue
+   name CopyBack
+   xpos 1830
+   ypos 641
+  }
+  Output {
+   name Output1
+   xpos 1830
+   ypos 758
+  }
+ end_group
+ Expression {
+  expr0 (r-parent.pos.r)*(1/parent.Multiplier*10)*((1/parent.spread_uniform+.1)/10)*(1/parent.spread_x+.1)/10
+  expr1 (g-parent.pos.g)*(1/parent.Multiplier*10)*((1/parent.spread_uniform+.1)/10)*(1/parent.spread_y+.1)/10
+  expr2 (b-parent.pos.b)*(1/parent.Multiplier*10)*((1/parent.spread_uniform+.1)/10)*(1/parent.spread_z+.1)/10
+  channel3 none
+  name exprBeforeGauss
+  xpos -155
+  ypos 110
+ }
+ Dot {
+  name Dot13
+  xpos -121
+  ypos 314
+ }
+set Nf4029000 [stack 0]
+ Dot {
+  name Dot10
+  xpos -255
+  ypos 314
+ }
+ ColorLookup {
+  lut {master {}
+    red {curve C x-10 0 x-0.200000003 0.998810158 x-0.000687122345 1 x0.200000003 0.9987168731 x10 0}
+    green {curve C x-10 0 x-0.200000003 0.998810158 x-0.0006871219957 1 x0.200000003 0.9987168731 x10 0}
+    blue {curve C x-10 0 x-0.200000003 0.998810158 x-0.0006871219957 1 x0.200000003 0.9987168731 x10 0}
+    alpha {curve C 0 x0.5 1 0}}
+  name GaussCentered_custom
+  xpos -289
+  ypos 380
+ }
+ Dot {
+  name Dot9
+  xpos -255
+  ypos 449
+ }
+push $Nf4029000
+ ColorLookup {
+  lut {master {curve C x-10 0 x0 1 0}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  name GaussCentered
+  xpos -155
+  ypos 380
+ }
+ Switch {
+  inputs 2
+  which {{parent.customCurve}}
+  name Switch_customCurve
+  label "\[value which]"
+  xpos -155
+  ypos 439
+ }
+ Grade {
+  gamma {{parent.falloff i}}
+  black_clamp false
+  name GradeFalloffUnif
+  xpos 157
+  ypos 445
+ }
+ Grade {
+  channels {rgba.red rgba.green rgba.blue none}
+  gamma {{parent.falloff_x} {parent.falloff_y} {parent.falloff_z} 1}
+  black_clamp false
+  name Grade_Falloff_channel
+  xpos 157
+  ypos 216
+ }
+ Clamp {
+  channels rgba
+  name Clamp1
+  xpos 421
+  ypos 216
+ }
+ Expression {
+  channel0 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr0 r*g*b
+  name Expression1
+  xpos 421
+  ypos 242
+ }
+ Grade {
+  channels alpha
+  white {{parent.OutGain_white.r} {parent.OutGain_white.g} {parent.OutGain_white.b} {parent.OutGain_white.a}}
+  name OutGain
+  xpos 421
+  ypos 268
+ }
+ ShuffleCopy {
+  inputs 2
+  in2 alpha
+  alpha alpha2
+  black red
+  white green
+  red2 blue
+  out alpha
+  out2 rgb
+  name ShuffleCopy1
+  xpos 421
+  ypos 316
+ }
+ Multiply {
+  inputs 1+1
+  channels rgba
+  value 0
+  invert_mask true
+  name Multiply1
+  xpos 421
+  ypos 357
+  disable {{!premult}}
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name M_dropZeros
+  xpos 421
+  ypos 383
+  disable {{!parent.M_dropZeros_disable}}
+ }
+ Invert {
+  channels rgba
+  name Invert1
+  xpos 421
+  ypos 457
+  disable {{!invert i}}
+ }
+ Matrix {
+  channels rgba
+  matrix {
+      {1 2 1}
+      {2 10 2}
+      {1 2 1}
+    }
+  normalize true
+  name Matrix1
+  xpos 421
+  ypos 498
+  disable {{1-AntiAlias}}
+ }
+ Dot {
+  name Dot3
+  xpos 455
+  ypos 524
+ }
+set Nf3fbcc00 [stack 0]
+push $Nf3fbcc00
+ ShuffleCopy {
+  inputs 2
+  in alpha
+  alpha alpha2
+  black red
+  out2 alpha
+  name ShuffleCopyOUT
+  xpos 556
+  ypos 520
+ }
+ Dot {
+  name Dot7
+  xpos 590
+  ypos 616
+ }
+set Nf3fbc400 [stack 0]
+ Dot {
+  name Dot11
+  xpos 466
+  ypos 616
+ }
+ Dot {
+  name Dot8
+  xpos 466
+  ypos 801
+ }
+push $Nf3fbc400
+ Expression {
+  channel0 rgba
+  expr0 a
+  name AtoRGB1
+  xpos 716
+  ypos 612
+ }
+set Nf3f53400 [stack 0]
+ Grade {
+  channels rgba
+  whitepoint 0.008
+  white_clamp true
+  name Grade8
+  xpos 716
+  ypos 677
+ }
+set Nf3f53000 [stack 0]
+push $Nf3f53000
+push $Nf3f53400
+push $Nf4167c00
+ Dot {
+  name Dot5
+  xpos 858
+  ypos 320
+ }
+set Nf3f52c00 [stack 0]
+ Merge2 {
+  inputs 2+1
+  operation multiply
+  name Min
+  xpos 931
+  ypos 677
+ }
+push $Nf3f53000
+push $Nf3f53400
+push $Nf3f52c00
+ Merge2 {
+  inputs 2+1
+  operation max
+  name M_6
+  xpos 824
+  ypos 677
+ }
+ Merge2 {
+  inputs 2+1
+  operation difference
+  name M_
+  xpos 824
+  ypos 730
+ }
+ Dot {
+  name Dot6
+  xpos 858
+  ypos 756
+ }
+push $Nf3fbc400
+ Expression {
+  channel0 rgba
+  expr0 a
+  name AtoRGB
+  xpos 556
+  ypos 677
+  disable {{1-Put_Alpha_In_RGB}}
+ }
+ Switch {
+  inputs 2
+  which 1
+  name Switch1
+  label "\[value which]"
+  xpos 556
+  ypos 746
+  disable {{!parent.Switch1_disable}}
+ }
+ ShuffleCopy {
+  inputs 2
+  name ShuffleCopy2
+  xpos 556
+  ypos 797
+ }
+ Reformat {
+  name ReformatOUT
+  xpos 556
+  ypos 830
+  disable {{!parent.ReformatOUT_disable}}
+ }
+set Nf3f50c00 [stack 0]
+push $Nf3f50c00
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.alpha 0 3 rgba.red 0 0 rgba.alpha 0 3 rgba.green 0 1 rgba.alpha 0 3 rgba.blue 0 2 rgba.alpha 0 3 rgba.alpha 0 3"
+  name Shuffle1
+  xpos 451
+  ypos 904
+ }
+ Switch {
+  inputs 2
+  which 1
+  name SwitchRGB
+  selected true
+  xpos 556
+  ypos 944
+ }
+ Output {
+  name Output1
+  xpos 556
+  ypos 1054
+ }
+end_group
+add_layer {P P.red P.green P.blue}
+Group {
+ inputs 0
+ name EnvRelight
+ help "This gizmo allows an input latlong or angular (lightprobe) environment map to be remapped to create image based diffuse and specular relighting.  To do this requires renders of point positions and normal vectors of a 3D scene, and a Nuke camera.  Note that Nuke's own ScanlineRender shader outputs are suitable for relighting using this gizmo.\n\nTo use, select a surface type (diffuse or specular).  This will determine whether to remap the image using the normal (diffuse) or the reflection vector (specular).  Try it out with the EnvConvolve gizmo on Nukepedia to pre-convolve a latlong environment prior to input.  This will allow fully diffuse as well as glossy and specular effects.  For a more naturalistic result, the diffuse lighting works well with a bent normal render."
+ knobChanged "\nk = nuke.thisKnob()\nn=nuke.thisNode()\n\nif k.name() == \"type\":\n    if k.value() == \"Diffuse\":\n        n\['point'].setEnabled(False)\n        n\['camera'].setEnabled(False)\n    else:\n        n\['point'].setEnabled(True)\n        n\['camera'].setEnabled(True)"
+ xpos -1261
+ ypos -12
+ addUserKnob {20 EnvRelight}
+ addUserKnob {6 use_alpha l "use alpha" +STARTLINE}
+ addUserKnob {4 type l "surface type" t "Determines whether the environment is remapped along the normal for diffuse effects or the reflection vector for specular effects." M {Diffuse Specular "" ""}}
+ type Specular
+ addUserKnob {41 normal l "normal vectors" T Shuffle2.in}
+ addUserKnob {41 point l "point positions" T Shuffle1.in}
+ addUserKnob {4 camera t "The camera position is used to calculate the specular reflection.  Choose either a Nuke 3D camera (cam input) or, if available, derive the camera position from RenderMan OpenEXR metadata (vec input)." +INVISIBLE M {"nuke camera" "renderman openexr metadata" "" "" "" ""}}
+ addUserKnob {26 envmap l "environment map"}
+ addUserKnob {4 env_format l format t "Set this according to the input environment map format." M {latlong "lightprobe (angular map 360)" "" "" "" ""}}
+ addUserKnob {13 env_rotate l rotate t "This allows you to orient the environment map independent of the scene."}
+ addUserKnob {41 filter t "Set this to Impulse if you are using a convolved environment and are getting a seam." T STMap12.filter}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x7171c600
+  label "reflection vector"
+  note_font_size 24
+  xpos -349
+  ypos -249
+  bdwidth 446
+  bdheight 788
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x7171c600
+  label "orient angular"
+  note_font_size 24
+  xpos 580
+  ypos -329
+  bdwidth 290
+  bdheight 320
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode4
+  tile_color 0x7171c600
+  label "orient latlong,\nremap to angular"
+  note_font_size 24
+  xpos 930
+  ypos -547
+  bdwidth 422
+  bdheight 532
+ }
+ Input {
+  inputs 0
+  name CG
+  xpos 392
+  ypos -538
+ }
+set N52d27800 [stack 0]
+ Dot {
+  name Dot12
+  xpos -49
+  ypos -200
+ }
+set N52d27400 [stack 0]
+ Dot {
+  name Dot1
+  xpos -487
+  ypos -200
+ }
+ Dot {
+  name Dot2
+  xpos -513
+  ypos 1044
+ }
+set N52d26c00 [stack 0]
+push $N52d26c00
+push $N52d27800
+ Dot {
+  name Dot3
+  xpos 426
+  ypos 861
+ }
+set N52d26800 [stack 0]
+push $N52d27400
+ Shuffle {
+  in P
+  out rgb
+  name Shuffle1
+  label "point to rgb"
+  xpos -316
+  ypos -107
+ }
+push $N52d27800
+ Dot {
+  name Dot4
+  xpos -89
+  ypos -453
+ }
+set N52d26000 [stack 0]
+push 0
+ Switch {
+  inputs 2
+  which {{parent.camera}}
+  name Switch3
+  xpos -88
+  ypos -403
+ }
+push $N52d26000
+ Expression {
+  temp_name0 R
+  temp_expr0 Axis2.world_matrix.3
+  temp_name1 G
+  temp_expr1 Axis2.world_matrix.7
+  temp_name2 B
+  temp_expr2 Axis2.world_matrix.11
+  expr0 R
+  expr1 G
+  expr2 B
+  name Expression1
+  label "Get \"point world\" value \nof camera position"
+  xpos -232
+  ypos -324
+ }
+ Switch {
+  inputs 2
+  which {{camera i}}
+  name Switch2
+  label "select method for getting camera position"
+  xpos -183
+  ypos -59
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  Achannels rgb
+  Bchannels rgb
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  maskChannelMask -rgba.alpha
+  name Merge3
+  label "Cam to surface \nlight ray direction"
+  xpos -316
+  ypos 65
+ }
+ Expression {
+  temp_name0 length
+  temp_expr0 sqrt((r*r)+(g*g)+(b*b))
+  expr0 r/length
+  expr1 g/length
+  expr2 b/length
+  name Normalize2
+  xpos -316
+  ypos 137
+ }
+set N52d24400 [stack 0]
+push $N52d27400
+ Shuffle {
+  in N
+  out rgb
+  name Shuffle2
+  label "normals to rgb"
+  xpos -49
+  ypos -113
+ }
+ Expression {
+  temp_name0 length
+  temp_expr0 sqrt((r*r)+(g*g)+(b*b))
+  expr0 r/length
+  expr1 g/length
+  expr2 b/length
+  name Normalize6
+  xpos -49
+  ypos -56
+ }
+set N405b3800 [stack 0]
+ Dot {
+  name Dot15
+  xpos -15
+  ypos 233
+ }
+set N405b3400 [stack 0]
+push $N52d24400
+ MergeExpression {
+  inputs 2
+  channel0 rgb
+  expr0 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  channel3 {none none none -rgba.alpha}
+  maskChannelMask -rgba.alpha
+  name DotP1
+  label I.N
+  xpos -316
+  ypos 223
+ }
+ Multiply {
+  channels rgb
+  value 2
+  name Multiply5
+  label *2
+  xpos -316
+  ypos 263
+ }
+ Dot {
+  name Dot16
+  xpos -282
+  ypos 379
+ }
+push $N405b3400
+ MergeExpression {
+  inputs 2
+  expr0 Ar*Br
+  expr1 Ag*Bg
+  expr2 Ab*Bb
+  name MergeExpression5
+  label *N
+  xpos -49
+  ypos 368
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge6
+  xpos -49
+  ypos 431
+ }
+ Expression {
+  temp_name0 length
+  temp_expr0 sqrt((r*r)+(g*g)+(b*b))
+  expr0 r/length
+  expr1 g/length
+  expr2 b/length
+  name Normalize3
+  xpos -49
+  ypos 482
+ }
+push $N405b3800
+ Switch {
+  inputs 2
+  which {{type i}}
+  name Switch4
+  label "surface type"
+  xpos 220
+  ypos 475
+ }
+ Expression {
+  temp_name0 length
+  temp_expr0 sqrt((r*r)+(g*g)+(b*b))
+  expr0 r/length
+  expr1 g/length
+  expr2 b/length
+  name Normalize1
+  xpos 220
+  ypos 673
+ }
+ Expression {
+  temp_name0 radius
+  temp_expr0 ".5/pi*acos(b)/sqrt(r*r + g*g)"
+  expr0 "0.5 + (r*radius)"
+  expr1 "0.5 + (g*radius)"
+  expr2 0
+  name AngularMapProjection
+  xpos 220
+  ypos 699
+ }
+ Input {
+  inputs 0
+  name HDRI
+  xpos 591
+  ypos -532
+  number 1
+ }
+set N405b0c00 [stack 0]
+ Mirror {
+  Horizontal true
+  name Mirror1
+  xpos 972
+  ypos -459
+ }
+ Reformat {
+  type "to box"
+  box_width {{width i}}
+  box_height {{width i}}
+  box_fixed true
+  resize distort
+  name Reformat2
+  label width*width
+  xpos 972
+  ypos -433
+ }
+set N405b0400 [stack 0]
+ Expression {
+  expr0 (pi+atan(cx,cy))/(2*pi)
+  expr1 sqrt((cx**2)+(cy**2))
+  expr2 0
+  name st2polar2
+  xpos 669
+  ypos -221
+ }
+set N13297800 [stack 0]
+push $N13297800
+push $N405b0400
+ Reformat {
+  type scale
+  scale {2 1}
+  name Reformat3
+  label 2*width
+  xpos 972
+  ypos -387
+ }
+ Expression {
+  expr0 cos(2*PI*x/size.w+PI/2)*sin(PI*(y/size.h))
+  expr1 cos(PI*(1-y/size.h))
+  expr2 cos(2*PI*x/size.w)*sin(PI*(y/size.h))
+  name Expression2
+  label "latlong unit sphere"
+  xpos 972
+  ypos -347
+  postage_stamp true
+  addUserKnob {20 User}
+  addUserKnob {14 size R 0 100}
+  size {{!proxy?input.width:(input.width/proxy_scale) i} {!proxy?input.height:(input.height/proxy_scale) i}}
+ }
+ Group {
+  name RotationMatrix6
+  help "Use this for rotating xyz vector data such as P and N."
+  label identity
+  xpos 972
+  ypos -257
+  addUserKnob {20 RotationMatrix}
+  addUserKnob {13 rot l rotation t "Link to say axis' or camera's rotate.\nYaw = y axis.\nPitch = x axis.\nRoll = z axis."}
+  rot {-90 -90 90}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -304
+   ypos -17
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(yrot)) i} 0 {-sin(radians(yrot)) i}}
+       {0 1 0}
+       {{sin(radians(yrot)) i} 0 {cos(radians(yrot)) i}}
+     }
+   name ColorMatrix14
+   label "yrot (yaw)"
+   xpos -304
+   ypos 89
+   addUserKnob {20 "" l User}
+   addUserKnob {7 yrot l "y rotation" R -90 90}
+   yrot {{parent.rot.y i}}
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {cos(radians(xrot)) i} {sin(radians(xrot)) i}}
+       {0 {-sin(radians(xrot)) i} {cos(radians(xrot)) i}}
+     }
+   name ColorMatrix15
+   label "xrot (pitch)\n"
+   xpos -304
+   ypos 127
+   addUserKnob {20 "" l User}
+   addUserKnob {7 xrot l "x rotation" R -90 90}
+   xrot {{parent.rot.x i}}
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(zrot)) i} {sin(radians(zrot)) i} 0}
+       {{-sin(radians(zrot)) i} {cos(radians(zrot)) i} 0}
+       {0 0 1}
+     }
+   name ColorMatrix13
+   label "zrot (roll)"
+   xpos -304
+   ypos 165
+   addUserKnob {20 "" l User}
+   addUserKnob {7 zrot l "z rotation" R -90 90}
+   zrot {{parent.rot.z i}}
+  }
+  Output {
+   name Output1
+   xpos -304
+   ypos 280
+  }
+ end_group
+ Group {
+  name RotationMatrix2
+  help "Use this for rotating xyz vector data such as P and N."
+  label "manual env rotate"
+  xpos 972
+  ypos -219
+  addUserKnob {20 RotationMatrix}
+  addUserKnob {13 rot l rotation t "Link to say axis' or camera's rotate.\nYaw = y axis.\nPitch = x axis.\nRoll = z axis."}
+  rot {{env_rotate i} {env_rotate i} {env_rotate i}}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -304
+   ypos -17
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(yrot)) i} 0 {-sin(radians(yrot)) i}}
+       {0 1 0}
+       {{sin(radians(yrot)) i} 0 {cos(radians(yrot)) i}}
+     }
+   name ColorMatrix14
+   label "yrot (yaw)"
+   xpos -304
+   ypos 89
+   addUserKnob {20 "" l User}
+   addUserKnob {7 yrot l "y rotation" R -90 90}
+   yrot {{parent.rot.y i}}
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {cos(radians(xrot)) i} {sin(radians(xrot)) i}}
+       {0 {-sin(radians(xrot)) i} {cos(radians(xrot)) i}}
+     }
+   name ColorMatrix15
+   label "xrot (pitch)\n"
+   xpos -304
+   ypos 127
+   addUserKnob {20 "" l User}
+   addUserKnob {7 xrot l "x rotation" R -90 90}
+   xrot {{parent.rot.x i}}
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(zrot)) i} {sin(radians(zrot)) i} 0}
+       {{-sin(radians(zrot)) i} {cos(radians(zrot)) i} 0}
+       {0 0 1}
+     }
+   name ColorMatrix13
+   label "zrot (roll)"
+   xpos -304
+   ypos 165
+   addUserKnob {20 "" l User}
+   addUserKnob {7 zrot l "z rotation" R -90 90}
+   zrot {{parent.rot.z i}}
+  }
+  Output {
+   name Output1
+   xpos -304
+   ypos 280
+  }
+ end_group
+set Ncb6ea400 [stack 0]
+ Group {
+  name RotationMatrix1
+  help "Use this for rotating xyz vector data such as P and N."
+  label "match latlong orientation"
+  xpos 773
+  ypos -219
+  addUserKnob {20 RotationMatrix}
+  addUserKnob {13 rot l rotation t "Link to say axis' or camera's rotate.\nYaw = y axis.\nPitch = x axis.\nRoll = z axis."}
+  rot {0 90 0}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -304
+   ypos -17
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(yrot)) i} 0 {-sin(radians(yrot)) i}}
+       {0 1 0}
+       {{sin(radians(yrot)) i} 0 {cos(radians(yrot)) i}}
+     }
+   name ColorMatrix14
+   label "yrot (yaw)"
+   xpos -304
+   ypos 89
+   addUserKnob {20 "" l User}
+   addUserKnob {7 yrot l "y rotation" R -90 90}
+   yrot {{parent.rot.y i}}
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {cos(radians(xrot)) i} {sin(radians(xrot)) i}}
+       {0 {-sin(radians(xrot)) i} {cos(radians(xrot)) i}}
+     }
+   name ColorMatrix15
+   label "xrot (pitch)\n"
+   xpos -304
+   ypos 127
+   addUserKnob {20 "" l User}
+   addUserKnob {7 xrot l "x rotation" R -90 90}
+   xrot {{parent.rot.x i}}
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(zrot)) i} {sin(radians(zrot)) i} 0}
+       {{-sin(radians(zrot)) i} {cos(radians(zrot)) i} 0}
+       {0 0 1}
+     }
+   name ColorMatrix13
+   label "zrot (roll)"
+   xpos -304
+   ypos 165
+   addUserKnob {20 "" l User}
+   addUserKnob {7 zrot l "z rotation" R -90 90}
+   zrot {{parent.rot.z i}}
+  }
+  Output {
+   name Output1
+   xpos -304
+   ypos 280
+  }
+ end_group
+ STMap {
+  inputs 2
+  channels rgb
+  uv rgb
+  name STMap1
+  xpos 730
+  ypos -174
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos 669
+  ypos -135
+ }
+ Expression {
+  temp_name0 radius
+  temp_expr0 ".5/pi*acos(b)/sqrt(r*r + g*g)"
+  expr0 "0.5 + (r*radius)"
+  expr1 "0.5 + (g*radius)"
+  expr2 0
+  name AngularMapProjection1
+  xpos 669
+  ypos -109
+ }
+push $N405b0c00
+ STMap {
+  inputs 2
+  channels rgb
+  uv rgb
+  name STMap2
+  xpos 591
+  ypos -58
+ }
+push $N405b0400
+ Dot {
+  name Dot6
+  xpos 1156
+  ypos -422
+ }
+set N14bcd800 [stack 0]
+ Expression {
+  expr0 (pi+atan(cx,cy))/(2*pi)
+  expr1 sqrt((cx**2)+(cy**2))
+  expr2 0
+  name st2polar1
+  xpos 1237
+  ypos -164
+ }
+set N14bcd400 [stack 0]
+push $N14bcd400
+push $Ncb6ea400
+ Expression {
+  temp_name0 u
+  temp_expr0 0.5*(1+atan(b,r)/pi)
+  temp_name1 v
+  temp_expr1 acos(-g)/pi
+  expr0 u
+  expr1 v
+  expr2 0
+  channel3 {none none none -rgba.alpha}
+  name SphericalProjection5
+  label "Convert normals \nto latlong UV coords"
+  xpos 972
+  ypos -179
+ }
+push $N14bcd800
+ STMap {
+  inputs 2
+  channels rgb
+  uv rgb
+  name STMap13
+  xpos 1122
+  ypos -165
+ }
+ STMap {
+  inputs 2
+  channels rgb
+  uv rgb
+  name STMap12
+  label "latlong to angular"
+  xpos 1122
+  ypos -108
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox4
+  xpos 1122
+  ypos -46
+ }
+ Switch {
+  inputs 2
+  which {{env_format i}}
+  name Switch1
+  label "env format"
+  xpos 591
+  ypos 33
+ }
+ Dot {
+  name Dot5
+  xpos 625
+  ypos 767
+ }
+ STMap {
+  inputs 2
+  channels rgba
+  uv rgb
+  name STMap24
+  xpos 220
+  ypos 763
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox2
+  xpos 220
+  ypos 857
+ }
+push $N52d26800
+ Copy {
+  inputs 2
+  from0 -rgba.alpha
+  to0 -rgba.alpha
+  channels rgb
+  name Copy1
+  xpos 392
+  ypos 958
+ }
+ Keymix {
+  inputs 3
+  channels rgb
+  invertMask true
+  name Keymix1
+  xpos 392
+  ypos 1040
+  disable {{!use_alpha}}
+ }
+ Output {
+  name Output1
+  xpos 392
+  ypos 1215
+ }
+ Input {
+  inputs 0
+  name cam
+  xpos -225
+  ypos -562
+  number 2
+ }
+ Axis2 {
+  name Axis2
+  xpos -215
+  ypos -503
+ }
+end_group
+Group {
+ inputs 0
+ name PositionTransform_ik
+ help "This gizmo modifies World Position coordinate. Also may be useful in work with Object Position, World Normals and similar data passes. Feed it as input.\nUses with Mask3D_ik and Mask3DSpherical_ik or any another WorldPosition based nodes and gizmos. Strongly recomend to pick pivot point before starting your tweaking!\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ xpos -2210
+ ypos -12
+ addUserKnob {20 User}
+ addUserKnob {41 Pivot T Control.Pivot}
+ addUserKnob {26 ""}
+ addUserKnob {41 rot_order l "Rotation order" T Axis4.rot_order}
+ addUserKnob {41 Translate T Control.Translate}
+ addUserKnob {41 Rotate T Control.Rotate}
+ addUserKnob {41 Scale T Control.Scale}
+ addUserKnob {41 UniformScale T Control.UniformScale}
+ addUserKnob {41 Scew T Control.Scew}
+ addUserKnob {26 ""}
+ addUserKnob {26 Credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos 137
+  ypos -545
+ }
+ Dot {
+  name Dot461
+  xpos 171
+  ypos -505
+ }
+set Nf3e24400 [stack 0]
+ NoOp {
+  name Control
+  xpos 233
+  ypos -508
+  addUserKnob {20 User}
+  addUserKnob {18 Pivot}
+  Pivot {0 0 0}
+  addUserKnob {6 Pivot_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {26 ""}
+  addUserKnob {13 Translate}
+  addUserKnob {13 Rotate}
+  addUserKnob {13 Scale}
+  Scale {1 1 1}
+  addUserKnob {7 UniformScale R 0 10}
+  UniformScale 1
+  addUserKnob {13 Scew}
+ }
+push $Nf3e24400
+ Add {
+  value {{-parent.Control.Pivot i} {-parent.Control.Pivot i} {-parent.Control.Pivot i} 0}
+  name Add1
+  label "move center of transformation (pivot) to center of coordinate"
+  xpos 137
+  ypos -453
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis4.world_matrix.0 i} {parent.Axis4.world_matrix.1 i} {parent.Axis4.world_matrix.2 i}}
+      {{parent.Axis4.world_matrix.4 i} {parent.Axis4.world_matrix.5 i} {parent.Axis4.world_matrix.6 i}}
+      {{parent.Axis4.world_matrix.8 i} {parent.Axis4.world_matrix.9 i} {parent.Axis4.world_matrix.10 i}}
+    }
+  name ColorMatrix1
+  label "apply rotation, scale and  scew"
+  xpos 137
+  ypos -390
+ }
+ Add {
+  value {{parent.Control.Pivot i} {parent.Control.Pivot i} {parent.Control.Pivot i} 0}
+  name Add2
+  label "move center of transformation (pivot) back"
+  xpos 137
+  ypos -334
+ }
+ Add {
+  value {{parent.Control.Translate i} {parent.Control.Translate i} {parent.Control.Translate i} {curve i}}
+  name Add3
+  label "aplly translate"
+  xpos 137
+  ypos -274
+ }
+ Output {
+  name Output1
+  xpos 137
+  ypos -172
+ }
+ Axis2 {
+  inputs 0
+  rotate {{parent.Control.Rotate.x i} {parent.Control.Rotate.y i} {parent.Control.Rotate.z i}}
+  scaling {{parent.Control.Scale.x i} {parent.Control.Scale.y i} {parent.Control.Scale.z i}}
+  uniform_scale {{parent.Control.UniformScale i}}
+  skew {{parent.Control.Scew.x i} {parent.Control.Scew.y i} {parent.Control.Scew.z i}}
+  name Axis4
+  xpos 257
+  ypos -409
+ }
+end_group
+Group {
+ inputs 0
+ name PositionTransform_ik3
+ help "This gizmo modifies World Position coordinate. Also may be useful in work with Object Position, World Normals and similar data passes. Feed it as input.\nUses with Mask3D_ik and Mask3DSpherical_ik or any another WorldPosition based nodes and gizmos. Strongly recomend to pick pivot point before starting your tweaking!\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ xpos -1082
+ ypos 534
+ addUserKnob {20 User}
+ addUserKnob {41 Pivot T Control.Pivot}
+ addUserKnob {26 ""}
+ addUserKnob {41 rot_order l "Rotation order" T Axis4.rot_order}
+ addUserKnob {41 Translate T Control.Translate}
+ addUserKnob {41 Rotate T Control.Rotate}
+ addUserKnob {41 Scale T Control.Scale}
+ addUserKnob {41 UniformScale T Control.UniformScale}
+ addUserKnob {41 Scew T Control.Scew}
+ addUserKnob {26 ""}
+ addUserKnob {26 Credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos 137
+  ypos -545
+ }
+ Dot {
+  name Dot461
+  xpos 171
+  ypos -505
+ }
+set N4d8e0400 [stack 0]
+ NoOp {
+  name Control
+  xpos 233
+  ypos -508
+  addUserKnob {20 User}
+  addUserKnob {18 Pivot}
+  Pivot {0 0 0}
+  addUserKnob {6 Pivot_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {26 ""}
+  addUserKnob {13 Translate}
+  addUserKnob {13 Rotate}
+  Rotate {90 180 0}
+  addUserKnob {13 Scale}
+  Scale {-1 1 1}
+  addUserKnob {7 UniformScale R 0 10}
+  UniformScale 1
+  addUserKnob {13 Scew}
+ }
+push $N4d8e0400
+ Add {
+  value {{-parent.Control.Pivot i} {-parent.Control.Pivot i} {-parent.Control.Pivot i} 0}
+  name Add1
+  label "move center of transformation (pivot) to center of coordinate"
+  xpos 137
+  ypos -453
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis4.world_matrix.0 i} {parent.Axis4.world_matrix.1 i} {parent.Axis4.world_matrix.2 i}}
+      {{parent.Axis4.world_matrix.4 i} {parent.Axis4.world_matrix.5 i} {parent.Axis4.world_matrix.6 i}}
+      {{parent.Axis4.world_matrix.8 i} {parent.Axis4.world_matrix.9 i} {parent.Axis4.world_matrix.10 i}}
+    }
+  name ColorMatrix1
+  label "apply rotation, scale and  scew"
+  xpos 137
+  ypos -390
+ }
+ Add {
+  value {{parent.Control.Pivot i} {parent.Control.Pivot i} {parent.Control.Pivot i} 0}
+  name Add2
+  label "move center of transformation (pivot) back"
+  xpos 137
+  ypos -334
+ }
+ Add {
+  value {{parent.Control.Translate i} {parent.Control.Translate i} {parent.Control.Translate i} {curve i}}
+  name Add3
+  label "aplly translate"
+  xpos 137
+  ypos -274
+ }
+ Output {
+  name Output1
+  xpos 137
+  ypos -172
+ }
+ Axis2 {
+  inputs 0
+  rotate {{parent.Control.Rotate.x i} {parent.Control.Rotate.y i} {parent.Control.Rotate.z i}}
+  scaling {{parent.Control.Scale.x i} {parent.Control.Scale.y i} {parent.Control.Scale.z i}}
+  uniform_scale {{parent.Control.UniformScale i}}
+  skew {{parent.Control.Scew.x i} {parent.Control.Scew.y i} {parent.Control.Scew.z i}}
+  name Axis4
+  xpos 257
+  ypos -409
+ }
+end_group
+Read {
+ inputs 0
+ file_type exr
+ file //192.168.131.2/ds_projects/000-TOOLs/NUKE/NukeShared/Repository/Nodes/TheSeedNodes/3D/SHOT_060_STADIUM_v11_cam_04.exr
+ format "960 540 0 0 960 540 1 "
+ origset true
+ name Read1
+ xpos -2367
+ ypos 494
+}
+Reformat {
+ name Reformat1
+ xpos -2367
+ ypos 590
+}
+set Nf8842000 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 BumpNormals
+ fromInput2 {{0} B}
+ mappings "4 BumpNormals.red 0 0 rgba.red 0 0 BumpNormals.green 0 1 rgba.green 0 1 BumpNormals.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3"
+ name normals1
+ xpos -2367
+ ypos 636
+}
+Group {
+ name PositionTransform_ik2
+ help "This gizmo modifies World Position coordinate. Also may be useful in work with Object Position, World Normals and similar data passes. Feed it as input.\nUses with Mask3D_ik and Mask3DSpherical_ik or any another WorldPosition based nodes and gizmos. Strongly recomend to pick pivot point before starting your tweaking!\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ xpos -2367
+ ypos 660
+ addUserKnob {20 User}
+ addUserKnob {41 Pivot T Control.Pivot}
+ addUserKnob {26 ""}
+ addUserKnob {41 rot_order l "Rotation order" T Axis4.rot_order}
+ addUserKnob {41 Translate T Control.Translate}
+ addUserKnob {41 Rotate T Control.Rotate}
+ addUserKnob {41 Scale T Control.Scale}
+ addUserKnob {41 UniformScale T Control.UniformScale}
+ addUserKnob {41 Scew T Control.Scew}
+ addUserKnob {26 ""}
+ addUserKnob {26 Credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos 137
+  ypos -545
+ }
+ Dot {
+  name Dot461
+  xpos 171
+  ypos -505
+ }
+set N4f46d400 [stack 0]
+ NoOp {
+  name Control
+  xpos 233
+  ypos -508
+  addUserKnob {20 User}
+  addUserKnob {18 Pivot}
+  Pivot {0 0 0}
+  addUserKnob {6 Pivot_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {26 ""}
+  addUserKnob {13 Translate}
+  addUserKnob {13 Rotate}
+  Rotate {90 180 0}
+  addUserKnob {13 Scale}
+  Scale {-1 1 1}
+  addUserKnob {7 UniformScale R 0 10}
+  UniformScale 1
+  addUserKnob {13 Scew}
+ }
+push $N4f46d400
+ Add {
+  value {{-parent.Control.Pivot i} {-parent.Control.Pivot i} {-parent.Control.Pivot i} 0}
+  name Add1
+  label "move center of transformation (pivot) to center of coordinate"
+  xpos 137
+  ypos -453
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis4.world_matrix.0 i} {parent.Axis4.world_matrix.1 i} {parent.Axis4.world_matrix.2 i}}
+      {{parent.Axis4.world_matrix.4 i} {parent.Axis4.world_matrix.5 i} {parent.Axis4.world_matrix.6 i}}
+      {{parent.Axis4.world_matrix.8 i} {parent.Axis4.world_matrix.9 i} {parent.Axis4.world_matrix.10 i}}
+    }
+  name ColorMatrix1
+  label "apply rotation, scale and  scew"
+  xpos 137
+  ypos -390
+ }
+ Add {
+  value {{parent.Control.Pivot i} {parent.Control.Pivot i} {parent.Control.Pivot i} 0}
+  name Add2
+  label "move center of transformation (pivot) back"
+  xpos 137
+  ypos -334
+ }
+ Add {
+  value {{parent.Control.Translate i} {parent.Control.Translate i} {parent.Control.Translate i} {curve i}}
+  name Add3
+  label "aplly translate"
+  xpos 137
+  ypos -274
+ }
+ Output {
+  name Output1
+  xpos 137
+  ypos -172
+ }
+ Axis2 {
+  inputs 0
+  rotate {{parent.Control.Rotate.x i} {parent.Control.Rotate.y i} {parent.Control.Rotate.z i}}
+  scaling {{parent.Control.Scale.x i} {parent.Control.Scale.y i} {parent.Control.Scale.z i}}
+  uniform_scale {{parent.Control.UniformScale i}}
+  skew {{parent.Control.Scew.x i} {parent.Control.Scew.y i} {parent.Control.Scew.z i}}
+  name Axis4
+  xpos 257
+  ypos -409
+ }
+end_group
+push $Nf8842000
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 P
+ fromInput2 {{0} B}
+ mappings "4 P.red 0 0 rgba.red 0 0 P.green 0 1 rgba.green 0 1 P.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3"
+ name Position1
+ xpos -2250
+ ypos 636
+}
+Group {
+ name PositionTransform_ik1
+ help "This gizmo modifies World Position coordinate. Also may be useful in work with Object Position, World Normals and similar data passes. Feed it as input.\nUses with Mask3D_ik and Mask3DSpherical_ik or any another WorldPosition based nodes and gizmos. Strongly recomend to pick pivot point before starting your tweaking!\n------\nv002\nIvan Kokov. Pixomondo Shanghai. 2012\nbutafor@inbox.ru\nivan.kokov@sha.pixomondo.com"
+ xpos -2250
+ ypos 660
+ addUserKnob {20 User}
+ addUserKnob {41 Pivot T Control.Pivot}
+ addUserKnob {26 ""}
+ addUserKnob {41 rot_order l "Rotation order" T Axis4.rot_order}
+ addUserKnob {41 Translate T Control.Translate}
+ addUserKnob {41 Rotate T Control.Rotate}
+ addUserKnob {41 Scale T Control.Scale}
+ addUserKnob {41 UniformScale T Control.UniformScale}
+ addUserKnob {41 Scew T Control.Scew}
+ addUserKnob {26 ""}
+ addUserKnob {26 Credits l "" +STARTLINE T "v002 © Ivan Kokov. Pixomondo Shanghai. 2012"}
+}
+ Input {
+  inputs 0
+  name InputWorldPos
+  xpos 137
+  ypos -545
+ }
+ Dot {
+  name Dot461
+  xpos 171
+  ypos -505
+ }
+set N920e4c00 [stack 0]
+ NoOp {
+  name Control
+  xpos 233
+  ypos -508
+  addUserKnob {20 User}
+  addUserKnob {18 Pivot}
+  Pivot {0 0 0}
+  addUserKnob {6 Pivot_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Pivot_panelDropped_1_1_1_1_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {26 ""}
+  addUserKnob {13 Translate}
+  addUserKnob {13 Rotate}
+  Rotate {90 180 0}
+  addUserKnob {13 Scale}
+  Scale {-1 1 1}
+  addUserKnob {7 UniformScale R 0 10}
+  UniformScale 1
+  addUserKnob {13 Scew}
+ }
+push $N920e4c00
+ Add {
+  value {{-parent.Control.Pivot i} {-parent.Control.Pivot i} {-parent.Control.Pivot i} 0}
+  name Add1
+  label "move center of transformation (pivot) to center of coordinate"
+  xpos 137
+  ypos -453
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.Axis4.world_matrix.0 i} {parent.Axis4.world_matrix.1 i} {parent.Axis4.world_matrix.2 i}}
+      {{parent.Axis4.world_matrix.4 i} {parent.Axis4.world_matrix.5 i} {parent.Axis4.world_matrix.6 i}}
+      {{parent.Axis4.world_matrix.8 i} {parent.Axis4.world_matrix.9 i} {parent.Axis4.world_matrix.10 i}}
+    }
+  name ColorMatrix1
+  label "apply rotation, scale and  scew"
+  xpos 137
+  ypos -390
+ }
+ Add {
+  value {{parent.Control.Pivot i} {parent.Control.Pivot i} {parent.Control.Pivot i} 0}
+  name Add2
+  label "move center of transformation (pivot) back"
+  xpos 137
+  ypos -334
+ }
+ Add {
+  value {{parent.Control.Translate i} {parent.Control.Translate i} {parent.Control.Translate i} {curve i}}
+  name Add3
+  label "aplly translate"
+  xpos 137
+  ypos -274
+ }
+ Output {
+  name Output1
+  xpos 137
+  ypos -172
+ }
+ Axis2 {
+  inputs 0
+  rotate {{parent.Control.Rotate.x i} {parent.Control.Rotate.y i} {parent.Control.Rotate.z i}}
+  scaling {{parent.Control.Scale.x i} {parent.Control.Scale.y i} {parent.Control.Scale.z i}}
+  uniform_scale {{parent.Control.UniformScale i}}
+  skew {{parent.Control.Scew.x i} {parent.Control.Scew.y i} {parent.Control.Scew.z i}}
+  name Axis4
+  xpos 257
+  ypos -409
+ }
+end_group
+Dot {
+ inputs 0
+ name Dot3
+ label "  SHADER"
+ xpos -1360
+ ypos 603
+}
+Dot {
+ name Dot8
+ xpos -1360
+ ypos 650
+}
+add_layer {AmbientOcclusion AmbientOcclusion.red AmbientOcclusion.green AmbientOcclusion.blue AmbientOcclusion.alpha}
+Shuffle2 {
+ inputs 0
+ fromInput1 {{0} B}
+ in1 AmbientOcclusion
+ fromInput2 {{0} B}
+ mappings "4 AmbientOcclusion.red 0 0 rgba.red 0 0 AmbientOcclusion.green 0 1 rgba.green 0 1 AmbientOcclusion.blue 0 2 rgba.blue 0 2 AmbientOcclusion.alpha 0 3 rgba.alpha 0 3"
+ name occlusion
+ xpos -1261
+ ypos 600
+}
+Dot {
+ name Dot7
+ xpos -1227
+ ypos 650
+}
+Dot {
+ inputs 0
+ name Dot4
+ label "   MASK"
+ xpos -839
+ ypos 691
+}
+Light {
+ inputs 0
+ color 1000
+ intensity 10000
+ falloff_type Quadratic
+ translate {-3080 70 4540}
+ depthmap_slope_bias 0.01
+ name Point1
+ xpos -1528
+ ypos 494
+}
+Scene {
+ name LIGHTS
+ xpos -1528
+ ypos 667
+}
+Shuffle2 {
+ inputs 0
+ fromInput1 {{0} B}
+ in1 BumpNormals
+ fromInput2 {{0} B}
+ mappings "4 BumpNormals.red 0 0 rgba.red 0 0 BumpNormals.green 0 1 rgba.green 0 1 BumpNormals.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3"
+ name normals
+ xpos -1079
+ ypos 600
+}
+Dot {
+ name Dot5
+ xpos -1045
+ ypos 650
+}
+Constant {
+ inputs 0
+ color {0 0 0 1}
+ name Constant2
+ xpos -1168
+ ypos 407
+}
+Dot {
+ name Dot9
+ xpos -1134
+ ypos 537
+}
+Shuffle2 {
+ inputs 0
+ fromInput1 {{0} B}
+ in1 P
+ fromInput2 {{0} B}
+ mappings "4 P.red 0 0 rgba.red 0 0 P.green 0 1 rgba.green 0 1 P.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3"
+ name Position
+ xpos -962
+ ypos 600
+}
+Dot {
+ name Dot6
+ xpos -928
+ ypos 650
+}
+Group {
+ inputs 7
+ name GJ_Relight_v1
+ xpos -1168
+ ypos 688
+ addUserKnob {20 GJ_Relight l "GJ Relight"}
+ addUserKnob {6 choice l "Use relight" +STARTLINE}
+ choice true
+ addUserKnob {6 useCustomShd l "Use custom shader" +STARTLINE}
+ addUserKnob {41 operation T Merge1.operation}
+ addUserKnob {26 ""}
+ addUserKnob {26 txt l "" +STARTLINE T "Shader parameters:"}
+ addUserKnob {41 channels T Phong1.channels}
+ addUserKnob {41 color T Phong1.color}
+ addUserKnob {41 emission T Phong1.emission}
+ addUserKnob {41 diffuse T Phong1.diffuse}
+ addUserKnob {41 specular T Phong1.specular}
+ addUserKnob {41 min_shininess l "min shininess" T Phong1.min_shininess}
+ addUserKnob {41 max_shininess l "max shininess" T Phong1.max_shininess}
+ addUserKnob {26 ""}
+ addUserKnob {41 maskChannelMask l mask -STARTLINE T Merge1.maskChannelMask}
+ addUserKnob {41 inject -STARTLINE T Merge1.inject}
+ addUserKnob {41 invert_mask l invert -STARTLINE T Merge1.invert_mask}
+ addUserKnob {41 fringe -STARTLINE T Merge1.fringe}
+ addUserKnob {41 mix T Merge1.mix}
+ addUserKnob {26 ""}
+ addUserKnob {20 CameraTab l Camera}
+ addUserKnob {41 file T Camera_shot.file}
+ addUserKnob {41 reload T Camera_shot.reload}
+ addUserKnob {41 fbx_take_name l "take name" T Camera_shot.fbx_take_name}
+ addUserKnob {41 fbx_node_name l "node name" T Camera_shot.fbx_node_name}
+ addUserKnob {41 frame_rate l "frame rate" T Camera_shot.frame_rate}
+ addUserKnob {41 fbx_load_take_node_names l "load take node names" T Camera_shot.fbx_load_take_node_names}
+ addUserKnob {41 use_frame_rate l "use frame rate" T Camera_shot.use_frame_rate}
+ addUserKnob {26 "" l " "}
+ addUserKnob {41 compute_rotation l "compute rotation" T Camera_shot.compute_rotation}
+ addUserKnob {20 AOGRP l Ambient}
+ addUserKnob {41 ambient l "Add ambient" T ReLight1.ambient}
+ addUserKnob {26 ""}
+ addUserKnob {6 useAO l "Use Ambient Occlusion" +STARTLINE}
+ addUserKnob {6 invAO l Invert +STARTLINE}
+ invAO true
+ addUserKnob {41 maskChannelMask_1 l "Use Channel :" T Grade_AO.maskChannelMask}
+ addUserKnob {41 white l gain T Grade_AO.white}
+ addUserKnob {20 createTab l Create}
+ addUserKnob {26 create l "" +STARTLINE T "Create nodes :"}
+ addUserKnob {26 ""}
+ addUserKnob {26 txtScene l "" +STARTLINE T "Lights ( With scene ) :"}
+ addUserKnob {22 createSpotScene l Spotlight t "list = nuke.selectedNode().dependencies()\n\nm = nuke.nodes.PositionToPoints (inputs=\[list\[0], list\[1]])" T "nuke.root().begin() \n\nsl = nuke.createNode(\"Spotlight\") \n\nspl = nuke.nodes.Scene (inputs=\[sl])" +STARTLINE}
+ addUserKnob {22 createAllDirect l Directlight -STARTLINE T "nuke.root().begin() \n\ndl = nuke.createNode(\"DirectLight\") \n\nsdl = nuke.nodes.Scene (inputs=\[dl])"}
+ addUserKnob {22 createPointLightScene l Pointlight -STARTLINE T "nuke.root().begin() \n\nl = nuke.createNode(\"Light\") \n\nsl = nuke.nodes.Scene (inputs=\[l])"}
+ addUserKnob {26 ""}
+ addUserKnob {26 utils l "" +STARTLINE T "Utilities :"}
+ addUserKnob {22 createPtoP l PositionToPoint T "nuke.root().begin()\n\nlist = nuke.selectedNode().dependencies()\n\nm = nuke.nodes.PositionToPoints (inputs=\[list\[0], list\[1]])" +STARTLINE}
+ addUserKnob {26 tosee l "" -STARTLINE T "to see the Ppass in the 3D view ( Select your GJ_Relight node first )"}
+ addUserKnob {26 ""}
+ addUserKnob {26 Add l "" +STARTLINE T "Add :"}
+ addUserKnob {22 createScene l Scene T "nuke.root().begin() \nnuke.createNode(\"Scene\")" +STARTLINE}
+ addUserKnob {22 creatPoint l Pointlight -STARTLINE T "nuke.root().begin() \nnuke.createNode(\"Light\")"}
+ addUserKnob {22 createDirect l Directlight -STARTLINE T "nuke.root().begin() \nnuke.createNode(\"DirectLight\") "}
+ addUserKnob {22 createSpot l Spotlight -STARTLINE T "nuke.root().begin() \nnuke.createNode(\"Spotlight\") "}
+ addUserKnob {22 createPtoPAlone l PositionToPoint T "nuke.root().begin()\nnuke.createNode(\"PositionToPoints\") " +STARTLINE}
+ addUserKnob {26 ""}
+}
+ Input {
+  inputs 0
+  name Occlusion
+  xpos 670
+  ypos -42
+  number 5
+ }
+ Invert {
+  mix {{parent.invAO}}
+  name Invert1
+  xpos 670
+  ypos 21
+ }
+ Input {
+  inputs 0
+  name mask
+  xpos 522
+  ypos -165
+  number 4
+ }
+ Dot {
+  name Dot1
+  xpos 556
+  ypos -71
+ }
+ Input {
+  inputs 0
+  name Custom_shd
+  xpos -23
+  ypos -431
+  number 6
+ }
+ Phong {
+  inputs 0
+  color 4
+  name Phong1
+  xpos -5
+  ypos -243
+ }
+ Switch {
+  inputs 2
+  which {{parent.useCustomShd i}}
+  name Switch_shd
+  xpos 243
+  ypos -298
+ }
+ Camera2 {
+  inputs 0
+  read_from_file true
+  rot_order XYZ
+  translate {8770.850454 7719.129032 9889.601364}
+  rotate {-39.2522794 49.9443778 0}
+  scaling {0.9922780908 0.9999771298 1.007685367}
+  skew {0 7.629394531e-06 0}
+  focal 23.99986267
+  haperture 36
+  vaperture 20.28000069
+  near 3000
+  far 25000
+  focal_point 39919.48828
+  fstop 1
+  file //192.168.131.2/ds_projects/000-TOOLs/NUKE/NukeShared/Repository/Nodes/TheSeedNodes/3D/CAM_007_Shot_060.ABC
+  version 3
+  frame_rate 25
+  name Camera_shot
+  selected true
+  xpos 245
+  ypos -439
+ }
+ Input {
+  inputs 0
+  name Lights
+  label "\n"
+  xpos 386
+  ypos -636
+  number 3
+ }
+ Input {
+  inputs 0
+  name Img
+  xpos -126
+  ypos -74
+  number 1
+ }
+set N12d11800 [stack 0]
+ Dot {
+  name Dot2
+  label IMG
+  xpos 603
+  ypos -394
+  hide_input true
+ }
+ Input {
+  inputs 0
+  name Ppass
+  xpos 647
+  ypos -392
+ }
+ Input {
+  inputs 0
+  name Npass
+  xpos 742
+  ypos -394
+  number 2
+ }
+add_layer {Ppass Ppass.red Ppass.green Ppass.blue}
+add_layer {Npass Npass.red Npass.green Npass.blue}
+ ShuffleCopy {
+  inputs 2
+  in rgb
+  in2 rgb
+  red red
+  green green
+  blue blue
+  out Ppass
+  out2 Npass
+  name ShuffleCopy1
+  xpos 693
+  ypos -344
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  green green
+  blue blue
+  name ShuffleCopy2
+  xpos 569
+  ypos -298
+ }
+ ReLight {
+  inputs 4
+  use_alpha true
+  normal Npass
+  position Ppass
+  name ReLight1
+  xpos 386
+  ypos -298
+ }
+push $N12d11800
+ Merge2 {
+  inputs 2+1
+  operation plus
+  maskChannelMask none
+  name Merge1
+  xpos 386
+  ypos -74
+ }
+push $N12d11800
+ Switch {
+  inputs 2
+  which {{parent.choice i}}
+  name Switch1
+  xpos 386
+  ypos -29
+ }
+set N4d8e3400 [stack 0]
+ Grade {
+  inputs 1+1
+  white 0
+  maskChannelMask rgba.red
+  name Grade_AO
+  xpos 501
+  ypos 27
+ }
+push $N4d8e3400
+ Switch {
+  inputs 2
+  which {{parent.useAO}}
+  name Switch_AO
+  xpos 386
+  ypos 82
+ }
+ Premult {
+  name Premult1
+  xpos 386
+  ypos 212
+ }
+ Output {
+  name Output1
+  xpos 386
+  ypos 259
+ }
+ Viewer {
+  inputs 0
+  input_process false
+  name Viewer1
+  xpos 960
+  ypos -192
+ }
+end_group
